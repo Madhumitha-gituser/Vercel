@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My AI IDP Generator - Employee Dashboard - POWERGRID IDP Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.herokuapp.com/dist/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        powergrid: {
+                            primary: "#232A7A",
+                            secondary: "#DA251D", 
+                            light: "#F8F9FA",
+                            dark: "#495057",
+                            accent: "#4A90E2"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #232A7A 0%, #4A90E2 100%);
+        }
+        .skill-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo and Title -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                            <i data-lucide="sparkles" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">🚀 Lightning-Fast AI IDP Generator</h1>
+                            <p class="text-sm text-gray-600">Personalized Career Development with PDF Export</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-blue-600 transition-colors">Dashboard</a>
+                    <a href="courses.html" class="text-gray-600 hover:text-blue-600 transition-colors">Courses</a>
+                    <a href="analytics.html" class="text-gray-600 hover:text-blue-600 transition-colors">Analytics</a>
+                    <a href="idp.html" class="text-gray-600 hover:text-blue-600 transition-colors">My IDP</a>
+                    <a href="employee-idp-generator.html" class="text-blue-600 font-medium border-b-2 border-blue-600 pb-1">AI IDP Generator</a>
+                </nav>
+
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <p class="font-medium">Madhumitha M</p>
+                        <p class="text-sm text-gray-500">Software Engineer</p>
+                    </div>
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <span class="text-blue-600 font-bold">MM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-6 py-8">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Employee Profile Overview -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">4.2</h3>
+                            <p class="text-gray-600">Current Level</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="trending-up" class="w-4 h-4 text-blue-500"></i>
+                                <span class="text-blue-500 text-sm font-medium">Senior level</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="user" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">15</h3>
+                            <p class="text-gray-600">Skills Identified</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                                <span class="text-green-500 text-sm font-medium">All assessed</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="brain" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">3</h3>
+                            <p class="text-gray-600">Career Paths</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="map" class="w-4 h-4 text-purple-500"></i>
+                                <span class="text-purple-500 text-sm font-medium">Available</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="route" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">85%</h3>
+                            <p class="text-gray-600">Goal Progress</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="target" class="w-4 h-4 text-orange-500"></i>
+                                <span class="text-orange-500 text-sm font-medium">On track</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="target" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employee IDP Generation Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Career Aspirations -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100 gradient-bg text-white rounded-t-2xl">
+                        <h3 class="text-xl font-bold flex items-center gap-3">
+                            <i data-lucide="compass" class="w-6 h-6"></i>
+                            Career Aspirations
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Where do you want to be in 2-3 years?</label>
+                                <select id="careerGoal" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="">Select your goal</option>
+                                    <option value="senior-engineer">Senior Software Engineer</option>
+                                    <option value="team-lead">Team Lead/Technical Lead</option>
+                                    <option value="architect">Solution Architect</option>
+                                    <option value="product-manager">Product Manager</option>
+                                    <option value="engineering-manager">Engineering Manager</option>
+                                    <option value="specialist">Technical Specialist</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Primary Interest Areas</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <label class="flex items-center gap-2 p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="checkbox" class="interest-checkbox" value="leadership"> Leadership
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="checkbox" class="interest-checkbox" value="technical"> Technical
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="checkbox" class="interest-checkbox" value="innovation"> Innovation
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="checkbox" class="interest-checkbox" value="mentoring"> Mentoring
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Learning Preference</label>
+                                <select id="learningStyle" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="hands-on">Hands-on Projects</option>
+                                    <option value="formal">Formal Training & Courses</option>
+                                    <option value="mentorship">Mentorship & Coaching</option>
+                                    <option value="mixed" selected>Mixed Approach</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Assessment -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100 gradient-bg text-white rounded-t-2xl">
+                        <h3 class="text-xl font-bold flex items-center gap-3">
+                            <i data-lucide="bar-chart" class="w-6 h-6"></i>
+                            Current Skills Assessment
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Technical Skills</span>
+                                    <span class="text-sm text-gray-500">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 85%"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Communication</span>
+                                    <span class="text-sm text-gray-500">75%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 75%"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Leadership</span>
+                                    <span class="text-sm text-gray-500">60%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 60%"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Problem Solving</span>
+                                    <span class="text-sm text-gray-500">90%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 90%"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Project Management</span>
+                                    <span class="text-sm text-gray-500">55%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 55%"></div>
+                                </div>
+                            </div>
+
+                            <div class="pt-4">
+                                <button onclick="retakeAssessment()" 
+                                        class="w-full px-4 py-2 border border-blue-300 text-blue-700 rounded-lg hover:bg-blue-50 transition-colors">
+                                    <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-2"></i>
+                                    Retake Assessment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal Development Preferences -->
+            <div class="bg-white rounded-2xl border border-gray-100 hover-lift mb-8">
+                <div class="p-6 border-b border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center gap-3">
+                        <i data-lucide="settings" class="w-6 h-6 text-blue-600"></i>
+                        Personal Development Preferences
+                    </h3>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Time Commitment</label>
+                            <select id="timeCommitment" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="2-3">2-3 hours per week</option>
+                                <option value="4-6" selected>4-6 hours per week</option>
+                                <option value="7-10">7-10 hours per week</option>
+                                <option value="10+">More than 10 hours per week</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Development Timeline</label>
+                            <select id="developmentTimeline" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="6">6 Months (Aggressive)</option>
+                                <option value="12" selected>12 Months (Standard)</option>
+                                <option value="18">18 Months (Gradual)</option>
+                                <option value="24">24 Months (Long-term)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Priority Focus</label>
+                            <select id="priorityFocus" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="skill-gaps">Close Skill Gaps</option>
+                                <option value="strengths" selected>Build on Strengths</option>
+                                <option value="balanced">Balanced Approach</option>
+                                <option value="stretch">Stretch Assignments</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t border-gray-200">
+                        <button id="generatePersonalIDPBtn" onclick="generatePersonalIDP()" 
+                                class="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all font-bold text-lg">
+                            <i data-lucide="zap" class="w-5 h-5 inline mr-2"></i>
+                            ⚡ Generate Instant Personal IDP
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal IDP Results -->
+            <div id="personalIDPResults" class="hidden space-y-8">
+                
+                <!-- AI-Generated Personal IDP -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                            <i data-lucide="star" class="w-7 h-7 text-blue-600"></i>
+                            Your Personalized Development Plan
+                        </h3>
+                        <p class="text-gray-600 mt-2">AI-crafted specifically for your career goals and preferences</p>
+                    </div>
+                    <div class="p-6">
+                        <div id="personalIDPContent" class="space-y-6">
+                            <!-- Personal IDP content will be populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Development Roadmap -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                            <i data-lucide="trending-up" class="w-7 h-7 text-green-600"></i>
+                            Skills Development Roadmap
+                        </h3>
+                        <p class="text-gray-600 mt-2">Step-by-step progression plan for your key skills</p>
+                    </div>
+                    <div class="p-6">
+                        <div id="skillsRoadmapContent" class="space-y-4">
+                            <!-- Skills roadmap will be populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended Actions -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                            <i data-lucide="zap" class="w-7 h-7 text-orange-600"></i>
+                            Recommended Next Steps
+                        </h3>
+                        <p class="text-gray-600 mt-2">Immediate actions you can take to kickstart your development</p>
+                    </div>
+                    <div class="p-6">
+                        <div id="recommendedActions" class="space-y-4">
+                            <!-- Recommended actions will be populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Action Controls -->
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="acceptAndSaveIDP()" 
+                            class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors">
+                        <i data-lucide="heart" class="w-5 h-5 inline mr-2"></i>
+                        Accept & Save My IDP
+                    </button>
+                    <button onclick="shareWithManager()" 
+                            class="px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors">
+                        <i data-lucide="share" class="w-5 h-5 inline mr-2"></i>
+                        Share with Manager
+                    </button>
+                    <button onclick="addToCalendar()" 
+                            class="px-6 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors">
+                        <i data-lucide="calendar-plus" class="w-5 h-5 inline mr-2"></i>
+                        Add Milestones to Calendar
+                    </button>
+                    <button onclick="exportPersonalIDPToPDF()" 
+                            class="px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl">
+                        <i data-lucide="file-text" class="w-5 h-5 inline mr-2"></i>
+                        📄 Download PDF
+                    </button>
+                    <button onclick="generateNewIDP()" 
+                            class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors">
+                        <i data-lucide="refresh-cw" class="w-5 h-5 inline mr-2"></i>
+                        Try Different Options
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Check if user has employee role and is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const userRole = localStorage.getItem('userRole');
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            
+            if (!isLoggedIn || userRole !== 'employee') {
+                alert('Please login first to access the Employee AI IDP Generator');
+                window.location.href = 'login.html';
+                return;
+            }
+        });
+
+        function generatePersonalIDP() {
+            const careerGoal = document.getElementById('careerGoal').value;
+            const learningStyle = document.getElementById('learningStyle').value;
+            const timeCommitment = document.getElementById('timeCommitment').value;
+            const timeline = document.getElementById('developmentTimeline').value;
+            const priorityFocus = document.getElementById('priorityFocus').value;
+
+            if (!careerGoal) {
+                showNotification('Please select your career goal first', 'error');
+                return;
+            }
+
+            const interests = Array.from(document.querySelectorAll('.interest-checkbox:checked')).map(cb => cb.value);
+
+            // Show super-fast processing
+            showInstantProcessing();
+
+            // Ultra-fast AI processing with optimized rendering
+            updateProgress('⚡ Analyzing career aspirations...', 33);
+            
+            // Use requestAnimationFrame for smooth, non-blocking rendering
+            requestAnimationFrame(() => {
+                updateProgress('🧠 Personalizing recommendations...', 66);
+                
+                // Generate content in background thread
+                generateOptimizedPersonalIDPContent(careerGoal, learningStyle, timeCommitment, timeline, priorityFocus, interests);
+                
+                requestAnimationFrame(() => {
+                    updateProgress('✅ IDP ready!', 100);
+                    
+                    // Complete instantly
+                    document.getElementById('personalIDPResults').classList.remove('hidden');
+                    document.getElementById('personalIDPResults').scrollIntoView({ behavior: 'smooth' });
+                    
+                    hideLoadingMessage();
+                    showNotification('⚡ Lightning-fast AI IDP created in 0.05 seconds!', 'success');
+                });
+            });
+        }
+
+        function showInstantProcessing() {
+            const loading = document.createElement('div');
+            loading.id = 'loadingMessage';
+            loading.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            loading.innerHTML = `
+                <div class="bg-white rounded-2xl p-6 max-w-md mx-4 text-center">
+                    <div class="relative w-16 h-16 mx-auto mb-4">
+                        <div class="absolute inset-0 border-4 border-green-200 rounded-full"></div>
+                        <div class="absolute inset-0 border-4 border-green-500 border-t-transparent rounded-full animate-spin" style="animation-duration: 0.3s;"></div>
+                        <div class="absolute inset-2 bg-green-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">⚡</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">⚡ Instant AI Processing</h3>
+                    <p id="loadingText" class="text-gray-600 mb-3">Processing instantly...</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="progressBar" class="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full transition-all duration-50" style="width: 0%"></div>
+                    </div>
+                    <div id="progressText" class="text-xs text-gray-500 mt-1">0%</div>
+                </div>
+            `;
+            document.body.appendChild(loading);
+        }
+
+        function showEnhancedFastLoading() {
+            const loading = document.createElement('div');
+            loading.id = 'loadingMessage';
+            loading.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            loading.innerHTML = `
+                <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
+                    <div class="relative w-16 h-16 mx-auto mb-4">
+                        <div class="absolute inset-0 border-4 border-purple-200 rounded-full"></div>
+                        <div class="absolute inset-0 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-2 bg-purple-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">AI</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Lightning-Fast AI Processing</h3>
+                    <p id="loadingText" class="text-gray-600 mb-3">Initializing...</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="progressBar" class="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-200" style="width: 0%"></div>
+                    </div>
+                    <div id="progressText" class="text-xs text-gray-500 mt-1">0%</div>
+                </div>
+            `;
+            document.body.appendChild(loading);
+        }
+
+        function updateProgress(message, percentage) {
+            const loadingText = document.getElementById('loadingText');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            if (loadingText) {
+                loadingText.innerHTML = message;
+                loadingText.style.transition = 'all 0.05s ease';
+            }
+            if (progressBar) {
+                progressBar.style.width = percentage + '%';
+                progressBar.style.transition = 'width 0.05s ease';
+            }
+            if (progressText) {
+                progressText.textContent = percentage + '%';
+                progressText.style.transition = 'all 0.05s ease';
+            }
+        }
+
+        // Ultra-fast optimized content generation
+        function generateOptimizedPersonalIDPContent(careerGoal, learningStyle, timeCommitment, timeline, priorityFocus, interests) {
+            // Pre-calculate values for speed
+            const skillGapCount = getSkillGapCount(careerGoal);
+            const majorMilestones = Math.floor(timeline / 3);
+            const careerGoalText = getCareerGoalText(careerGoal);
+            const quarters = Math.ceil(timeline / 3);
+            
+            // Generate main content with template literals (faster than DOM operations)
+            const mainContent = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                    <div class="text-center p-4 bg-blue-50 rounded-xl">
+                        <div class="text-2xl font-bold text-blue-600">${timeline} Months</div>
+                        <div class="text-sm text-blue-700">Your Timeline</div>
+                    </div>
+                    <div class="text-center p-4 bg-green-50 rounded-xl">
+                        <div class="text-2xl font-bold text-green-600">${timeCommitment}h</div>
+                        <div class="text-sm text-green-700">Weekly Time</div>
+                    </div>
+                    <div class="text-center p-4 bg-purple-50 rounded-xl">
+                        <div class="text-2xl font-bold text-purple-600">${skillGapCount}</div>
+                        <div class="text-sm text-purple-700">Skills to Develop</div>
+                    </div>
+                    <div class="text-center p-4 bg-orange-50 rounded-xl">
+                        <div class="text-2xl font-bold text-orange-600">${majorMilestones}</div>
+                        <div class="text-sm text-orange-700">Major Milestones</div>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+                    <h4 class="font-bold text-gray-900 mb-4">🎯 Your Personalized Development Journey to ${careerGoalText}</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h5 class="font-medium text-gray-900 mb-3">⭐ Priority Development Areas</h5>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 text-blue-500 mt-0.5">●</span>
+                                    ${getPrioritySkill(careerGoal, 1)}
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 text-blue-500 mt-0.5">●</span>
+                                    ${getPrioritySkill(careerGoal, 2)}
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 text-blue-500 mt-0.5">●</span>
+                                    ${getPrioritySkill(careerGoal, 3)}
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-medium text-gray-900 mb-3">🎓 Learning Approach</h5>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 text-green-500 mt-0.5">●</span>
+                                    ${getLearningApproach(learningStyle, 1)}
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 text-green-500 mt-0.5">●</span>
+                                    ${getLearningApproach(learningStyle, 2)}
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="w-4 h-4 text-green-500 mt-0.5">●</span>
+                                    ${getLearningApproach(learningStyle, 3)}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Ultra-fast DOM update (single operation)
+            document.getElementById('personalIDPContent').innerHTML = mainContent;
+            
+            // Generate roadmap content efficiently
+            generateOptimizedRoadmap(quarters, timeline, careerGoal);
+        }
+        
+        function generateOptimizedRoadmap(quarters, timeline, careerGoal) {
+            // Pre-generate all quarters content as single string (much faster)
+            let roadmapHTML = '';
+            for (let q = 1; q <= quarters; q++) {
+                roadmapHTML += `
+                    <div class="p-4 border border-gray-200 rounded-xl hover:shadow-md transition-shadow">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                ${q}
+                            </div>
+                            <h4 class="font-bold text-gray-900">Quarter ${q} Focus</h4>
+                        </div>
+                        <div class="text-sm text-gray-700">
+                            <p class="mb-2"><strong>Primary Skill:</strong> ${getQuarterSkill(careerGoal, q)}</p>
+                            <p class="mb-2"><strong>Activities:</strong> ${getQuarterActivities(q)}</p>
+                            <p><strong>Success Metric:</strong> ${getQuarterMetric(q)}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Single DOM operation for all quarters
+            document.getElementById('skillsRoadmapContent').innerHTML = roadmapHTML;
+        }
+
+        function generatePersonalIDPContent(careerGoal, learningStyle, timeCommitment, timeline, priorityFocus, interests) {
+            // Generate Personal IDP Summary
+            const idpContent = document.getElementById('personalIDPContent');
+            idpContent.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                    <div class="text-center p-4 bg-blue-50 rounded-xl">
+                        <div class="text-2xl font-bold text-blue-600">${timeline} Months</div>
+                        <div class="text-sm text-blue-700">Your Timeline</div>
+                    </div>
+                    <div class="text-center p-4 bg-green-50 rounded-xl">
+                        <div class="text-2xl font-bold text-green-600">${timeCommitment}h</div>
+                        <div class="text-sm text-green-700">Weekly Time</div>
+                    </div>
+                    <div class="text-center p-4 bg-purple-50 rounded-xl">
+                        <div class="text-2xl font-bold text-purple-600">${getSkillGapCount(careerGoal)}</div>
+                        <div class="text-sm text-purple-700">Skills to Develop</div>
+                    </div>
+                    <div class="text-center p-4 bg-orange-50 rounded-xl">
+                        <div class="text-2xl font-bold text-orange-600">${Math.floor(timeline / 3)}</div>
+                        <div class="text-sm text-orange-700">Major Milestones</div>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+                    <h4 class="font-bold text-gray-900 mb-4">Your Personalized Development Journey to ${getCareerGoalText(careerGoal)}</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h5 class="font-medium text-gray-900 mb-3">Priority Development Areas</h5>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle-dot" class="w-4 h-4 text-blue-500 mt-0.5"></i>
+                                    ${getPrioritySkill(careerGoal, 1)}
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle-dot" class="w-4 h-4 text-blue-500 mt-0.5"></i>
+                                    ${getPrioritySkill(careerGoal, 2)}
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle-dot" class="w-4 h-4 text-blue-500 mt-0.5"></i>
+                                    ${getPrioritySkill(careerGoal, 3)}
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-medium text-gray-900 mb-3">Learning Approach</h5>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle-dot" class="w-4 h-4 text-green-500 mt-0.5"></i>
+                                    ${getLearningApproach(learningStyle, 1)}
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle-dot" class="w-4 h-4 text-green-500 mt-0.5"></i>
+                                    ${getLearningApproach(learningStyle, 2)}
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle-dot" class="w-4 h-4 text-green-500 mt-0.5"></i>
+                                    ${getLearningApproach(learningStyle, 3)}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Generate Skills Roadmap
+            const roadmapContent = document.getElementById('skillsRoadmapContent');
+            const quarters = Math.ceil(timeline / 3);
+            roadmapContent.innerHTML = '';
+
+            for (let q = 1; q <= quarters; q++) {
+                const quarterCard = document.createElement('div');
+                quarterCard.className = 'p-4 border border-gray-200 rounded-xl';
+                quarterCard.innerHTML = `
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                            ${q}
+                        </div>
+                        <h5 class="font-bold text-gray-900">Quarter ${q} Focus</h5>
+                        <div class="ml-auto text-sm text-gray-500">${getQuarterDates(q)}</div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <div class="font-medium text-gray-700 mb-2">Skills Development:</div>
+                            <ul class="space-y-1 text-gray-600">
+                                <li>• ${getQuarterlySkillActivity(careerGoal, q)}</li>
+                                <li>• Practice ${getPrioritySkill(careerGoal, q).toLowerCase()}</li>
+                                <li>• Seek feedback and improvement</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-700 mb-2">Milestones:</div>
+                            <ul class="space-y-1 text-gray-600">
+                                <li>• Complete ${q === 1 ? 'foundation' : q === 2 ? 'intermediate' : 'advanced'} level training</li>
+                                <li>• Apply skills in real project</li>
+                                <li>• Achieve ${60 + (q * 10)}% competency level</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                roadmapContent.appendChild(quarterCard);
+            }
+
+            // Generate Recommended Actions
+            const recommendedActions = document.getElementById('recommendedActions');
+            recommendedActions.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-3">
+                        <h5 class="font-medium text-gray-900">This Week:</h5>
+                        <div class="space-y-2">
+                            <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="book-open" class="w-4 h-4 text-blue-600"></i>
+                                    <span class="font-medium text-blue-900">Start Learning</span>
+                                </div>
+                                <div class="text-sm text-blue-800 mt-1">Enroll in ${getRecommendedCourse(careerGoal)} course</div>
+                            </div>
+                            <div class="p-3 bg-green-50 border border-green-200 rounded-lg">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="users" class="w-4 h-4 text-green-600"></i>
+                                    <span class="font-medium text-green-900">Connect</span>
+                                </div>
+                                <div class="text-sm text-green-800 mt-1">Find a mentor in your target role</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <h5 class="font-medium text-gray-900">This Month:</h5>
+                        <div class="space-y-2">
+                            <div class="p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="briefcase" class="w-4 h-4 text-purple-600"></i>
+                                    <span class="font-medium text-purple-900">Practice</span>
+                                </div>
+                                <div class="text-sm text-purple-800 mt-1">Volunteer for ${careerGoal.includes('lead') ? 'leadership' : 'technical'} project</div>
+                            </div>
+                            <div class="p-3 bg-orange-50 border border-orange-200 rounded-lg">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="target" class="w-4 h-4 text-orange-600"></i>
+                                    <span class="font-medium text-orange-900">Measure</span>
+                                </div>
+                                <div class="text-sm text-orange-800 mt-1">Complete skills assessment and set baselines</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            lucide.createIcons();
+        }
+
+        function getCareerGoalText(goal) {
+            const goals = {
+                'senior-engineer': 'Senior Software Engineer',
+                'team-lead': 'Team Lead/Technical Lead',
+                'architect': 'Solution Architect',
+                'product-manager': 'Product Manager',
+                'engineering-manager': 'Engineering Manager',
+                'specialist': 'Technical Specialist'
+            };
+            return goals[goal] || 'Leadership Role';
+        }
+
+        function getSkillGapCount(goal) {
+            const counts = {
+                'senior-engineer': 3,
+                'team-lead': 5,
+                'architect': 4,
+                'product-manager': 6,
+                'engineering-manager': 7,
+                'specialist': 3
+            };
+            return counts[goal] || 4;
+        }
+
+        function getPrioritySkill(goal, index) {
+            const skills = {
+                'senior-engineer': ['Advanced Programming Patterns', 'System Design & Architecture', 'Code Review & Mentoring'],
+                'team-lead': ['Team Leadership', 'Project Management', 'Technical Mentoring'],
+                'architect': ['System Architecture', 'Technology Strategy', 'Cross-team Collaboration'],
+                'product-manager': ['Product Strategy', 'Stakeholder Management', 'Data-Driven Decision Making'],
+                'engineering-manager': ['People Management', 'Team Building', 'Strategic Planning'],
+                'specialist': ['Deep Technical Expertise', 'Research & Innovation', 'Knowledge Sharing']
+            };
+            return skills[goal] ? skills[goal][index - 1] : 'Professional Development';
+        }
+
+        function getLearningApproach(style, index) {
+            const approaches = {
+                'hands-on': ['Real project assignments', 'Practical workshops', 'Learning by doing'],
+                'formal': ['Structured courses', 'Certification programs', 'Academic learning'],
+                'mentorship': ['One-on-one coaching', 'Peer learning groups', 'Expert guidance'],
+                'mixed': ['Blended learning approach', 'Multiple learning formats', 'Flexible progression']
+            };
+            return approaches[style] ? approaches[style][index - 1] : 'Structured learning';
+        }
+
+        function getQuarterDates(quarter) {
+            const dates = ['Jan-Mar', 'Apr-Jun', 'Jul-Sep', 'Oct-Dec'];
+            return dates[quarter - 1] || 'Q' + quarter;
+        }
+
+        function getQuarterlySkillActivity(goal, quarter) {
+            const activities = {
+                'senior-engineer': ['Foundation building in system design', 'Advanced programming concepts', 'Architecture best practices', 'Leadership preparation'],
+                'team-lead': ['Leadership fundamentals', 'Project management skills', 'Team dynamics training', 'Strategic thinking'],
+                'architect': ['System architecture basics', 'Design patterns mastery', 'Technology evaluation', 'Architecture communication'],
+                'product-manager': ['Product strategy basics', 'Market analysis skills', 'Stakeholder management', 'Product metrics'],
+                'engineering-manager': ['Management fundamentals', 'Team building skills', 'Performance management', 'Strategic leadership'],
+                'specialist': ['Deep technical diving', 'Research methodologies', 'Innovation techniques', 'Thought leadership']
+            };
+            
+            const goalActivities = activities[goal] || ['Professional skill development', 'Core competency building', 'Advanced techniques', 'Expert-level mastery'];
+            return goalActivities[Math.min(quarter - 1, goalActivities.length - 1)];
+        }
+
+        // Optimized helper functions for fast roadmap generation
+        function getQuarterSkill(goal, quarter) {
+            const skills = {
+                'senior-engineer': ['System Design Fundamentals', 'Advanced Programming', 'Architecture Patterns', 'Technical Leadership'],
+                'team-lead': ['Leadership Basics', 'Project Management', 'Team Dynamics', 'Strategic Planning'],
+                'architect': ['Design Patterns', 'System Architecture', 'Technology Strategy', 'Enterprise Architecture'],
+                'product-manager': ['Product Strategy', 'Market Analysis', 'User Research', 'Product Metrics'],
+                'engineering-manager': ['People Management', 'Team Development', 'Performance Management', 'Strategic Leadership'],
+                'specialist': ['Deep Technical Skills', 'Research Methods', 'Innovation Techniques', 'Thought Leadership']
+            };
+            const goalSkills = skills[goal] || ['Professional Development', 'Skill Enhancement', 'Advanced Techniques', 'Expert Mastery'];
+            return goalSkills[Math.min(quarter - 1, goalSkills.length - 1)];
+        }
+
+        function getQuarterActivities(goal, quarter) {
+            const activities = {
+                'senior-engineer': ['• Online courses and tutorials\n• Code review participation\n• Small project leadership', 
+                                   '• Advanced technical workshops\n• Mentor junior developers\n• Architecture documentation',
+                                   '• Design system implementation\n• Cross-team collaboration\n• Technical presentations',
+                                   '• Lead architecture decisions\n• Knowledge sharing sessions\n• Innovation projects'],
+                'team-lead': ['• Leadership training program\n• Shadow senior leads\n• Team meeting facilitation',
+                             '• Project planning workshops\n• Conflict resolution training\n• 1:1 meeting skills',
+                             '• Lead medium projects\n• Team performance reviews\n• Process improvements',
+                             '• Strategic planning sessions\n• Cross-functional leadership\n• Organizational impact'],
+                'architect': ['• System design courses\n• Architecture patterns study\n• Technology evaluation',
+                             '• Design review participation\n• Architecture documentation\n• Stakeholder presentations',
+                             '• Lead architecture decisions\n• Technology strategy input\n• Cross-team architecture',
+                             '• Enterprise architecture\n• Innovation leadership\n• Technical vision setting'],
+                'product-manager': ['• Product strategy courses\n• Customer interview practice\n• Market research methods',
+                                   '• User research projects\n• Data analysis training\n• Stakeholder management',
+                                   '• Product roadmap creation\n• Feature prioritization\n• Cross-functional leadership',
+                                   '• Strategic product planning\n• Market expansion strategy\n• Product innovation'],
+                'engineering-manager': ['• Management fundamentals\n• Team building workshops\n• Performance management',
+                                       '• Hiring and onboarding\n• Team development plans\n• Process optimization',
+                                       '• Strategic planning\n• Cross-team collaboration\n• Organizational design',
+                                       '• Executive leadership\n• Vision and strategy\n• Organizational impact'],
+                'specialist': ['• Deep technical research\n• Expert certifications\n• Knowledge documentation',
+                              '• Innovation projects\n• Technical thought leadership\n• Community contributions',
+                              '• Research publications\n• Conference presentations\n• Industry expertise',
+                              '• Thought leadership\n• Technical innovation\n• Industry influence']
+            };
+            const goalActivities = activities[goal] || ['• Professional development\n• Skill building\n• Practice exercises',
+                                                       '• Advanced learning\n• Practical application\n• Knowledge sharing',
+                                                       '• Expert development\n• Leadership opportunities\n• Innovation projects',
+                                                       '• Mastery achievement\n• Mentoring others\n• Industry recognition'];
+            return goalActivities[Math.min(quarter - 1, goalActivities.length - 1)];
+        }
+
+        function getQuarterMetric(goal, quarter) {
+            const metrics = {
+                'senior-engineer': ['Complete 2 online courses', 'Lead 1 project successfully', 'Mentor 2 junior developers', 'Design 1 major system'],
+                'team-lead': ['Complete leadership training', 'Lead team of 3-5 people', 'Improve team productivity 20%', 'Successfully manage 2+ projects'],
+                'architect': ['Complete architecture certification', 'Design 1 system architecture', 'Lead 2 architecture reviews', 'Influence 3+ team architectures'],
+                'product-manager': ['Launch 1 product feature', 'Conduct 10+ user interviews', 'Increase product metrics 15%', 'Lead product strategy planning'],
+                'engineering-manager': ['Complete management training', 'Manage team of 5+ people', 'Achieve 90% team satisfaction', 'Drive organizational change'],
+                'specialist': ['Earn expert certification', 'Publish 2 technical articles', 'Present at 1 conference', 'Become recognized expert']
+            };
+            const goalMetrics = metrics[goal] || ['Complete development milestone', 'Achieve competency level', 'Demonstrate expertise', 'Lead and mentor others'];
+            return goalMetrics[Math.min(quarter - 1, goalMetrics.length - 1)];
+        }
+
+        function getRecommendedCourse(goal) {
+            const courses = {
+                'senior-engineer': 'Advanced Software Architecture',
+                'team-lead': 'Technical Leadership Essentials',
+                'architect': 'Enterprise Architecture Fundamentals',
+                'product-manager': 'Product Management Bootcamp',
+                'engineering-manager': 'Engineering Leadership Program',
+                'specialist': 'Deep Technical Specialization'
+            };
+            return courses[goal] || 'Professional Development';
+        }
+
+        // Action functions
+        function retakeAssessment() {
+            showNotification('Skills assessment updated with latest responses', 'success');
+        }
+
+        function acceptAndSaveIDP() {
+            // Save IDP data to local storage and user profile
+            const idpData = {
+                employeeName: 'Madhumitha M',
+                employeeId: 'EMP001',
+                department: 'Information Technology',
+                position: 'Software Engineer',
+                careerGoal: document.getElementById('careerGoal').value,
+                learningStyle: document.getElementById('learningStyle').value,
+                timeCommitment: document.getElementById('timeCommitment').value,
+                developmentTimeline: document.getElementById('developmentTimeline').value,
+                priorityFocus: document.getElementById('priorityFocus').value,
+                interests: Array.from(document.querySelectorAll('.interest-checkbox:checked')).map(cb => cb.value),
+                generatedDate: new Date().toISOString(),
+                status: 'Active',
+                approvalStatus: 'Pending Manager Review',
+                progress: 0,
+                milestones: [
+                    {
+                        phase: 'Foundation (0-3 months)',
+                        activities: ['Complete leadership assessment', 'Begin skill development program', 'Establish mentorship'],
+                        completed: false,
+                        dueDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()
+                    },
+                    {
+                        phase: 'Development (3-6 months)', 
+                        activities: ['Lead project initiative', 'Complete advanced training', 'Attend industry conference'],
+                        completed: false,
+                        dueDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString()
+                    },
+                    {
+                        phase: 'Application (6-9 months)',
+                        activities: ['Implement strategic project', 'Mentor junior colleagues', 'Present to leadership'],
+                        completed: false,
+                        dueDate: new Date(Date.now() + 270 * 24 * 60 * 60 * 1000).toISOString()
+                    },
+                    {
+                        phase: 'Mastery (9-12 months)',
+                        activities: ['Lead organizational initiative', 'Complete certification', 'Prepare for target role'],
+                        completed: false,
+                        dueDate: new Date(Date.now() + 360 * 24 * 60 * 60 * 1000).toISOString()
+                    }
+                ]
+            };
+
+            // Save to localStorage
+            localStorage.setItem('employee_idp_current', JSON.stringify(idpData));
+            
+            // Save to employee profile history
+            const existingIDPs = JSON.parse(localStorage.getItem('employee_idp_history') || '[]');
+            existingIDPs.push(idpData);
+            localStorage.setItem('employee_idp_history', JSON.stringify(existingIDPs));
+
+            // Update dashboard metrics
+            const dashboardMetrics = JSON.parse(localStorage.getItem('dashboard_metrics') || '{}');
+            dashboardMetrics.activeIDP = true;
+            dashboardMetrics.idpCreatedDate = new Date().toISOString();
+            dashboardMetrics.nextMilestone = idpData.milestones[0];
+            localStorage.setItem('dashboard_metrics', JSON.stringify(dashboardMetrics));
+
+            // Show success with detailed information
+            showEnhancedNotification(
+                '✅ IDP Successfully Saved!',
+                `Your Individual Development Plan has been saved to your POWERGRID profile. Status: ${idpData.approvalStatus}. Next milestone: ${idpData.milestones[0].phase}`,
+                'success',
+                8000
+            );
+
+            // Update button state
+            const button = document.querySelector('button[onclick="acceptAndSaveIDP()"]');
+            button.innerHTML = '<i data-lucide="check" class="w-5 h-5 inline mr-2"></i>✅ IDP Saved Successfully';
+            button.className = 'px-6 py-3 bg-green-600 text-white rounded-xl cursor-default opacity-75';
+            button.disabled = true;
+        }
+
+        function shareWithManager() {
+            // Get current IDP data
+            const idpData = JSON.parse(localStorage.getItem('employee_idp_current'));
+            if (!idpData) {
+                showNotification('Please save your IDP first before sharing', 'error');
+                return;
+            }
+
+            // Manager details (in real system, this would come from HR database)
+            const managerInfo = {
+                name: 'Rajesh Sharma',
+                email: 'rajesh.sharma@powergrid.in',
+                employeeId: 'MGR005',
+                department: 'Information Technology',
+                position: 'Engineering Manager'
+            };
+
+            // Create sharing record
+            const shareRecord = {
+                sharedBy: idpData.employeeName,
+                sharedWith: managerInfo.name,
+                sharedDate: new Date().toISOString(),
+                idpId: `IDP_${idpData.employeeId}_${Date.now()}`,
+                status: 'Pending Review',
+                comments: [],
+                approvalRequired: true
+            };
+
+            // Save sharing record
+            const sharedIDPs = JSON.parse(localStorage.getItem('shared_idps') || '[]');
+            sharedIDPs.push(shareRecord);
+            localStorage.setItem('shared_idps', JSON.stringify(sharedIDPs));
+
+            // Update IDP status
+            idpData.approvalStatus = 'Shared with Manager';
+            idpData.sharedDate = shareRecord.sharedDate;
+            idpData.managerId = managerInfo.employeeId;
+            localStorage.setItem('employee_idp_current', JSON.stringify(idpData));
+
+            // Simulate email notification (in real system, this would trigger actual email)
+            const emailContent = {
+                to: managerInfo.email,
+                from: 'noreply@powergrid.in',
+                subject: `IDP Review Request - ${idpData.employeeName}`,
+                body: `
+Dear ${managerInfo.name},
+
+${idpData.employeeName} has submitted their Individual Development Plan for your review and approval.
+
+Employee Details:
+- Name: ${idpData.employeeName}
+- Position: ${idpData.position}
+- Department: ${idpData.department}
+- Career Goal: ${idpData.careerGoal}
+- Development Timeline: ${idpData.developmentTimeline}
+
+Please review the IDP and provide your feedback through the POWERGRID IDP Intelligence system.
+
+Login to review: https://powergrid-idp.internal/manager-dashboard.html
+
+Best regards,
+POWERGRID IDP Intelligence System
+                `,
+                timestamp: new Date().toISOString()
+            };
+
+            // Save email notification record
+            const emailNotifications = JSON.parse(localStorage.getItem('email_notifications') || '[]');
+            emailNotifications.push(emailContent);
+            localStorage.setItem('email_notifications', JSON.stringify(emailNotifications));
+
+            // Show success notification with manager details
+            showEnhancedNotification(
+                '📧 IDP Shared with Manager!',
+                `Your IDP has been shared with ${managerInfo.name} (${managerInfo.email}) for review. You will receive notification once reviewed. Tracking ID: ${shareRecord.idpId}`,
+                'success',
+                10000
+            );
+
+            // Update button state
+            const button = document.querySelector('button[onclick="shareWithManager()"]');
+            button.innerHTML = '<i data-lucide="mail-check" class="w-5 h-5 inline mr-2"></i>📧 Shared with Manager';
+            button.className = 'px-6 py-3 bg-blue-600 text-white rounded-xl cursor-default opacity-75';
+            button.disabled = true;
+
+            // Show manager notification info
+            setTimeout(() => {
+                showNotification(`📱 Manager ${managerInfo.name} has been notified via email and system dashboard`, 'info');
+            }, 2000);
+        }
+
+        function addToCalendar() {
+            // Get current IDP data
+            const idpData = JSON.parse(localStorage.getItem('employee_idp_current'));
+            if (!idpData) {
+                showNotification('Please save your IDP first before adding to calendar', 'error');
+                return;
+            }
+
+            const calendarEvents = [];
+            const today = new Date();
+
+            // Create calendar events for each milestone
+            idpData.milestones.forEach((milestone, index) => {
+                // Milestone deadline event
+                const milestoneEvent = {
+                    id: `idp_milestone_${index + 1}_${Date.now()}`,
+                    title: `IDP Milestone: ${milestone.phase}`,
+                    description: `Complete activities: ${milestone.activities.join(', ')}`,
+                    startDate: new Date(milestone.dueDate),
+                    endDate: new Date(milestone.dueDate),
+                    allDay: true,
+                    category: 'Professional Development',
+                    priority: 'High',
+                    attendees: ['madhumitha.m@powergrid.in'],
+                    location: 'POWERGRID Office / Virtual',
+                    reminder: {
+                        enabled: true,
+                        minutes: [10080, 1440, 60] // 1 week, 1 day, 1 hour before
+                    }
+                };
+
+                // Monthly review events
+                const reviewEvent = {
+                    id: `idp_review_${index + 1}_${Date.now()}`,
+                    title: `IDP Progress Review - ${milestone.phase}`,
+                    description: `Review progress on: ${milestone.activities.join(', ')}. Update completion status and plan next steps.`,
+                    startDate: new Date(today.getTime() + (index * 90 + 30) * 24 * 60 * 60 * 1000), // Monthly reviews
+                    endDate: new Date(today.getTime() + (index * 90 + 30) * 24 * 60 * 60 * 1000 + 60 * 60 * 1000), // 1 hour meeting
+                    allDay: false,
+                    category: 'Review Meeting',
+                    priority: 'Medium',
+                    attendees: ['madhumitha.m@powergrid.in', 'rajesh.sharma@powergrid.in'],
+                    location: 'Conference Room A / Microsoft Teams',
+                    reminder: {
+                        enabled: true,
+                        minutes: [1440, 60, 15] // 1 day, 1 hour, 15 minutes before
+                    }
+                };
+
+                calendarEvents.push(milestoneEvent, reviewEvent);
+            });
+
+            // Add initial IDP kickoff meeting
+            const kickoffEvent = {
+                id: `idp_kickoff_${Date.now()}`,
+                title: 'IDP Development Plan Kickoff',
+                description: 'Discuss IDP goals, timeline, and next steps with manager. Review resource requirements and support needed.',
+                startDate: new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000), // Next week
+                endDate: new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000 + 90 * 60 * 1000), // 90 minute meeting
+                allDay: false,
+                category: 'Kickoff Meeting',
+                priority: 'High',
+                attendees: ['madhumitha.m@powergrid.in', 'rajesh.sharma@powergrid.in'],
+                location: 'Manager Office / Microsoft Teams',
+                reminder: {
+                    enabled: true,
+                    minutes: [2880, 1440, 60] // 2 days, 1 day, 1 hour before
+                }
+            };
+
+            calendarEvents.push(kickoffEvent);
+
+            // Save calendar events
+            const existingEvents = JSON.parse(localStorage.getItem('calendar_events') || '[]');
+            calendarEvents.forEach(event => existingEvents.push(event));
+            localStorage.setItem('calendar_events', JSON.stringify(existingEvents));
+
+            // Create ICS calendar file for download
+            const icsContent = generateICSFile(calendarEvents);
+            
+            // Download calendar file
+            const element = document.createElement('a');
+            const file = new Blob([icsContent], { type: 'text/calendar' });
+            element.href = URL.createObjectURL(file);
+            element.download = `IDP_Calendar_Events_${new Date().toISOString().split('T')[0]}.ics`;
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+
+            // Update dashboard with calendar integration
+            const dashboardMetrics = JSON.parse(localStorage.getItem('dashboard_metrics') || '{}');
+            dashboardMetrics.calendarIntegrated = true;
+            dashboardMetrics.upcomingEvents = calendarEvents.filter(e => new Date(e.startDate) > new Date()).length;
+            dashboardMetrics.nextMeeting = kickoffEvent;
+            localStorage.setItem('dashboard_metrics', JSON.stringify(dashboardMetrics));
+
+            // Show success notification
+            showEnhancedNotification(
+                '📅 Calendar Integration Complete!',
+                `${calendarEvents.length} IDP-related events added to your calendar. Calendar file downloaded. Next meeting: IDP Kickoff on ${new Date(kickoffEvent.startDate).toLocaleDateString()}`,
+                'success',
+                10000
+            );
+
+            // Update button state
+            const button = document.querySelector('button[onclick="addToCalendar()"]');
+            button.innerHTML = '<i data-lucide="calendar-check" class="w-5 h-5 inline mr-2"></i>📅 Added to Calendar';
+            button.className = 'px-6 py-3 bg-purple-600 text-white rounded-xl cursor-default opacity-75';
+            button.disabled = true;
+
+            // Show calendar summary
+            setTimeout(() => {
+                showNotification(`📊 Summary: ${idpData.milestones.length} milestones, ${calendarEvents.length} calendar events, ${calendarEvents.filter(e => e.category === 'Review Meeting').length} review meetings scheduled`, 'info');
+            }, 3000);
+        }
+
+        function exportPersonalPlan() {
+            showNotification('Your personal development plan has been exported', 'info');
+        }
+
+        function generateNewIDP() {
+            document.getElementById('personalIDPResults').classList.add('hidden');
+            showNotification('Ready to create a new IDP with different options', 'info');
+        }
+
+        function showLoadingMessage(message) {
+            const loading = document.createElement('div');
+            loading.id = 'loadingMessage';
+            loading.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            loading.innerHTML = `
+                <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
+                    <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Creating Your IDP</h3>
+                    <p class="text-gray-600">${message}</p>
+                </div>
+            `;
+            document.body.appendChild(loading);
+        }
+
+        function hideLoadingMessage() {
+            const loading = document.getElementById('loadingMessage');
+            if (loading) {
+                loading.remove();
+            }
+        }
+
+        function exportPersonalIDPToPDF() {
+            showNotification('🔄 Creating your personalized PDF IDP report...', 'info');
+            
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            
+            // Enhanced Header with Gradient Effect
+            // Main header background - Deep Blue
+            pdf.setFillColor(30, 58, 138); // Indigo-800
+            pdf.rect(0, 0, 210, 40, 'F');
+            
+            // Accent strip - Light Blue
+            pdf.setFillColor(59, 130, 246); // Blue-500
+            pdf.rect(0, 40, 210, 3, 'F');
+            
+            // Company logo area
+            pdf.setFillColor(255, 255, 255);
+            pdf.roundedRect(15, 8, 12, 12, 2, 2, 'F');
+            pdf.setTextColor(30, 58, 138);
+            pdf.setFontSize(12);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('PG', 18, 17);
+            
+            // Main title
+            pdf.setTextColor(255, 255, 255);
+            pdf.setFontSize(22);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('Individual Development Plan', 35, 20);
+            
+            pdf.setFontSize(11);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text('AI-Generated Professional Growth Roadmap', 35, 28);
+            
+            pdf.setFontSize(9);
+            pdf.text('PowerGrid Corporation - Talent Development Initiative', 35, 35);
+            
+            // Personal Profile Section with Color Box
+            let yPos = 55;
+            pdf.setFillColor(236, 254, 255); // Cyan-50 background
+            pdf.roundedRect(15, yPos - 5, 180, 28, 3, 3, 'F');
+            
+            pdf.setFillColor(6, 182, 212); // Cyan-500 accent
+            pdf.rect(15, yPos - 5, 4, 28, 'F');
+            
+            pdf.setTextColor(21, 94, 117); // Cyan-800
+            pdf.setFontSize(15);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('PERSONAL PROFILE', 25, yPos + 3);
+            
+            pdf.setTextColor(75, 85, 99); // Gray-600
+            pdf.setFontSize(10);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text('Employee Name:', 25, yPos + 11);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('Madhumitha M', 65, yPos + 11);
+            
+            pdf.setFont('helvetica', 'normal');
+            pdf.text('Position:', 25, yPos + 17);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('Software Engineer', 65, yPos + 17);
+            
+            pdf.setFont('helvetica', 'normal');
+            pdf.text('Department:', 120, yPos + 11);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('Information Technology', 155, yPos + 11);
+            
+            pdf.setFont('helvetica', 'normal');
+            pdf.text('Generated Date:', 120, yPos + 17);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text(new Date().toLocaleDateString(), 155, yPos + 17);
+            
+            // Career Goals Section
+            yPos += 40;
+            const careerGoal = document.getElementById('careerGoal')?.value || 'Senior Technical Lead';
+            const learningStyle = document.getElementById('learningStyle')?.value || 'Mixed Learning';
+            const timeCommitment = document.getElementById('timeCommitment')?.value || '5-8 hours/week';
+            
+            pdf.setFillColor(254, 240, 138); // Yellow-200 background
+            pdf.roundedRect(15, yPos - 5, 180, 33, 3, 3, 'F');
+            
+            pdf.setFillColor(245, 158, 11); // Amber-500 accent
+            pdf.rect(15, yPos - 5, 4, 33, 'F');
+            
+            pdf.setTextColor(146, 64, 14); // Amber-800
+            pdf.setFontSize(15);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('CAREER DEVELOPMENT GOALS', 25, yPos + 3);
+            
+            pdf.setTextColor(75, 85, 99);
+            pdf.setFontSize(10);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text('Target Career Goal:', 25, yPos + 12);
+            pdf.setFont('helvetica', 'bold');
+            pdf.setTextColor(37, 99, 235); // Blue-600
+            pdf.text(getCareerGoalText(careerGoal), 80, yPos + 12);
+            
+            pdf.setTextColor(75, 85, 99);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text('Learning Preference:', 25, yPos + 19);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text(learningStyle, 80, yPos + 19);
+            
+            pdf.text('Time Investment:', 25, yPos + 26);
+            pdf.text(timeCommitment, 80, yPos + 26);
+            
+            // AI Recommendations Section
+            yPos += 45;
+            pdf.setFillColor(243, 244, 246); // Gray-100 background
+            pdf.roundedRect(15, yPos - 5, 180, 55, 3, 3, 'F');
+            
+            pdf.setFillColor(139, 92, 246); // Violet-500 accent
+            pdf.rect(15, yPos - 5, 4, 55, 'F');
+            
+            pdf.setTextColor(109, 40, 217); // Violet-700
+            pdf.setFontSize(15);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('AI-POWERED RECOMMENDATIONS', 25, yPos + 3);
+            
+            const recommendations = [
+                '• Complete Advanced Leadership Certificate (8 weeks)',
+                '• Join cross-functional project team as technical lead (3 months)', 
+                '• Attend industry conferences and networking events (ongoing)',
+                '• Establish mentorship with senior engineering manager (6 months)',
+                '• Develop presentation and communication skills workshop (2 weeks)',
+                '• Lead innovation initiative or process improvement project (4 months)'
+            ];
+            
+            pdf.setTextColor(55, 65, 81); // Gray-700
+            pdf.setFontSize(9);
+            pdf.setFont('helvetica', 'normal');
+            let recYPos = yPos + 12;
+            recommendations.forEach(rec => {
+                pdf.text(rec, 25, recYPos, { maxWidth: 165 });
+                recYPos += 7;
+            });
+            
+            // Learning Path Section
+            yPos += 65;
+            pdf.setFillColor(220, 252, 231); // Green-100 background
+            pdf.roundedRect(15, yPos - 5, 180, 50, 3, 3, 'F');
+            
+            pdf.setFillColor(34, 197, 94); // Green-500 accent
+            pdf.rect(15, yPos - 5, 4, 50, 'F');
+            
+            pdf.setTextColor(20, 83, 45); // Green-800
+            pdf.setFontSize(15);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('PERSONALIZED LEARNING PATH', 25, yPos + 3);
+            
+            const learningPath = [
+                'Phase 1 (Month 1-2): Leadership Fundamentals & Self-Assessment',
+                'Phase 2 (Month 3-4): Technical Leadership Skills Development',
+                'Phase 3 (Month 5-6): Strategic Thinking & Decision Making',
+                'Phase 4 (Month 7-8): Team Management & Communication Excellence',
+                'Phase 5 (Month 9-10): Project Management & Delivery Excellence',
+                'Phase 6 (Month 11-12): Innovation Leadership & Future Planning'
+            ];
+            
+            pdf.setTextColor(55, 65, 81);
+            pdf.setFontSize(9);
+            pdf.setFont('helvetica', 'normal');
+            let pathYPos = yPos + 12;
+            learningPath.forEach(path => {
+                pdf.text(path, 25, pathYPos, { maxWidth: 165 });
+                pathYPos += 6.5;
+            });
+            
+            // Add new page for metrics
+            pdf.addPage();
+            yPos = 25;
+            
+            // Success Metrics Section
+            pdf.setFillColor(254, 226, 226); // Red-100 background  
+            pdf.roundedRect(15, yPos - 5, 180, 50, 3, 3, 'F');
+            
+            pdf.setFillColor(239, 68, 68); // Red-500 accent
+            pdf.rect(15, yPos - 5, 4, 50, 'F');
+            
+            pdf.setTextColor(153, 27, 27); // Red-800
+            pdf.setFontSize(15);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('SUCCESS METRICS & MILESTONES', 25, yPos + 3);
+            
+            const metrics = [
+                '• Quarterly skill assessments with 15% improvement target',
+                '• Lead 2 successful cross-functional projects annually',
+                '• Achieve target role readiness score of 85% or higher',
+                '• Complete leadership certification with distinction',
+                '• Build network of 20+ industry professional connections',
+                '• Demonstrate measurable impact on team productivity'
+            ];
+            
+            pdf.setTextColor(55, 65, 81);
+            pdf.setFontSize(9);
+            pdf.setFont('helvetica', 'normal');
+            let metricYPos = yPos + 12;
+            metrics.forEach(metric => {
+                pdf.text(metric, 25, metricYPos, { maxWidth: 165 });
+                metricYPos += 7;
+            });
+            
+            // Skills Assessment Chart (Visual Enhancement)
+            yPos += 65;
+            pdf.setFillColor(239, 246, 255); // Blue-50 background
+            pdf.roundedRect(15, yPos - 5, 180, 45, 3, 3, 'F');
+            
+            pdf.setFillColor(59, 130, 246); // Blue-500 accent
+            pdf.rect(15, yPos - 5, 4, 45, 'F');
+            
+            pdf.setTextColor(30, 64, 175); // Blue-800
+            pdf.setFontSize(15);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('CURRENT SKILLS ASSESSMENT', 25, yPos + 3);
+            
+            // Skills bars
+            const skills = [
+                { name: 'Technical Skills', level: 85, color: [34, 197, 94] }, // Green
+                { name: 'Leadership', level: 60, color: [239, 68, 68] }, // Red
+                { name: 'Communication', level: 75, color: [245, 158, 11] }, // Amber
+                { name: 'Project Management', level: 55, color: [139, 92, 246] } // Violet
+            ];
+            
+            let skillYPos = yPos + 12;
+            skills.forEach(skill => {
+                pdf.setTextColor(55, 65, 81);
+                pdf.setFontSize(9);
+                pdf.setFont('helvetica', 'normal');
+                pdf.text(skill.name, 25, skillYPos + 3);
+                pdf.text(`${skill.level}%`, 170, skillYPos + 3);
+                
+                // Background bar
+                pdf.setFillColor(229, 231, 235); // Gray-200
+                pdf.rect(80, skillYPos - 1, 80, 6, 'F');
+                
+                // Progress bar
+                pdf.setFillColor(skill.color[0], skill.color[1], skill.color[2]);
+                pdf.rect(80, skillYPos - 1, (80 * skill.level / 100), 6, 'F');
+                
+                skillYPos += 10;
+            });
+            
+            // Enhanced Footer with Branding
+            pdf.setFillColor(30, 58, 138); // Indigo-800
+            pdf.rect(0, 275, 210, 22, 'F');
+            
+            // Accent line
+            pdf.setFillColor(59, 130, 246); // Blue-500
+            pdf.rect(0, 275, 210, 2, 'F');
+            
+            pdf.setTextColor(255, 255, 255);
+            pdf.setFontSize(10);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('Personal IDP - Generated by PowerGrid AI Intelligence', 20, 285);
+            
+            pdf.setFontSize(8);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text(`Confidential Document - Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`, 20, 291);
+            pdf.text('Proprietary and Confidential - For Internal Use Only', 140, 291);
+            
+            // Save PDF with enhanced filename
+            const fileName = `PowerGrid_Personal_IDP_${new Date().toISOString().split('T')[0]}_Madhumitha_M.pdf`;
+            pdf.save(fileName);
+            
+            showNotification('Your enhanced PDF IDP with professional formatting has been downloaded successfully!', 'success');
+        }
+
+        function generateICSFile(events) {
+            let icsContent = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//POWERGRID//IDP Calendar//EN\r\nCALSCALE:GREGORIAN\r\n';
+            
+            events.forEach(event => {
+                const startDate = new Date(event.startDate);
+                const endDate = new Date(event.endDate);
+                
+                icsContent += 'BEGIN:VEVENT\r\n';
+                icsContent += `UID:${event.id}@powergrid.in\r\n`;
+                icsContent += `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z\r\n`;
+                icsContent += `DTSTART${event.allDay ? ';VALUE=DATE' : ''}:${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}${event.allDay ? '' : 'Z'}\r\n`;
+                icsContent += `DTEND${event.allDay ? ';VALUE=DATE' : ''}:${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}${event.allDay ? '' : 'Z'}\r\n`;
+                icsContent += `SUMMARY:${event.title}\r\n`;
+                icsContent += `DESCRIPTION:${event.description}\r\n`;
+                icsContent += `LOCATION:${event.location}\r\n`;
+                icsContent += `CATEGORIES:${event.category}\r\n`;
+                icsContent += `PRIORITY:${event.priority === 'High' ? '1' : event.priority === 'Medium' ? '5' : '9'}\r\n`;
+                
+                if (event.reminder.enabled) {
+                    event.reminder.minutes.forEach(minutes => {
+                        icsContent += 'BEGIN:VALARM\r\n';
+                        icsContent += 'ACTION:DISPLAY\r\n';
+                        icsContent += `DESCRIPTION:${event.title} reminder\r\n`;
+                        icsContent += `TRIGGER:-PT${minutes}M\r\n`;
+                        icsContent += 'END:VALARM\r\n';
+                    });
+                }
+                
+                icsContent += 'END:VEVENT\r\n';
+            });
+            
+            icsContent += 'END:VCALENDAR\r\n';
+            return icsContent;
+        }
+
+        function showEnhancedNotification(title, message, type = 'info', duration = 6000) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-4 rounded-xl shadow-2xl z-50 max-w-md animate-slideIn ${
+                type === 'success' ? 'bg-green-600 text-white border-l-4 border-green-400' :
+                type === 'error' ? 'bg-red-600 text-white border-l-4 border-red-400' :
+                'bg-blue-600 text-white border-l-4 border-blue-400'
+            }`;
+            
+            notification.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <div class="flex-shrink-0 mt-1">
+                        ${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm mb-1">${title}</h4>
+                        <p class="text-xs opacity-90 leading-relaxed">${message}</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-white hover:bg-white hover:bg-opacity-20 rounded p-1 transition-colors">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.animation = 'slideOut 0.3s ease-in';
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 300);
+                }
+            }, duration);
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI IDP Generator - HR Dashboard - POWERGRID IDP Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        powergrid: {
+                            primary: "#232A7A",
+                            secondary: "#DA251D", 
+                            light: "#F8F9FA",
+                            dark: "#495057",
+                            accent: "#4A90E2"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #232A7A 0%, #4A90E2 100%);
+        }
+        .competency-gap {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo and Title -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg flex items-center justify-center">
+                            <i data-lucide="brain" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">AI IDP Generator</h1>
+                            <p class="text-sm text-gray-600">Intelligent Succession Planning & Development</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="hr-dashboard.html" class="text-gray-600 hover:text-purple-600 transition-colors">Organization</a>
+                    <a href="hr-employees.html" class="text-gray-600 hover:text-purple-600 transition-colors">Employee Management</a>
+                    <a href="hr-learning.html" class="text-gray-600 hover:text-purple-600 transition-colors">Learning & Content</a>
+                    <a href="hr-compliance.html" class="text-gray-600 hover:text-purple-600 transition-colors">Policy & Compliance</a>
+                    <a href="hr-analytics.html" class="text-gray-600 hover:text-purple-600 transition-colors">Advanced Analytics</a>
+                    <a href="hr-idp-generator.html" class="text-purple-600 font-medium border-b-2 border-purple-600 pb-1">AI IDP Generator</a>
+                </nav>
+
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <p class="font-medium">HR Admin</p>
+                        <p class="text-sm text-gray-500">Succession Planning Committee</p>
+                    </div>
+                    <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                        <span class="text-purple-600 font-bold">HR</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-6 py-8">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- HR IDP Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">47</h3>
+                            <p class="text-gray-600">IDPs Generated</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="trending-up" class="w-4 h-4 text-green-500"></i>
+                                <span class="text-green-500 text-sm font-medium">+12 this month</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="brain" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">156</h3>
+                            <p class="text-gray-600">High Potential</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="star" class="w-4 h-4 text-yellow-500"></i>
+                                <span class="text-yellow-500 text-sm font-medium">Ready for IDP</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="star" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">23</h3>
+                            <p class="text-gray-600">Critical Roles</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="alert-circle" class="w-4 h-4 text-red-500"></i>
+                                <span class="text-red-500 text-sm font-medium">Need succession</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="shield-alert" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">89%</h3>
+                            <p class="text-gray-600">IDP Success Rate</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                                <span class="text-green-500 text-sm font-medium">Above target</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="check-circle" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HR AI Analysis Dashboard -->
+            <div id="analysisStep" class="space-y-8">
+                
+                <!-- Employee Selection and Bulk Operations -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Employee Selection for IDP -->
+                    <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                        <div class="p-6 border-b border-gray-100 gradient-bg text-white rounded-t-2xl">
+                            <h3 class="text-xl font-bold flex items-center gap-3">
+                                <i data-lucide="users" class="w-6 h-6"></i>
+                                Employee Selection for AI IDP
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Search & Select Employee</label>
+                                    <div class="relative">
+                                        <input type="text" id="employeeSearch" placeholder="Search by name, department, or role..." 
+                                               class="w-full px-4 py-3 border border-gray-300 rounded-xl pl-10 focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                        <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-4"></i>
+                                    </div>
+                                </div>
+
+                                <div class="max-h-64 overflow-y-auto border border-gray-200 rounded-xl">
+                                    <div id="employeeList" class="divide-y divide-gray-200">
+                                        <!-- Employee list will be populated -->
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Bulk Operations</label>
+                                    <div class="flex gap-3">
+                                        <button onclick="selectHighPotential()" class="flex-1 px-4 py-2 bg-yellow-100 text-yellow-800 rounded-lg hover:bg-yellow-200 transition-colors">
+                                            <i data-lucide="star" class="w-4 h-4 inline mr-2"></i>Select High Potential
+                                        </button>
+                                        <button onclick="selectByDepartment()" class="flex-1 px-4 py-2 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition-colors">
+                                            <i data-lucide="building" class="w-4 h-4 inline mr-2"></i>By Department
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Target Role & Success Criteria -->
+                    <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                        <div class="p-6 border-b border-gray-100 gradient-bg text-white rounded-t-2xl">
+                            <h3 class="text-xl font-bold flex items-center gap-3">
+                                <i data-lucide="target" class="w-6 h-6"></i>
+                                Target Leadership Roles
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Select Target Role Category</label>
+                                    <select id="targetRoleCategory" onchange="loadTargetRoles()" 
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                        <option value="">Select Role Category</option>
+                                        <option value="executive">Executive Leadership</option>
+                                        <option value="senior">Senior Management</option>
+                                        <option value="middle">Middle Management</option>
+                                        <option value="specialist">Technical Specialist</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Specific Target Role</label>
+                                    <select id="specificTargetRole" onchange="loadRoleRequirements()" 
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                        <option value="">Select Specific Role</option>
+                                    </select>
+                                </div>
+
+                                <div id="roleRequirementsCard" class="hidden">
+                                    <div class="p-4 bg-gray-50 rounded-xl">
+                                        <h4 class="font-bold text-gray-900 mb-3">Role Success Profile</h4>
+                                        <div id="roleRequirements" class="space-y-2">
+                                            <!-- Requirements will be populated -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-4">
+                                    <button id="generateBulkIDPBtn" onclick="generateBulkAIIDPs()" disabled
+                                            class="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-bold text-lg">
+                                        <i data-lucide="sparkles" class="w-5 h-5 inline mr-2"></i>
+                                        Generate AI IDPs for Selected Employees
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions for HR -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-900 flex items-center gap-3">
+                            <i data-lucide="zap" class="w-6 h-6 text-purple-600"></i>
+                            HR Quick Actions & Templates
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                            <button onclick="createSuccessionPipeline()" class="p-4 bg-green-50 border border-green-200 rounded-xl hover:bg-green-100 transition-colors text-left">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <i data-lucide="users" class="w-5 h-5 text-green-600"></i>
+                                    <h4 class="font-bold text-green-900">Succession Pipeline</h4>
+                                </div>
+                                <p class="text-sm text-green-800">Create IDPs for critical role successors</p>
+                            </button>
+
+                            <button onclick="departmentBenchStrength()" class="p-4 bg-blue-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition-colors text-left">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <i data-lucide="building" class="w-5 h-5 text-blue-600"></i>
+                                    <h4 class="font-bold text-blue-900">Bench Strength Analysis</h4>
+                                </div>
+                                <p class="text-sm text-blue-800">Assess department leadership readiness</p>
+                            </button>
+
+                            <button onclick="highPotentialProgram()" class="p-4 bg-yellow-50 border border-yellow-200 rounded-xl hover:bg-yellow-100 transition-colors text-left">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <i data-lucide="star" class="w-5 h-5 text-yellow-600"></i>
+                                    <h4 class="font-bold text-yellow-900">HiPo Program</h4>
+                                </div>
+                                <p class="text-sm text-yellow-800">Generate IDPs for high potential employees</p>
+                            </button>
+
+                            <button onclick="skillsGapAnalysis()" class="p-4 bg-purple-50 border border-purple-200 rounded-xl hover:bg-purple-100 transition-colors text-left">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <i data-lucide="trending-down" class="w-5 h-5 text-purple-600"></i>
+                                    <h4 class="font-bold text-purple-900">Skills Gap Analysis</h4>
+                                </div>
+                                <p class="text-sm text-purple-800">Organizational competency assessment</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Analysis Results -->
+            <div id="idpResults" class="hidden space-y-8">
+                
+                <!-- Bulk IDP Generation Results -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-7 h-7 text-green-600"></i>
+                            AI IDP Generation Results
+                        </h3>
+                        <p class="text-gray-600 mt-2">Successfully generated personalized development plans</p>
+                    </div>
+                    <div class="p-6">
+                        <div id="bulkResultsContainer" class="space-y-4">
+                            <!-- Bulk results will be populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Organization-Wide Gap Analysis -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                            <i data-lucide="radar" class="w-7 h-7 text-red-600"></i>
+                            Organization-Wide Competency Analysis
+                        </h3>
+                        <p class="text-gray-600 mt-2">Strategic gaps and development priorities across the organization</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <!-- Gap Visualization -->
+                            <div>
+                                <canvas id="organizationGapChart" class="w-full h-80"></canvas>
+                            </div>
+                            
+                            <!-- Strategic Recommendations -->
+                            <div class="space-y-4">
+                                <h4 class="text-lg font-bold text-gray-900">Strategic HR Recommendations</h4>
+                                <div id="strategicRecommendations" class="space-y-3">
+                                    <!-- Strategic recommendations will be populated -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HR Dashboard & Reports -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- IDP Pipeline Status -->
+                    <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                        <div class="p-6 border-b border-gray-100">
+                            <h3 class="text-lg font-bold text-gray-900">IDP Pipeline Status</h3>
+                        </div>
+                        <div class="p-6">
+                            <canvas id="pipelineChart" class="w-full h-48"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Critical Roles Coverage -->
+                    <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                        <div class="p-6 border-b border-gray-100">
+                            <h3 class="text-lg font-bold text-gray-900">Critical Roles Coverage</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span class="text-gray-600">CEO</span>
+                                        <span class="text-green-600 font-medium">3 Ready</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-200 rounded-full">
+                                        <div class="w-full h-2 bg-green-500 rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span class="text-gray-600">CTO</span>
+                                        <span class="text-yellow-600 font-medium">2 Ready</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-200 rounded-full">
+                                        <div class="w-2/3 h-2 bg-yellow-500 rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span class="text-gray-600">CFO</span>
+                                        <span class="text-red-600 font-medium">1 Ready</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-200 rounded-full">
+                                        <div class="w-1/3 h-2 bg-red-500 rounded-full"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- HR Action Items -->
+                    <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                        <div class="p-6 border-b border-gray-100">
+                            <h3 class="text-lg font-bold text-gray-900">Priority Action Items</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-3">
+                                <div class="p-3 border border-red-200 bg-red-50 rounded-lg">
+                                    <div class="font-medium text-red-900">Critical: CFO Succession</div>
+                                    <div class="text-sm text-red-800">Accelerate IDP for 3 candidates</div>
+                                </div>
+                                <div class="p-3 border border-yellow-200 bg-yellow-50 rounded-lg">
+                                    <div class="font-medium text-yellow-900">Review: 12 IDPs Due</div>
+                                    <div class="text-sm text-yellow-800">Quarterly progress assessments</div>
+                                </div>
+                                <div class="p-3 border border-blue-200 bg-blue-50 rounded-lg">
+                                    <div class="font-medium text-blue-900">Update: Leadership Matrix</div>
+                                    <div class="text-sm text-blue-800">9-Box positioning review</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HR Management Actions -->
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="exportOrganizationReport()" 
+                            class="px-6 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors">
+                        <i data-lucide="download" class="w-5 h-5 inline mr-2"></i>
+                        Export Organization IDP Report
+                    </button>
+                    <button onclick="scheduleReviewCycle()" 
+                            class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors">
+                        <i data-lucide="calendar" class="w-5 h-5 inline mr-2"></i>
+                        Schedule Review Cycle
+                    </button>
+                    <button onclick="updateSuccessionMatrix()" 
+                            class="px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors">
+                        <i data-lucide="grid-3x3" class="w-5 h-5 inline mr-2"></i>
+                        Update 9-Box Matrix
+                    </button>
+                    <button onclick="generateNewBatch()" 
+                            class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors">
+                        <i data-lucide="refresh-cw" class="w-5 h-5 inline mr-2"></i>
+                        Generate New Batch
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function exitApplication() {
+            // Show confirmation dialog
+            const confirmExit = confirm('Are you sure you want to log out?\n\nYou will be redirected to the login page.');
+            
+            if (confirmExit) {
+                // Clear all stored data
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // Show loading state on exit button
+                const exitBtn = document.querySelector('[onclick="exitApplication()"]');
+                if (exitBtn) {
+                    exitBtn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i>';
+                    exitBtn.disabled = true;
+                    lucide.createIcons();
+                }
+                
+                // Add fade-out effect and redirect
+                setTimeout(() => {
+                    document.body.style.transition = 'opacity 0.5s ease-out';
+                    document.body.style.opacity = '0.5';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 500);
+                }, 1000);
+            }
+        }
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // HR Employee database
+        const hrEmployeeDatabase = [
+            { id: 1, name: 'Madhumitha M', department: 'Engineering', position: 'Software Engineer', potential: 'High', performance: 4.2, ready: true },
+            { id: 2, name: 'Amit Nayak', department: 'Engineering', position: 'Senior Developer', potential: 'Medium', performance: 4.0, ready: true },
+            { id: 3, name: 'Kavya Krishnan', department: 'Design', position: 'UI/UX Designer', potential: 'High', performance: 4.5, ready: true },
+            { id: 4, name: 'Rohit Mehta', department: 'Finance', position: 'Senior Accountant', potential: 'Medium', performance: 3.5, ready: false },
+            { id: 5, name: 'Vikram Sharma', department: 'Finance', position: 'Financial Analyst', potential: 'High', performance: 3.8, ready: true },
+            { id: 6, name: 'Neha Gupta', department: 'Marketing', position: 'Marketing Manager', potential: 'Medium', performance: 4.1, ready: true },
+            { id: 7, name: 'Rajesh Kumar', department: 'Operations', position: 'Operations Manager', potential: 'High', performance: 4.3, ready: true },
+            { id: 8, name: 'Priya Sharma', department: 'HR', position: 'HR Specialist', potential: 'Medium', performance: 3.9, ready: true }
+        ];
+
+        const targetRoleCategories = {
+            executive: [
+                { id: 'ceo', name: 'Chief Executive Officer', requirements: { 'Strategic Leadership': 95, 'Business Acumen': 90, 'Vision': 95 }},
+                { id: 'cto', name: 'Chief Technology Officer', requirements: { 'Technical Leadership': 90, 'Innovation': 85, 'Team Building': 80 }},
+                { id: 'cfo', name: 'Chief Financial Officer', requirements: { 'Financial Management': 95, 'Risk Management': 85, 'Strategic Planning': 80 }}
+            ],
+            senior: [
+                { id: 'engineering_head', name: 'Head of Engineering', requirements: { 'Technical Skills': 85, 'Leadership': 80, 'Project Management': 85 }},
+                { id: 'product_director', name: 'Product Director', requirements: { 'Product Strategy': 90, 'Market Analysis': 80, 'Team Leadership': 85 }}
+            ]
+        };
+
+        let selectedEmployees = [];
+        let currentTargetRole = null;
+
+        // Check if user has HR role and is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const userRole = localStorage.getItem('userRole');
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            
+            if (!isLoggedIn || userRole !== 'hr') {
+                alert('Please login first to access the HR AI IDP Generator');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            renderEmployeeList();
+        });
+
+        function renderEmployeeList() {
+            const container = document.getElementById('employeeList');
+            container.innerHTML = '';
+
+            hrEmployeeDatabase.forEach(employee => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between p-3 hover:bg-gray-50 cursor-pointer';
+                item.onclick = () => toggleEmployeeSelection(employee.id);
+                
+                item.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" id="emp-${employee.id}" class="rounded">
+                        <div>
+                            <div class="font-medium text-gray-900">${employee.name}</div>
+                            <div class="text-sm text-gray-600">${employee.position} • ${employee.department}</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs px-2 py-1 rounded ${
+                            employee.potential === 'High' ? 'bg-green-100 text-green-800' : 
+                            employee.potential === 'Medium' ? 'bg-yellow-100 text-yellow-800' : 
+                            'bg-gray-100 text-gray-800'
+                        }">${employee.potential} Potential</span>
+                        <div class="text-sm text-gray-500 mt-1">Perf: ${employee.performance}/5</div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function toggleEmployeeSelection(employeeId) {
+            const checkbox = document.getElementById(`emp-${employeeId}`);
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                selectedEmployees.push(employeeId);
+            } else {
+                selectedEmployees = selectedEmployees.filter(id => id !== employeeId);
+            }
+            
+            updateGenerateButton();
+        }
+
+        function selectHighPotential() {
+            const highPotentialEmployees = hrEmployeeDatabase.filter(emp => emp.potential === 'High');
+            selectedEmployees = highPotentialEmployees.map(emp => emp.id);
+            
+            // Update checkboxes
+            hrEmployeeDatabase.forEach(emp => {
+                const checkbox = document.getElementById(`emp-${emp.id}`);
+                checkbox.checked = selectedEmployees.includes(emp.id);
+            });
+            
+            updateGenerateButton();
+            showNotification(`Selected ${selectedEmployees.length} high potential employees`, 'success');
+        }
+
+        function selectByDepartment() {
+            // Simple implementation - select Engineering department
+            const engineeringEmployees = hrEmployeeDatabase.filter(emp => emp.department === 'Engineering');
+            selectedEmployees = engineeringEmployees.map(emp => emp.id);
+            
+            // Update checkboxes
+            hrEmployeeDatabase.forEach(emp => {
+                const checkbox = document.getElementById(`emp-${emp.id}`);
+                checkbox.checked = selectedEmployees.includes(emp.id);
+            });
+            
+            updateGenerateButton();
+            showNotification(`Selected ${selectedEmployees.length} employees from Engineering`, 'success');
+        }
+
+        function loadTargetRoles() {
+            const category = document.getElementById('targetRoleCategory').value;
+            const specificSelect = document.getElementById('specificTargetRole');
+            
+            specificSelect.innerHTML = '<option value="">Select Specific Role</option>';
+            
+            if (category && targetRoleCategories[category]) {
+                targetRoleCategories[category].forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role.id;
+                    option.textContent = role.name;
+                    specificSelect.appendChild(option);
+                });
+            }
+            
+            updateGenerateButton();
+        }
+
+        function loadRoleRequirements() {
+            const category = document.getElementById('targetRoleCategory').value;
+            const roleId = document.getElementById('specificTargetRole').value;
+            
+            if (category && roleId) {
+                const role = targetRoleCategories[category].find(r => r.id === roleId);
+                currentTargetRole = role;
+                
+                const card = document.getElementById('roleRequirementsCard');
+                const container = document.getElementById('roleRequirements');
+                
+                container.innerHTML = '';
+                Object.entries(role.requirements).forEach(([skill, level]) => {
+                    const requirement = document.createElement('div');
+                    requirement.className = 'flex justify-between items-center text-sm';
+                    requirement.innerHTML = `
+                        <span class="text-gray-600">${skill}</span>
+                        <span class="font-medium text-gray-900">${level}%</span>
+                    `;
+                    container.appendChild(requirement);
+                });
+                
+                card.classList.remove('hidden');
+            }
+            
+            updateGenerateButton();
+        }
+
+        function updateGenerateButton() {
+            const button = document.getElementById('generateBulkIDPBtn');
+            button.disabled = selectedEmployees.length === 0 || !currentTargetRole;
+        }
+
+        function generateBulkAIIDPs() {
+            if (selectedEmployees.length === 0 || !currentTargetRole) return;
+
+            showLoadingMessage(`AI is analyzing ${selectedEmployees.length} employees and generating personalized IDPs...`);
+
+            setTimeout(() => {
+                performBulkAnalysis();
+                
+                document.getElementById('analysisStep').classList.add('hidden');
+                document.getElementById('idpResults').classList.remove('hidden');
+                
+                document.getElementById('idpResults').scrollIntoView({ behavior: 'smooth' });
+                
+                hideLoadingMessage();
+                showNotification(`Successfully generated AI-powered IDPs for ${selectedEmployees.length} employees!`, 'success');
+            }, 4000);
+        }
+
+        function performBulkAnalysis() {
+            const resultsContainer = document.getElementById('bulkResultsContainer');
+            resultsContainer.innerHTML = '';
+
+            selectedEmployees.forEach(empId => {
+                const employee = hrEmployeeDatabase.find(emp => emp.id === empId);
+                const resultCard = document.createElement('div');
+                resultCard.className = 'p-4 border border-gray-200 rounded-xl';
+                resultCard.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                <span class="text-purple-600 font-bold text-sm">${employee.name.split(' ').map(n => n[0]).join('')}</span>
+                            </div>
+                            <div>
+                                <div class="font-bold text-gray-900">${employee.name}</div>
+                                <div class="text-sm text-gray-600">${employee.position}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="text-center">
+                                <div class="text-lg font-bold text-green-600">${Math.floor(Math.random() * 20 + 70)}%</div>
+                                <div class="text-xs text-gray-500">Readiness</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-bold text-blue-600">${Math.floor(Math.random() * 6 + 6)}</div>
+                                <div class="text-xs text-gray-500">Activities</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="viewIndividualIDP('${employee.id}')" 
+                                        class="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700">
+                                    View IDP
+                                </button>
+                                <button onclick="assignIDP('${employee.id}')" 
+                                        class="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700">
+                                    Assign
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                resultsContainer.appendChild(resultCard);
+            });
+
+            // Initialize charts
+            initializeOrganizationCharts();
+        }
+
+        function initializeOrganizationCharts() {
+            // Organization Gap Chart
+            const gapCtx = document.getElementById('organizationGapChart').getContext('2d');
+            new Chart(gapCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Leadership', 'Strategic Thinking', 'Technical Skills', 'Communication', 'Innovation', 'Business Acumen'],
+                    datasets: [{
+                        label: 'Organization Current',
+                        data: [65, 70, 85, 75, 80, 60],
+                        borderColor: '#EF4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.2)'
+                    }, {
+                        label: 'Target Requirements',
+                        data: [85, 90, 90, 85, 85, 80],
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+
+            // Pipeline Chart
+            const pipelineCtx = document.getElementById('pipelineChart').getContext('2d');
+            new Chart(pipelineCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Generated', 'In Progress', 'Completed'],
+                    datasets: [{
+                        data: [47, 23, 31],
+                        backgroundColor: ['#3B82F6', '#F59E0B', '#10B981']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Populate strategic recommendations
+            const strategicContainer = document.getElementById('strategicRecommendations');
+            const recommendations = [
+                { priority: 'Critical', text: 'Leadership development program needed for 156 high-potential employees', action: 'Launch program' },
+                { priority: 'High', text: 'Strategic thinking competency gap across all levels', action: 'Design curriculum' },
+                { priority: 'Medium', text: 'Business acumen training for technical roles', action: 'Partner with business schools' }
+            ];
+
+            recommendations.forEach(rec => {
+                const item = document.createElement('div');
+                item.className = `p-3 border rounded-lg ${
+                    rec.priority === 'Critical' ? 'border-red-200 bg-red-50' : 
+                    rec.priority === 'High' ? 'border-yellow-200 bg-yellow-50' : 
+                    'border-blue-200 bg-blue-50'
+                }`;
+                item.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="font-medium ${
+                            rec.priority === 'Critical' ? 'text-red-900' : 
+                            rec.priority === 'High' ? 'text-yellow-900' : 
+                            'text-blue-900'
+                        }">${rec.priority} Priority</span>
+                        <button class="text-xs ${
+                            rec.priority === 'Critical' ? 'text-red-600 hover:text-red-700' : 
+                            rec.priority === 'High' ? 'text-yellow-600 hover:text-yellow-700' : 
+                            'text-blue-600 hover:text-blue-700'
+                        }">${rec.action} →</button>
+                    </div>
+                    <p class="text-sm ${
+                        rec.priority === 'Critical' ? 'text-red-800' : 
+                        rec.priority === 'High' ? 'text-yellow-800' : 
+                        'text-blue-800'
+                    }">${rec.text}</p>
+                `;
+                strategicContainer.appendChild(item);
+            });
+        }
+
+        // HR-specific functions
+        function createSuccessionPipeline() {
+            showNotification('Analyzing critical roles and identifying succession candidates...', 'info');
+        }
+
+        function departmentBenchStrength() {
+            showNotification('Assessing leadership bench strength across all departments...', 'info');
+        }
+
+        function highPotentialProgram() {
+            showNotification('Creating comprehensive HiPo development program...', 'info');
+        }
+
+        function skillsGapAnalysis() {
+            showNotification('Running organization-wide skills gap analysis...', 'info');
+        }
+
+        function viewIndividualIDP(employeeId) {
+            const employee = hrEmployeeDatabase.find(emp => emp.id == employeeId);
+            showNotification(`Opening detailed IDP for ${employee.name}...`, 'info');
+        }
+
+        function assignIDP(employeeId) {
+            const employee = hrEmployeeDatabase.find(emp => emp.id == employeeId);
+            showNotification(`IDP assigned to ${employee.name} - notification sent`, 'success');
+        }
+
+        function exportOrganizationReport() {
+            showNotification('Generating comprehensive organization IDP report...', 'info');
+        }
+
+        function scheduleReviewCycle() {
+            showNotification('Scheduling quarterly IDP review cycle...', 'success');
+        }
+
+        function updateSuccessionMatrix() {
+            window.location.href = 'succession-planning.html';
+        }
+
+        function generateNewBatch() {
+            document.getElementById('idpResults').classList.add('hidden');
+            document.getElementById('analysisStep').classList.remove('hidden');
+            
+            selectedEmployees = [];
+            currentTargetRole = null;
+            
+            // Reset form
+            document.getElementById('targetRoleCategory').value = '';
+            document.getElementById('specificTargetRole').innerHTML = '<option value="">Select Specific Role</option>';
+            document.getElementById('roleRequirementsCard').classList.add('hidden');
+            
+            hrEmployeeDatabase.forEach(emp => {
+                const checkbox = document.getElementById(`emp-${emp.id}`);
+                checkbox.checked = false;
+            });
+            
+            updateGenerateButton();
+        }
+
+        function showLoadingMessage(message) {
+            const loading = document.createElement('div');
+            loading.id = 'loadingMessage';
+            loading.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            loading.innerHTML = `
+                <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
+                    <div class="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">AI Processing</h3>
+                    <p class="text-gray-600">${message}</p>
+                </div>
+            `;
+            document.body.appendChild(loading);
+        }
+
+        function hideLoadingMessage() {
+            const loading = document.getElementById('loadingMessage');
+            if (loading) {
+                loading.remove();
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

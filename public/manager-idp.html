@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDP Management - POWERGRID IDP Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        powergrid: {
+                            primary: "#232A7A",
+                            secondary: "#DA251D", 
+                            light: "#F8F9FA",
+                            dark: "#495057",
+                            accent: "#4A90E2"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo and Title -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-green-600 to-green-700 rounded-lg flex items-center justify-center">
+                            <i data-lucide="clipboard-check" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">IDP Management</h1>
+                            <p class="text-sm text-gray-600">Individual Development Plan Oversight</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="manager-dashboard.html" class="text-gray-600 hover:text-green-600 transition-colors">Team Overview</a>
+                    <a href="manager-idp.html" class="text-green-600 font-medium border-b-2 border-green-600 pb-1">IDP Management</a>
+                    <a href="manager-analytics.html" class="text-gray-600 hover:text-green-600 transition-colors">Team Analytics</a>
+                    <a href="manager-development.html" class="text-gray-600 hover:text-green-600 transition-colors">Development Plans</a>
+                    <a href="manager-idp-generator.html" class="text-gray-600 hover:text-green-600 transition-colors">AI IDP Generator</a>
+                </nav>
+
+                <!-- User Section -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold">RK</span>
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="text-sm font-medium text-gray-900">Rajesh Kumar</div>
+                            <div class="text-xs text-gray-600">Team Manager • Engineering Dept</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Exit/Logout Button -->
+                    <button onclick="exitApplication()" 
+                            class="flex items-center justify-center w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
+                            title="Exit Application">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-6 py-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- IDP Status Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="clock" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">8</h3>
+                            <p class="text-gray-600">Pending Review</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="check-circle" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">15</h3>
+                            <p class="text-gray-600">Approved</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="trending-up" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">23</h3>
+                            <p class="text-gray-600">In Progress</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="award" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">12</h3>
+                            <p class="text-gray-600">Completed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Tabs -->
+            <div class="bg-white rounded-2xl border border-gray-100 mb-8">
+                <div class="border-b border-gray-200">
+                    <nav class="flex">
+                        <button onclick="showTab('pending')" id="pendingTab" 
+                                class="px-6 py-4 text-sm font-medium text-green-600 border-b-2 border-green-600">
+                            Pending Reviews (8)
+                        </button>
+                        <button onclick="showTab('approved')" id="approvedTab" 
+                                class="px-6 py-4 text-sm font-medium text-gray-600 hover:text-green-600 border-b-2 border-transparent">
+                            Approved IDPs (15)
+                        </button>
+                        <button onclick="showTab('progress')" id="progressTab" 
+                                class="px-6 py-4 text-sm font-medium text-gray-600 hover:text-green-600 border-b-2 border-transparent">
+                            Progress Tracking (23)
+                        </button>
+                        <button onclick="showTab('templates')" id="templatesTab" 
+                                class="px-6 py-4 text-sm font-medium text-gray-600 hover:text-green-600 border-b-2 border-transparent">
+                            IDP Templates
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Pending Reviews Tab -->
+                <div id="pendingContent" class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900">Pending IDP Reviews</h3>
+                        <button onclick="bulkApprove()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i data-lucide="check-square" class="w-4 h-4 inline mr-2"></i>Bulk Approve Selected
+                        </button>
+                    </div>
+
+                    <div id="pendingIDPs" class="space-y-4">
+                        <!-- Pending IDPs will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Approved IDPs Tab -->
+                <div id="approvedContent" class="p-6 hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900">Approved Development Plans</h3>
+                        <div class="flex gap-3">
+                            <button onclick="exportIDPs()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                <i data-lucide="download" class="w-4 h-4 inline mr-2"></i>Export Report
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="approvedIDPs" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Approved IDPs will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Progress Tracking Tab -->
+                <div id="progressContent" class="p-6 hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900">IDP Progress Monitoring</h3>
+                        <button onclick="scheduleCheckIn()" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                            <i data-lucide="calendar" class="w-4 h-4 inline mr-2"></i>Schedule Check-ins
+                        </button>
+                    </div>
+
+                    <div id="progressIDPs" class="space-y-6">
+                        <!-- Progress tracking will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Templates Tab -->
+                <div id="templatesContent" class="p-6 hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900">IDP Templates & Guidelines</h3>
+                        <button onclick="createTemplate()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i data-lucide="plus" class="w-4 h-4 inline mr-2"></i>Create Template
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 hover-lift">
+                            <div class="flex items-center gap-3 mb-4">
+                                <i data-lucide="code" class="w-8 h-8 text-blue-600"></i>
+                                <h4 class="text-lg font-bold text-blue-900">Technical Skills IDP</h4>
+                            </div>
+                            <p class="text-blue-800 mb-4">Template for technical skill development including programming, cloud technologies, and certifications.</p>
+                            <div class="flex gap-2">
+                                <button onclick="useTemplate('technical')" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                    Use Template
+                                </button>
+                                <button onclick="editTemplate('technical')" class="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 border border-green-200 rounded-xl p-6 hover-lift">
+                            <div class="flex items-center gap-3 mb-4">
+                                <i data-lucide="users" class="w-8 h-8 text-green-600"></i>
+                                <h4 class="text-lg font-bold text-green-900">Leadership IDP</h4>
+                            </div>
+                            <p class="text-green-800 mb-4">Comprehensive leadership development plan with mentoring, projects, and skill assessments.</p>
+                            <div class="flex gap-2">
+                                <button onclick="useTemplate('leadership')" class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                    Use Template
+                                </button>
+                                <button onclick="editTemplate('leadership')" class="px-4 py-2 border border-green-600 text-green-600 rounded-lg hover:bg-green-50 transition-colors">
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-purple-50 border border-purple-200 rounded-xl p-6 hover-lift">
+                            <div class="flex items-center gap-3 mb-4">
+                                <i data-lucide="target" class="w-8 h-8 text-purple-600"></i>
+                                <h4 class="text-lg font-bold text-purple-900">Career Advancement</h4>
+                            </div>
+                            <p class="text-purple-800 mb-4">Structured plan for career growth including role transitions and skill development.</p>
+                            <div class="flex gap-2">
+                                <button onclick="useTemplate('career')" class="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                                    Use Template
+                                </button>
+                                <button onclick="editTemplate('career')" class="px-4 py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50 transition-colors">
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- IDP Review Modal -->
+    <div id="idpReviewModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl max-w-4xl w-full max-h-screen overflow-y-auto">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-bold text-gray-900">IDP Review</h3>
+                        <button onclick="closeReviewModal()" class="text-gray-500 hover:text-gray-700">
+                            <i data-lucide="x" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="reviewContent" class="p-6">
+                    <!-- Review content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <script>
+        function exitApplication() {
+            // Show confirmation dialog
+            const confirmExit = confirm('Are you sure you want to log out?\n\nYou will be redirected to the login page.');
+            
+            if (confirmExit) {
+                // Clear all stored data
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // Show loading state on exit button
+                const exitBtn = document.querySelector('[onclick="exitApplication()"]');
+                if (exitBtn) {
+                    exitBtn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i>';
+                    exitBtn.disabled = true;
+                    lucide.createIcons();
+                }
+                
+                // Add fade-out effect and redirect
+                setTimeout(() => {
+                    document.body.style.transition = 'opacity 0.5s ease-out';
+                    document.body.style.opacity = '0.5';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 500);
+                }, 1000);
+            }
+        }
+        
+        // Initialize Lucide icons
+        lucide.createIcons();        // Sample IDP data
+        let pendingIDPs = [
+            {
+                id: 'IDP001',
+                employeeName: 'Amit Nayak',
+                employeeId: 'EMP003',
+                position: 'Senior Developer',
+                submittedDate: '2024-10-01',
+                goals: ['Master Cloud Architecture', 'Complete AWS Certification', 'Lead 2 projects'],
+                timeline: '12 months',
+                priority: 'High',
+                status: 'Pending Review'
+            },
+            {
+                id: 'IDP002',
+                employeeName: 'Priya Singh',
+                employeeId: 'EMP004',
+                position: 'Business Analyst',
+                submittedDate: '2024-09-28',
+                goals: ['Data Analytics Certification', 'Process Improvement Project', 'Stakeholder Management'],
+                timeline: '9 months',
+                priority: 'Medium',
+                status: 'Pending Review'
+            },
+            {
+                id: 'IDP003',
+                employeeName: 'Kavya Krishnan',
+                employeeId: 'EMP009',
+                position: 'UI/UX Designer',
+                submittedDate: '2024-09-30',
+                goals: ['Advanced Design Systems', 'User Research Certification', 'Mentor Junior Designers'],
+                timeline: '10 months',
+                priority: 'High',
+                status: 'Pending Review'
+            }
+        ];
+
+        let approvedIDPs = [
+            {
+                id: 'IDP004',
+                employeeName: 'Madhumitha M',
+                employeeId: 'EMP001',
+                position: 'Software Engineer',
+                approvedDate: '2024-09-15',
+                goals: ['Full-Stack Development', 'Team Leadership Skills', 'Technical Mentoring'],
+                progress: 75,
+                nextReview: '2024-12-15'
+            },
+            {
+                id: 'IDP005',
+                employeeName: 'Rohit Mehta',
+                employeeId: 'EMP010',
+                position: 'Senior Accountant',
+                approvedDate: '2024-09-10',
+                goals: ['Financial Analysis Certification', 'ERP System Mastery', 'Process Automation'],
+                progress: 45,
+                nextReview: '2024-11-10'
+            }
+        ];
+
+        let progressIDPs = [
+            {
+                id: 'IDP004',
+                employeeName: 'Madhumitha M',
+                currentGoal: 'Full-Stack Development Course',
+                progress: 75,
+                milestones: [
+                    { name: 'Frontend Basics', status: 'Completed', date: '2024-08-15' },
+                    { name: 'Backend Development', status: 'Completed', date: '2024-09-20' },
+                    { name: 'Database Design', status: 'In Progress', date: '2024-10-30' },
+                    { name: 'Full-Stack Project', status: 'Upcoming', date: '2024-11-15' }
+                ]
+            },
+            {
+                id: 'IDP005',
+                employeeName: 'Rohit Mehta',
+                currentGoal: 'Financial Analysis Certification',
+                progress: 45,
+                milestones: [
+                    { name: 'Financial Modeling', status: 'Completed', date: '2024-09-01' },
+                    { name: 'Risk Assessment', status: 'In Progress', date: '2024-10-15' },
+                    { name: 'Portfolio Analysis', status: 'Upcoming', date: '2024-11-01' },
+                    { name: 'Certification Exam', status: 'Upcoming', date: '2024-12-01' }
+                ]
+            }
+        ];
+
+        // Check if user has manager role
+        document.addEventListener('DOMContentLoaded', function() {
+            const userRole = localStorage.getItem('userRole');
+            if (userRole !== 'manager') {
+                window.location.href = 'login.html';
+            }
+            renderPendingIDPs();
+        });
+
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = ['pendingContent', 'approvedContent', 'progressContent', 'templatesContent'];
+            contents.forEach(content => {
+                document.getElementById(content).classList.add('hidden');
+            });
+
+            // Remove active styles from all tabs
+            const tabs = ['pendingTab', 'approvedTab', 'progressTab', 'templatesTab'];
+            tabs.forEach(tab => {
+                const element = document.getElementById(tab);
+                element.classList.remove('text-green-600', 'border-green-600');
+                element.classList.add('text-gray-600', 'border-transparent');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName + 'Content').classList.remove('hidden');
+
+            // Add active styles to selected tab
+            const activeTab = document.getElementById(tabName + 'Tab');
+            activeTab.classList.remove('text-gray-600', 'border-transparent');
+            activeTab.classList.add('text-green-600', 'border-green-600');
+
+            // Load appropriate content
+            if (tabName === 'approved') renderApprovedIDPs();
+            if (tabName === 'progress') renderProgressIDPs();
+        }
+
+        function renderPendingIDPs() {
+            const container = document.getElementById('pendingIDPs');
+            container.innerHTML = '';
+
+            pendingIDPs.forEach(idp => {
+                const priorityColor = idp.priority === 'High' ? 'bg-red-100 text-red-800' : 
+                                    idp.priority === 'Medium' ? 'bg-yellow-100 text-yellow-800' : 
+                                    'bg-green-100 text-green-800';
+
+                const idpCard = document.createElement('div');
+                idpCard.className = 'border border-gray-200 rounded-xl p-6 hover-lift bg-white';
+                idpCard.innerHTML = `
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <h4 class="text-lg font-bold text-gray-900">${idp.employeeName}</h4>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${priorityColor}">
+                                    ${idp.priority} Priority
+                                </span>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-2">${idp.position} • ${idp.employeeId}</p>
+                            <p class="text-gray-500 text-sm">Submitted: ${new Date(idp.submittedDate).toLocaleDateString()}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" class="idp-checkbox rounded border-gray-300 text-green-600" 
+                                   value="${idp.id}" onchange="updateSelection()">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5 class="font-medium text-gray-900 mb-2">Development Goals:</h5>
+                        <ul class="space-y-1">
+                            ${idp.goals.map(goal => `<li class="text-gray-600 text-sm">• ${goal}</li>`).join('')}
+                        </ul>
+                        <p class="text-gray-500 text-sm mt-2"><strong>Timeline:</strong> ${idp.timeline}</p>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button onclick="reviewIDP('${idp.id}')" 
+                                class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <i data-lucide="eye" class="w-4 h-4 inline mr-2"></i>Review Details
+                        </button>
+                        <button onclick="approveIDP('${idp.id}')" 
+                                class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i data-lucide="check" class="w-4 h-4 inline mr-2"></i>Approve
+                        </button>
+                        <button onclick="requestChanges('${idp.id}')" 
+                                class="flex-1 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                            <i data-lucide="edit" class="w-4 h-4 inline mr-2"></i>Request Changes
+                        </button>
+                    </div>
+                `;
+                container.appendChild(idpCard);
+            });
+
+            lucide.createIcons();
+        }
+
+        function renderApprovedIDPs() {
+            const container = document.getElementById('approvedIDPs');
+            container.innerHTML = '';
+
+            approvedIDPs.forEach(idp => {
+                const progressColor = idp.progress >= 75 ? 'text-green-600' : 
+                                     idp.progress >= 50 ? 'text-yellow-600' : 'text-red-600';
+
+                const idpCard = document.createElement('div');
+                idpCard.className = 'border border-gray-200 rounded-xl p-6 hover-lift bg-white';
+                idpCard.innerHTML = `
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-900">${idp.employeeName}</h4>
+                            <p class="text-gray-600 text-sm">${idp.position} • ${idp.employeeId}</p>
+                            <p class="text-gray-500 text-sm">Approved: ${new Date(idp.approvedDate).toLocaleDateString()}</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl font-bold ${progressColor}">${idp.progress}%</div>
+                            <div class="text-xs text-gray-500">Progress</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5 class="font-medium text-gray-900 mb-2">Current Goals:</h5>
+                        <ul class="space-y-1">
+                            ${idp.goals.map(goal => `<li class="text-gray-600 text-sm">• ${goal}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="w-full h-3 bg-gray-200 rounded-full mb-4">
+                        <div class="h-3 bg-green-500 rounded-full" style="width: ${idp.progress}%"></div>
+                    </div>
+
+                    <div class="flex items-center justify-between text-sm text-gray-600 mb-4">
+                        <span>Next Review: ${new Date(idp.nextReview).toLocaleDateString()}</span>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <button onclick="viewProgress('${idp.id}')" 
+                                class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <i data-lucide="bar-chart" class="w-4 h-4 inline mr-2"></i>View Progress
+                        </button>
+                        <button onclick="provideFeedback('${idp.id}')" 
+                                class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i data-lucide="message-circle" class="w-4 h-4 inline mr-2"></i>Feedback
+                        </button>
+                    </div>
+                `;
+                container.appendChild(idpCard);
+            });
+
+            lucide.createIcons();
+        }
+
+        function renderProgressIDPs() {
+            const container = document.getElementById('progressIDPs');
+            container.innerHTML = '';
+
+            progressIDPs.forEach(idp => {
+                const progressCard = document.createElement('div');
+                progressCard.className = 'border border-gray-200 rounded-xl p-6 hover-lift bg-white';
+                progressCard.innerHTML = `
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-900">${idp.employeeName}</h4>
+                            <p class="text-gray-600">${idp.currentGoal}</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl font-bold text-green-600">${idp.progress}%</div>
+                            <div class="text-xs text-gray-500">Complete</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="w-full h-3 bg-gray-200 rounded-full mb-4">
+                            <div class="h-3 bg-green-500 rounded-full" style="width: ${idp.progress}%"></div>
+                        </div>
+                        
+                        <h5 class="font-medium text-gray-900 mb-3">Milestones Progress:</h5>
+                        <div class="space-y-3">
+                            ${idp.milestones.map(milestone => {
+                                const statusColor = milestone.status === 'Completed' ? 'text-green-600 bg-green-100' :
+                                                  milestone.status === 'In Progress' ? 'text-yellow-600 bg-yellow-100' :
+                                                  'text-gray-600 bg-gray-100';
+                                const icon = milestone.status === 'Completed' ? 'check-circle' :
+                                            milestone.status === 'In Progress' ? 'clock' : 'circle';
+                                
+                                return `
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                        <div class="flex items-center gap-3">
+                                            <i data-lucide="${icon}" class="w-4 h-4 ${milestone.status === 'Completed' ? 'text-green-600' : 
+                                                                                      milestone.status === 'In Progress' ? 'text-yellow-600' : 'text-gray-400'}"></i>
+                                            <span class="text-sm font-medium text-gray-900">${milestone.name}</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium ${statusColor}">
+                                                ${milestone.status}
+                                            </span>
+                                            <span class="text-xs text-gray-500">${new Date(milestone.date).toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <button onclick="scheduleOneOnOne('${idp.employeeName}')" 
+                                class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <i data-lucide="calendar" class="w-4 h-4 inline mr-2"></i>Schedule 1:1
+                        </button>
+                        <button onclick="addMilestone('${idp.id}')" 
+                                class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i data-lucide="plus" class="w-4 h-4 inline mr-2"></i>Add Milestone
+                        </button>
+                    </div>
+                `;
+                container.appendChild(progressCard);
+            });
+
+            lucide.createIcons();
+        }
+
+        // IDP Management Functions
+        function reviewIDP(id) {
+            const idp = pendingIDPs.find(i => i.id === id);
+            if (idp) {
+                document.getElementById('reviewContent').innerHTML = `
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-900 mb-3">Employee Information</h4>
+                                <div class="space-y-2">
+                                    <p><strong>Name:</strong> ${idp.employeeName}</p>
+                                    <p><strong>Position:</strong> ${idp.position}</p>
+                                    <p><strong>Employee ID:</strong> ${idp.employeeId}</p>
+                                    <p><strong>Submitted:</strong> ${new Date(idp.submittedDate).toLocaleDateString()}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-900 mb-3">Plan Details</h4>
+                                <div class="space-y-2">
+                                    <p><strong>Timeline:</strong> ${idp.timeline}</p>
+                                    <p><strong>Priority:</strong> ${idp.priority}</p>
+                                    <p><strong>Status:</strong> ${idp.status}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-3">Development Goals</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                ${idp.goals.map(goal => `<li>${goal}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-900 mb-3">Manager Review & Comments</h4>
+                            <textarea class="w-full p-4 border border-gray-300 rounded-lg" rows="4" 
+                                      placeholder="Add your review comments and feedback here..."></textarea>
+                        </div>
+
+                        <div class="flex justify-end gap-4">
+                            <button onclick="requestChanges('${id}')" 
+                                    class="px-6 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                                Request Changes
+                            </button>
+                            <button onclick="approveIDP('${id}')" 
+                                    class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                Approve IDP
+                            </button>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('idpReviewModal').classList.remove('hidden');
+            }
+        }
+
+        function approveIDP(id) {
+            const idp = pendingIDPs.find(i => i.id === id);
+            if (idp) {
+                // Move to approved list
+                approvedIDPs.push({
+                    ...idp,
+                    approvedDate: new Date().toISOString().split('T')[0],
+                    progress: 0,
+                    nextReview: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+                });
+                
+                // Remove from pending
+                const index = pendingIDPs.findIndex(i => i.id === id);
+                pendingIDPs.splice(index, 1);
+                
+                renderPendingIDPs();
+                closeReviewModal();
+                showNotification(`IDP approved for ${idp.employeeName}`, 'success');
+            }
+        }
+
+        function requestChanges(id) {
+            const idp = pendingIDPs.find(i => i.id === id);
+            if (idp) {
+                showNotification(`Change request sent to ${idp.employeeName}`, 'info');
+                closeReviewModal();
+            }
+        }
+
+        function closeReviewModal() {
+            document.getElementById('idpReviewModal').classList.add('hidden');
+        }
+
+        function bulkApprove() {
+            const selected = document.querySelectorAll('.idp-checkbox:checked');
+            if (selected.length === 0) {
+                showNotification('Please select IDPs to approve', 'error');
+                return;
+            }
+            
+            selected.forEach(checkbox => {
+                approveIDP(checkbox.value);
+            });
+            
+            showNotification(`${selected.length} IDPs approved successfully`, 'success');
+        }
+
+        function exportIDPs() {
+            const exportData = [
+                'Employee Name,Employee ID,Position,Status,Progress,Goals,Next Review',
+                ...approvedIDPs.map(idp => 
+                    `"${idp.employeeName}","${idp.employeeId}","${idp.position}","Approved","${idp.progress}%","${idp.goals.join('; ')}","${idp.nextReview}"`
+                )
+            ];
+            
+            const csvContent = "data:text/csv;charset=utf-8," + exportData.join("\\n");
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Team_IDP_Report_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification('IDP report exported successfully!', 'success');
+        }
+
+        function scheduleCheckIn() {
+            showNotification('Opening calendar to schedule IDP check-ins...', 'info');
+        }
+
+        function scheduleOneOnOne(employeeName) {
+            showNotification(`Scheduling 1:1 meeting with ${employeeName}...`, 'info');
+        }
+
+        function provideFeedback(id) {
+            showNotification('Opening feedback form...', 'info');
+        }
+
+        function viewProgress(id) {
+            showTab('progress');
+        }
+
+        function addMilestone(id) {
+            showNotification('Adding new milestone...', 'info');
+        }
+
+        // Template Functions
+        function useTemplate(type) {
+            showNotification(`Using ${type} IDP template for new employee...`, 'info');
+        }
+
+        function editTemplate(type) {
+            showNotification(`Editing ${type} IDP template...`, 'info');
+        }
+
+        function createTemplate() {
+            showNotification('Creating new IDP template...', 'info');
+        }
+
+        function updateSelection() {
+            // Handle checkbox selection changes
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

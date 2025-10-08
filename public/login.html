@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POWERGRID IDP Intelligence - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        powergrid: {
+                            primary: "#232A7A",
+                            secondary: "#DA251D", 
+                            light: "#F8F9FA",
+                            dark: "#495057",
+                            accent: "#4A90E2"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(35, 42, 122, 0.3)' },
+                            '50%': { boxShadow: '0 0 40px rgba(35, 42, 122, 0.6)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(16px) saturate(180%);
+            background-color: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.125);
+        }
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg font-sans">
+    <!-- Exit/Logout Button - Fixed Position -->
+    <div class="fixed top-4 right-4 z-50">
+        <button onclick="exitApplication()" 
+                class="flex items-center gap-2 px-4 py-2 bg-red-500/90 hover:bg-red-600 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl border border-red-400/50 hover:border-red-300"
+                title="Exit Application">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+            <span class="font-medium">Exit</span>
+        </button>
+    </div>
+
+    <!-- Company Information Banner -->
+    <div class="relative overflow-hidden bg-gradient-to-r from-white/5 via-white/10 to-white/5 border-b border-white/20 animate-fade-in">
+        <div class="max-w-7xl mx-auto px-4 py-6">
+            <div class="text-center mb-4 animate-slide-up">
+                <h2 class="text-2xl font-bold text-white mb-2 animate-pulse-glow">POWERGRID Corporation of India Limited</h2>
+                <p class="text-white/90 text-lg">India's Premier Electric Power Transmission Utility & Maharatna PSU</p>
+            </div>
+            
+            <!-- Key Stats Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 text-center">
+                <div class="bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-white/10 hover:border-white/30 animate-fade-in" style="animation-delay: 0.1s">
+                    <div class="text-2xl font-black text-yellow-300 animate-pulse">₹3.4T</div>
+                    <div class="text-white/90 text-xs font-semibold">Market Cap (2024)</div>
+                </div>
+                <div class="bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-white/10 hover:border-white/30 animate-fade-in" style="animation-delay: 0.2s">
+                    <div class="text-2xl font-black text-cyan-300 animate-pulse">1,80,864</div>
+                    <div class="text-white/90 text-xs font-semibold">KM Network</div>
+                </div>
+                <div class="bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-white/10 hover:border-white/30 animate-fade-in" style="animation-delay: 0.3s">
+                    <div class="text-2xl font-black text-green-300 animate-pulse">99.82%</div>
+                    <div class="text-white/90 text-xs font-semibold">System Availability</div>
+                </div>
+                <div class="bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-white/10 hover:border-white/30 animate-fade-in" style="animation-delay: 0.4s">
+                    <div class="text-2xl font-black text-orange-300 animate-pulse">74</div>
+                    <div class="text-white/90 text-xs font-semibold">Subsidiaries</div>
+                </div>
+                <div class="bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-white/10 hover:border-white/30 animate-fade-in" style="animation-delay: 0.5s">
+                    <div class="text-2xl font-black text-pink-300 animate-pulse">₹45,000Cr</div>
+                    <div class="text-white/90 text-xs font-semibold">Future Capex</div>
+                </div>
+                <div class="bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-white/10 hover:border-white/30 animate-fade-in" style="animation-delay: 0.6s">
+                    <div class="text-2xl font-black text-indigo-300 animate-pulse">286</div>
+                    <div class="text-white/90 text-xs font-semibold">Substations</div>
+                </div>
+            </div>
+            
+            <!-- Achievement Highlights -->
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div class="bg-gradient-to-br from-emerald-500/10 to-green-600/5 backdrop-blur-sm rounded-lg p-3 border border-emerald-400/20 hover:border-emerald-400/40 transition-all duration-500 hover:scale-105 animate-slide-up" style="animation-delay: 0.7s">
+                    <div class="flex items-center gap-2 text-emerald-200 mb-1">
+                        <i data-lucide="trophy" class="w-4 h-4 animate-bounce"></i>
+                        <span class="font-bold text-emerald-300">Digital Innovation Leader</span>
+                    </div>
+                    <div class="text-white/95 font-medium"><span class="text-emerald-200 font-bold">World's first 765kV</span> digital substation • <span class="text-yellow-300 font-bold">4 ISGF Innovation Awards</span> 2025</div>
+                </div>
+                <div class="bg-gradient-to-br from-blue-500/10 to-cyan-600/5 backdrop-blur-sm rounded-lg p-3 border border-blue-400/20 hover:border-blue-400/40 transition-all duration-500 hover:scale-105 animate-slide-up" style="animation-delay: 0.8s">
+                    <div class="flex items-center gap-2 text-blue-200 mb-1">
+                        <i data-lucide="zap" class="w-4 h-4 animate-pulse"></i>
+                        <span class="font-bold text-blue-300">Operational Excellence</span>
+                    </div>
+                    <div class="text-white/95 font-medium"><span class="text-cyan-300 font-bold">₹15,521 Cr PAT</span> FY25 • <span class="text-green-300 font-bold">24 TBCB projects</span> won worth <span class="text-yellow-300 font-bold">₹92,000 Cr</span></div>
+                </div>
+                <div class="bg-gradient-to-br from-purple-500/10 to-violet-600/5 backdrop-blur-sm rounded-lg p-3 border border-purple-400/20 hover:border-purple-400/40 transition-all duration-500 hover:scale-105 animate-slide-up" style="animation-delay: 0.9s">
+                    <div class="flex items-center gap-2 text-purple-200 mb-1">
+                        <i data-lucide="users" class="w-4 h-4 animate-pulse"></i>
+                        <span class="font-bold text-purple-300">Workforce Development</span>
+                    </div>
+                    <div class="text-white/95 font-medium"><span class="text-violet-300 font-bold">AI-powered talent development</span> for <span class="text-pink-300 font-bold">massive scale operations</span></div>
+                </div>
+            </div>
+            
+            <!-- Call to Action -->
+            <div class="mt-4 text-center animate-fade-in" style="animation-delay: 1s">
+                <p class="text-white/90 text-sm font-medium">
+                    <span class="font-bold text-yellow-300 animate-pulse-glow text-base">Why AI-Powered IDP?</span> Managing talent across <span class="text-orange-300 font-bold">74 subsidiaries</span> and <span class="text-green-300 font-bold">₹45,000 Cr future investments</span> requires <span class="text-cyan-300 font-bold">intelligent development planning</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="min-h-screen flex items-center justify-center p-4 relative">
+
+        <div class="w-full max-w-6xl">
+            <!-- Header -->
+            <div class="text-center mb-12 animate-fade-in">
+                <div class="flex items-center justify-center gap-4 mb-6">
+                    <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center animate-pulse-glow">
+                        <i data-lucide="zap" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-bold text-white">POWERGRID IDP Intelligence</h1>
+                        <p class="text-white/80 text-lg">AI-Powered Development Platform</p>
+                    </div>
+                </div>
+                <p class="text-white/90 text-xl max-w-2xl mx-auto">
+                    Choose your role to access personalized features and capabilities
+                </p>
+            </div>
+
+            <!-- Role Selection Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 animate-slide-up">
+                <!-- Employee Card -->
+                <div class="glass-effect rounded-3xl p-8 hover-lift cursor-pointer group" onclick="loginAsRole('employee')">
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="user" class="w-10 h-10 text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Employee</h3>
+                        <p class="text-gray-600 mb-6">
+                            Access your learning courses, track progress, manage your Individual Development Plan, and earn certificates.
+                        </p>
+                        <div class="space-y-2 text-sm text-gray-500 mb-6">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                                <span>Course Learning & Certificates</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                                <span>Personal IDP Management</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                                <span>Progress Analytics</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                                <span>Wellness Hub Access</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 rounded-xl font-medium hover:from-blue-600 hover:to-blue-700 transition-all">
+                            Login as Employee
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Manager Card -->
+                <div class="glass-effect rounded-3xl p-8 hover-lift cursor-pointer group" onclick="loginAsRole('manager')">
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-r from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="users" class="w-10 h-10 text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Manager</h3>
+                        <p class="text-gray-600 mb-6">
+                            Manage your team's development, track performance, approve IDPs, and access advanced analytics for team growth.
+                        </p>
+                        <div class="space-y-2 text-sm text-gray-500 mb-6">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                                <span>Team Performance Dashboard</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                                <span>IDP Approval & Guidance</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                                <span>Skills Gap Analysis</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                                <span>Team Learning Recommendations</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 rounded-xl font-medium hover:from-green-600 hover:to-green-700 transition-all">
+                            Login as Manager
+                        </button>
+                    </div>
+                </div>
+
+                <!-- HR Card -->
+                <div class="glass-effect rounded-3xl p-8 hover-lift cursor-pointer group" onclick="loginAsRole('hr')">
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="shield-check" class="w-10 h-10 text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">HR Administrator</h3>
+                        <p class="text-gray-600 mb-6">
+                            Comprehensive platform management, employee analytics, policy implementation, and organization-wide insights.
+                        </p>
+                        <div class="space-y-2 text-sm text-gray-500 mb-6">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                                <span>Organization Analytics</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                                <span>Employee Management</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                                <span>Course & Content Management</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                                <span>Policy & Compliance Tracking</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white py-3 rounded-xl font-medium hover:from-purple-600 hover:to-purple-700 transition-all">
+                            Login as HR
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo Credentials -->
+            <div class="mt-12 text-center animate-fade-in">
+                <div class="glass-effect rounded-2xl p-6 max-w-4xl mx-auto">
+                    <h4 class="text-lg font-bold text-gray-800 mb-4">Demo Credentials</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                        <div class="text-center">
+                            <div class="font-medium text-blue-600 mb-2">Employee</div>
+                            <div class="text-gray-600">
+                                <div>Username: madhumitha.m</div>
+                                <div>Role: Software Engineer</div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-medium text-green-600 mb-2">Manager</div>
+                            <div class="text-gray-600">
+                                <div>Username: rajesh.kumar</div>
+                                <div>Role: Team Lead</div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-medium text-purple-600 mb-2">HR Administrator</div>
+                            <div class="text-gray-600">
+                                <div>Username: priya.sharma</div>
+                                <div>Role: HR Business Partner</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Role-based login function
+        function loginAsRole(role) {
+            // Store user role and authentication state in localStorage
+            localStorage.setItem('userRole', role);
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('loginTime', new Date().toISOString());
+            
+            // Set role-specific user data
+            const userData = {
+                employee: {
+                    name: 'Madhumitha M',
+                    username: 'madhumitha.m',
+                    role: 'Software Engineer',
+                    department: 'Information Technology',
+                    employeeId: 'EMP001',
+                    email: 'madhumitha.m@powergrid.co.in'
+                },
+                manager: {
+                    name: 'Rajesh Kumar',
+                    username: 'rajesh.kumar',
+                    role: 'Team Lead',
+                    department: 'Information Technology',
+                    employeeId: 'MGR001',
+                    email: 'rajesh.kumar@powergrid.co.in',
+                    teamSize: 12
+                },
+                hr: {
+                    name: 'Priya Sharma',
+                    username: 'priya.sharma',
+                    role: 'HR Business Partner',
+                    department: 'Human Resources',
+                    employeeId: 'HR001',
+                    email: 'priya.sharma@powergrid.co.in',
+                    jurisdiction: 'North Region'
+                }
+            };
+            
+            localStorage.setItem('userData', JSON.stringify(userData[role]));
+            
+            // Show loading animation
+            showLoadingAndRedirect(role);
+        }
+
+        function showLoadingAndRedirect(role) {
+            const card = event.currentTarget;
+            const button = card.querySelector('button');
+            const originalText = button.textContent;
+            
+            // Show loading state
+            button.innerHTML = '<i data-lucide="loader" class="w-4 h-4 inline animate-spin mr-2"></i>Logging in...';
+            button.disabled = true;
+            
+            // Simulate loading and redirect
+            setTimeout(() => {
+                lucide.createIcons();
+                
+                // Redirect based on role
+                const redirectUrl = {
+                    employee: 'dashboard.html',
+                    manager: 'manager-dashboard.html',
+                    hr: 'hr-dashboard.html'
+                };
+                
+                window.location.href = redirectUrl[role];
+            }, 2000);
+        }
+
+        // Exit/Logout function
+        function exitApplication() {
+            // Show confirmation dialog
+            const confirmExit = confirm('Are you sure you want to logout?\n\nThis will clear all session data and return you to the login page.');
+            
+            if (confirmExit) {
+                // Clear all stored data
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // Show exit animation
+                showExitAnimation();
+                
+                // Redirect to login page after animation
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+            }
+        }
+
+        // Show exit animation
+        function showExitAnimation() {
+            const exitBtn = document.querySelector('[onclick="exitApplication()"]');
+            const originalContent = exitBtn.innerHTML;
+            
+            // Show loading state
+            exitBtn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i><span class="hidden sm:inline ml-2">Exiting...</span>';
+            exitBtn.disabled = true;
+            
+            // Fade out the main content
+            document.querySelector('.max-w-6xl').style.transition = 'opacity 1s ease-out';
+            document.querySelector('.max-w-6xl').style.opacity = '0.3';
+            
+            lucide.createIcons();
+        }
+
+        // Initialize page without login notification
+        document.addEventListener('DOMContentLoaded', function() {
+            // Page initialization complete
+            console.log('POWERGRID IDP Intelligence Login Page Loaded');
+        });
+
+
+
+        // Add hover effects for cards
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POWERGRID IDP Intelligence - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        powergrid: {
+                            primary: "#232A7A",
+                            secondary: "#DA251D", 
+                            light: "#F8F9FA",
+                            dark: "#495057",
+                            accent: "#4A90E2"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.6s ease-out'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo and Title -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-powergrid-primary to-powergrid-accent rounded-lg flex items-center justify-center">
+                            <i data-lucide="zap" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">POWERGRID IDP Intelligence</h1>
+                            <p class="text-sm text-gray-600">AI-Powered Development Platform</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="dashboard.html" class="text-powergrid-primary font-medium border-b-2 border-powergrid-primary pb-1">Dashboard</a>
+                    <a href="profile.html" class="text-gray-600 hover:text-powergrid-primary transition-colors">My Profile</a>
+                    <a href="idp.html" class="text-gray-600 hover:text-powergrid-primary transition-colors">IDP</a>
+                    <a href="courses.html" class="text-gray-600 hover:text-powergrid-primary transition-colors">Courses</a>
+                    <a href="analytics.html" class="text-gray-600 hover:text-powergrid-primary transition-colors">Analytics</a>
+                    <a href="employee-idp-generator.html" class="text-gray-600 hover:text-powergrid-primary transition-colors">AI IDP Generator</a>
+                    <a href="wellness.html" class="text-gray-600 hover:text-powergrid-primary transition-colors">Wellness</a>
+                </nav>
+
+                <!-- User Section -->
+                <div class="flex items-center gap-4">
+                    <!-- User Profile -->
+                    <div class="relative">
+                        <div class="flex items-center gap-3 cursor-pointer">
+                            <div class="w-10 h-10 bg-powergrid-primary rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">M</span>
+                            </div>
+                            <div class="hidden md:block">
+                                <div class="text-sm font-medium text-gray-900">Madhumitha M</div>
+                                <div class="text-xs text-gray-600">Employee</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Exit/Logout Button -->
+                    <button onclick="exitApplication()" 
+                            class="flex items-center justify-center w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
+                            title="Exit Application">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-6 py-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Welcome Section -->
+            <div class="mb-8 animate-fade-in">
+                <div class="bg-gradient-to-r from-powergrid-primary to-powergrid-accent rounded-2xl p-8 text-white hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-3xl font-bold mb-2">Welcome back, Madhumitha M! 👋</h2>
+                            <p class="text-blue-100 text-lg">Continue your professional development journey</p>
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center">
+                                <span class="text-3xl font-bold text-white">M</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Essential Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 animate-slide-up">
+                <!-- Active Courses -->
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="book-open" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-900">8</h3>
+                            <p class="text-gray-600">Active Courses</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completed -->
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="check-circle" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-900">24</h3>
+                            <p class="text-gray-600">Completed</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certificates -->
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="award" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-900">18</h3>
+                            <p class="text-gray-600">Certificates</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Continue Learning -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift animate-slide-up">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-900">Continue Learning</h3>
+                        <p class="text-gray-600 mt-1">Pick up where you left off</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <div onclick="window.location.href='courses.html'" class="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl hover:from-blue-100 hover:to-blue-200 transition-all cursor-pointer">
+                                <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="shield" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-gray-900">Power Grid Safety</h4>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <div class="flex-1 h-2 bg-white rounded-full">
+                                            <div class="w-3/4 h-2 bg-blue-600 rounded-full"></div>
+                                        </div>
+                                        <span class="text-sm font-medium text-blue-700">75%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div onclick="window.location.href='courses.html'" class="flex items-center gap-4 p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl hover:from-purple-100 hover:to-purple-200 transition-all cursor-pointer">
+                                <div class="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-gray-900">Leadership Strategies</h4>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <div class="flex-1 h-2 bg-white rounded-full">
+                                            <div class="w-1/2 h-2 bg-purple-600 rounded-full"></div>
+                                        </div>
+                                        <span class="text-sm font-medium text-purple-700">45%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div onclick="window.location.href='courses.html'" class="flex items-center gap-4 p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-xl hover:from-green-100 hover:to-green-200 transition-all cursor-pointer">
+                                <div class="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="message-square" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-gray-900">Communication Skills</h4>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <div class="flex-1 h-2 bg-white rounded-full">
+                                            <div class="w-5/6 h-2 bg-green-600 rounded-full"></div>
+                                        </div>
+                                        <span class="text-sm font-medium text-green-700">90%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <a href="courses.html" class="inline-flex items-center gap-2 bg-powergrid-primary text-white px-6 py-3 rounded-xl font-medium hover:bg-powergrid-accent transition-colors">
+                                View All Courses
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift animate-slide-up">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-900">Quick Actions</h3>
+                        <p class="text-gray-600 mt-1">Access key features</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 gap-4">
+                            <a href="courses.html" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all text-white">
+                                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="book-open" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold">Browse Courses</div>
+                                    <div class="text-blue-100 text-sm">Discover new learning</div>
+                                </div>
+                                <i data-lucide="arrow-right" class="w-5 h-5 ml-auto group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                            
+                            <a href="profile.html" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-green-600 to-green-700 rounded-xl hover:from-green-700 hover:to-green-800 transition-all text-white">
+                                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="user" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold">My Profile</div>
+                                    <div class="text-green-100 text-sm">Update information</div>
+                                </div>
+                                <i data-lucide="arrow-right" class="w-5 h-5 ml-auto group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                            
+                            <a href="analytics.html" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-purple-600 to-purple-700 rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all text-white">
+                                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="bar-chart" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold">View Analytics</div>
+                                    <div class="text-purple-100 text-sm">Track progress</div>
+                                </div>
+                                <i data-lucide="arrow-right" class="w-5 h-5 ml-auto group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+
+                            <a href="idp.html" class="group flex items-center gap-4 p-4 bg-gradient-to-r from-orange-600 to-orange-700 rounded-xl hover:from-orange-700 hover:to-orange-800 transition-all text-white">
+                                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="target" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold">IDP Planning</div>
+                                    <div class="text-orange-100 text-sm">Set development goals</div>
+                                </div>
+                                <i data-lucide="arrow-right" class="w-5 h-5 ml-auto group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-16">
+        <div class="px-6 py-8">
+            <div class="max-w-6xl mx-auto text-center">
+                <p class="text-gray-600">© 2025 POWERGRID IDP Intelligence Platform. Empowering professional development.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Check authentication before accessing employee dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userRole = localStorage.getItem('userRole');
+            
+            if (!isLoggedIn || userRole !== 'employee') {
+                alert('Please login as an Employee to access the dashboard');
+                window.location.href = 'login.html';
+                return;
+            }
+        });
+
+        // Exit/Logout function for employee dashboard
+        function exitApplication() {
+            // Show confirmation dialog
+            const confirmExit = confirm('Are you sure you want to log out?\n\nYou will be redirected to the login page.');
+            
+            if (confirmExit) {
+                // Show loading state
+                const exitBtn = document.querySelector('[onclick="exitApplication()"]');
+                const originalContent = exitBtn.innerHTML;
+                
+                exitBtn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin mr-2"></i><span class="hidden sm:inline">Logging out...</span>';
+                exitBtn.disabled = true;
+                
+                // Clear all stored data
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // Show logout animation and redirect
+                setTimeout(() => {
+                    lucide.createIcons();
+                    
+                    // Add fade-out effect to page
+                    document.body.style.transition = 'opacity 0.5s ease-out';
+                    document.body.style.opacity = '0.5';
+                    
+                    // Redirect to login page
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 500);
+                }, 1000);
+            }
+        }
+
+        // Add notification for successful login
+        function showWelcomeNotification() {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 z-50 bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg animate-fade-in';
+            notification.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-4 h-4"></i>
+                    <span class="text-sm font-medium">Successfully logged in!</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            lucide.createIcons();
+            
+            // Auto-remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Show welcome notification on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if this is a fresh login (within last 5 seconds)
+            const loginTime = localStorage.getItem('loginTime');
+            if (loginTime) {
+                const timeDiff = new Date().getTime() - new Date(loginTime).getTime();
+                if (timeDiff < 5000) { // 5 seconds
+                    showWelcomeNotification();
+                }
+            }
+        });
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

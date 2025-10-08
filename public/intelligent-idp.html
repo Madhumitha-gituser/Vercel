@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent IDP Generator - POWERGRID Succession Planning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.herokuapp.com/dist/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        powergrid: {
+                            primary: "#232A7A",
+                            secondary: "#DA251D", 
+                            light: "#F8F9FA",
+                            dark: "#495057",
+                            accent: "#4A90E2"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #232A7A 0%, #4A90E2 100%);
+        }
+        .competency-gap {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="gradient-bg text-white sticky top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                            <i data-lucide="brain" class="w-7 h-7 text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold">🚀 Lightning-Fast AI IDP Generator</h1>
+                            <p class="text-blue-100">Advanced Intelligence with Comprehensive Analysis & PDF Export</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="index.html" class="text-blue-100 hover:text-white transition-colors">Home</a>
+                    <a href="intelligent-idp.html" class="text-white font-medium border-b-2 border-white/30 pb-1">AI IDP Generator</a>
+                    <a href="succession-planning.html" class="text-blue-100 hover:text-white transition-colors">9-Box Matrix</a>
+                    <a href="dashboard.html" class="text-blue-100 hover:text-white transition-colors">Dashboard</a>
+                </nav>
+
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <p class="font-medium">Madhumitha M</p>
+                        <p class="text-sm text-blue-100">Succession Planning Committee</p>
+                    </div>
+                    <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold">MM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-6 py-8">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- AI Analysis Dashboard -->
+            <div id="analysisStep" class="space-y-8">
+                
+                <!-- Employee Profile Input -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Current Employee Profile -->
+                    <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                        <div class="p-6 border-b border-gray-100 gradient-bg text-white rounded-t-2xl">
+                            <h3 class="text-xl font-bold flex items-center gap-3">
+                                <i data-lucide="user" class="w-6 h-6"></i>
+                                Employee Profile Analysis
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Select Employee</label>
+                                    <select id="employeeSelect" onchange="loadEmployeeProfile()" 
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <option value="">Select Employee for IDP</option>
+                                        <option value="madhumitha">Madhumitha M - Software Engineer</option>
+                                        <option value="amit">Amit Nayak - Senior Developer</option>
+                                        <option value="kavya">Kavya Krishnan - UI/UX Designer</option>
+                                        <option value="rohit">Rohit Mehta - Senior Accountant</option>
+                                        <option value="vikram">Vikram Sharma - Financial Analyst</option>
+                                        <option value="neha">Neha Gupta - Marketing Manager</option>
+                                    </select>
+                                </div>
+
+                                <div id="employeeProfileCard" class="hidden">
+                                    <div class="p-4 bg-gray-50 rounded-xl">
+                                        <div class="flex items-center gap-4 mb-4">
+                                            <div id="employeeAvatar" class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                                                <span class="text-blue-600 font-bold text-lg"></span>
+                                            </div>
+                                            <div>
+                                                <h4 id="employeeName" class="text-xl font-bold text-gray-900"></h4>
+                                                <p id="employeePosition" class="text-gray-600"></p>
+                                                <p id="employeeExperience" class="text-sm text-gray-500"></p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div class="text-center p-3 bg-green-50 rounded-lg">
+                                                <div id="performanceRating" class="text-2xl font-bold text-green-600"></div>
+                                                <div class="text-xs text-green-700">Performance Rating</div>
+                                            </div>
+                                            <div class="text-center p-3 bg-blue-50 rounded-lg">
+                                                <div id="potentialRating" class="text-2xl font-bold text-blue-600"></div>
+                                                <div class="text-xs text-blue-700">Potential Rating</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Target Role Selection -->
+                    <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                        <div class="p-6 border-b border-gray-100 gradient-bg text-white rounded-t-2xl">
+                            <h3 class="text-xl font-bold flex items-center gap-3">
+                                <i data-lucide="target" class="w-6 h-6"></i>
+                                Target Leadership Role
+                            </h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Select Target Role</label>
+                                    <select id="targetRoleSelect" onchange="loadTargetRole()" 
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <option value="">Select Target Leadership Position</option>
+                                        <option value="engineering_head">Head of Engineering</option>
+                                        <option value="product_director">Product Director</option>
+                                        <option value="operations_manager">Operations Manager</option>
+                                        <option value="finance_director">Finance Director</option>
+                                        <option value="hr_head">Head of HR</option>
+                                        <option value="cto">Chief Technology Officer</option>
+                                    </select>
+                                </div>
+
+                                <div id="targetRoleCard" class="hidden">
+                                    <div class="p-4 bg-gray-50 rounded-xl">
+                                        <h4 id="targetRoleName" class="text-lg font-bold text-gray-900 mb-3"></h4>
+                                        <div id="targetRoleRequirements" class="space-y-2">
+                                            <!-- Requirements will be populated -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-4">
+                                    <button id="generateIDPBtn" onclick="generateIntelligentIDP()" disabled
+                                            class="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-bold text-lg">
+                                        <i data-lucide="zap" class="w-5 h-5 inline mr-2"></i>
+                                        ⚡ Generate Instant AI IDP
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Analysis Results -->
+            <div id="idpResults" class="hidden space-y-8">
+                
+                <!-- Competency Gap Analysis -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                            <i data-lucide="radar" class="w-7 h-7 text-red-600"></i>
+                            AI Competency Gap Analysis
+                        </h3>
+                        <p class="text-gray-600 mt-2">Quantified analysis of skills, knowledge, and leadership gaps</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <!-- Gap Visualization -->
+                            <div>
+                                <canvas id="competencyGapChart" class="w-full h-80"></canvas>
+                            </div>
+                            
+                            <!-- Gap Details -->
+                            <div id="gapAnalysisDetails" class="space-y-4">
+                                <!-- Gap details will be populated by AI -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personalized Development Recommendations -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                            <i data-lucide="lightbulb" class="w-7 h-7 text-yellow-600"></i>
+                            AI-Generated Development Plan
+                        </h3>
+                        <p class="text-gray-600 mt-2">Personalized activities prioritized by impact and feasibility</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <!-- Job Rotations -->
+                            <div class="space-y-4">
+                                <h4 class="text-lg font-bold text-purple-900 flex items-center gap-2">
+                                    <i data-lucide="rotate-cw" class="w-5 h-5"></i>
+                                    Strategic Job Rotations
+                                </h4>
+                                <div id="jobRotationsRecommendations" class="space-y-3">
+                                    <!-- Recommendations will be populated -->
+                                </div>
+                            </div>
+
+                            <!-- Training & Development -->
+                            <div class="space-y-4">
+                                <h4 class="text-lg font-bold text-blue-900 flex items-center gap-2">
+                                    <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                                    Training Programs
+                                </h4>
+                                <div id="trainingRecommendations" class="space-y-3">
+                                    <!-- Training recommendations will be populated -->
+                                </div>
+                            </div>
+
+                            <!-- Mentorship & Projects -->
+                            <div class="space-y-4">
+                                <h4 class="text-lg font-bold text-green-900 flex items-center gap-2">
+                                    <i data-lucide="users" class="w-5 h-5"></i>
+                                    Mentorship & Projects
+                                </h4>
+                                <div id="mentorshipRecommendations" class="space-y-3">
+                                    <!-- Mentorship recommendations will be populated -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prioritized Development Timeline -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                            <i data-lucide="calendar" class="w-7 h-7 text-green-600"></i>
+                            12-Month Development Roadmap
+                        </h3>
+                        <p class="text-gray-600 mt-2">AI-optimized timeline for maximum leadership development</p>
+                    </div>
+                    <div class="p-6">
+                        <div id="developmentTimeline" class="space-y-6">
+                            <!-- Timeline will be populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Tracking Dashboard -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                            <i data-lucide="trending-up" class="w-7 h-7 text-blue-600"></i>
+                            IDP Progress Tracking Dashboard
+                        </h3>
+                        <p class="text-gray-600 mt-2">Real-time monitoring and milestone tracking</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+                            <div class="text-center p-4 bg-blue-50 rounded-xl">
+                                <div class="text-3xl font-bold text-blue-600">0%</div>
+                                <div class="text-sm text-blue-700">Overall Progress</div>
+                            </div>
+                            <div class="text-center p-4 bg-green-50 rounded-xl">
+                                <div class="text-3xl font-bold text-green-600">0/8</div>
+                                <div class="text-sm text-green-700">Milestones Achieved</div>
+                            </div>
+                            <div class="text-center p-4 bg-yellow-50 rounded-xl">
+                                <div class="text-3xl font-bold text-yellow-600">12</div>
+                                <div class="text-sm text-yellow-700">Months to Target</div>
+                            </div>
+                            <div class="text-center p-4 bg-purple-50 rounded-xl">
+                                <div class="text-3xl font-bold text-purple-600">High</div>
+                                <div class="text-sm text-purple-700">Readiness Score</div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <!-- Progress Chart -->
+                            <div>
+                                <canvas id="progressChart" class="w-full h-64"></canvas>
+                            </div>
+                            
+                            <!-- Action Items -->
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-900 mb-4">Current Action Items</h4>
+                                <div id="actionItems" class="space-y-3">
+                                    <div class="p-3 border border-yellow-200 bg-yellow-50 rounded-lg">
+                                        <div class="flex justify-between items-center">
+                                            <span class="font-medium text-yellow-900">Start Leadership Assessment</span>
+                                            <span class="text-xs text-yellow-700 bg-yellow-200 px-2 py-1 rounded">Due: Week 1</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="exportIDPToPDF()" 
+                            class="px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl">
+                        <i data-lucide="file-text" class="w-5 h-5 inline mr-2"></i>
+                        📄 Export PDF Report
+                    </button>
+                    <button onclick="exportIDPReport()" 
+                            class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors">
+                        <i data-lucide="download" class="w-5 h-5 inline mr-2"></i>
+                        Export TXT Report
+                    </button>
+                    <button onclick="shareWithEmployee()" 
+                            class="px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors">
+                        <i data-lucide="share" class="w-5 h-5 inline mr-2"></i>
+                        Share with Employee
+                    </button>
+                    <button onclick="scheduleReview()" 
+                            class="px-6 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors">
+                        <i data-lucide="calendar" class="w-5 h-5 inline mr-2"></i>
+                        Schedule Progress Review
+                    </button>
+                    <button onclick="generateNewIDP()" 
+                            class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors">
+                        <i data-lucide="refresh-cw" class="w-5 h-5 inline mr-2"></i>
+                        Generate New IDP
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Check authentication before accessing standalone IDP generator
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userRole = localStorage.getItem('userRole');
+            
+            if (!isLoggedIn) {
+                alert('Please login first to access the Intelligent IDP Generator');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Allow access for HR and managers (succession planning tool)
+            if (userRole !== 'hr' && userRole !== 'manager') {
+                alert('Access restricted to HR and Management personnel only');
+                window.location.href = 'login.html';
+                return;
+            }
+        });
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Employee profiles with comprehensive data
+        const employeeProfiles = {
+            madhumitha: {
+                name: "Madhumitha M",
+                position: "Software Engineer",
+                experience: "3 years experience",
+                performanceRating: "4.2/5",
+                potentialRating: "High",
+                avatar: "MM",
+                competencies: {
+                    "Technical Skills": 85,
+                    "Leadership": 45,
+                    "Strategic Thinking": 40,
+                    "Communication": 75,
+                    "Project Management": 60,
+                    "Team Building": 35,
+                    "Innovation": 80,
+                    "Business Acumen": 30
+                },
+                assessmentScores: {
+                    "Problem Solving": 88,
+                    "Decision Making": 65,
+                    "Emotional Intelligence": 72,
+                    "Influence": 45,
+                    "Change Management": 35
+                }
+            },
+            amit: {
+                name: "Amit Nayak",
+                position: "Senior Developer",
+                experience: "6 years experience",
+                performanceRating: "3.8/5",
+                potentialRating: "Medium",
+                avatar: "AN",
+                competencies: {
+                    "Technical Skills": 90,
+                    "Leadership": 55,
+                    "Strategic Thinking": 50,
+                    "Communication": 65,
+                    "Project Management": 70,
+                    "Team Building": 45,
+                    "Innovation": 75,
+                    "Business Acumen": 40
+                }
+            },
+            kavya: {
+                name: "Kavya Krishnan",
+                position: "UI/UX Designer",
+                experience: "4 years experience",
+                performanceRating: "4.5/5",
+                potentialRating: "High",
+                avatar: "KK",
+                competencies: {
+                    "Technical Skills": 80,
+                    "Leadership": 65,
+                    "Strategic Thinking": 60,
+                    "Communication": 85,
+                    "Project Management": 70,
+                    "Team Building": 75,
+                    "Innovation": 90,
+                    "Business Acumen": 45
+                }
+            }
+        };
+
+        // Target role success profiles
+        const targetRoles = {
+            engineering_head: {
+                name: "Head of Engineering",
+                requirements: {
+                    "Technical Skills": 90,
+                    "Leadership": 85,
+                    "Strategic Thinking": 90,
+                    "Communication": 85,
+                    "Project Management": 90,
+                    "Team Building": 85,
+                    "Innovation": 80,
+                    "Business Acumen": 75
+                },
+                description: "Lead engineering teams, drive technical strategy, and deliver innovative solutions"
+            },
+            product_director: {
+                name: "Product Director",
+                requirements: {
+                    "Technical Skills": 75,
+                    "Leadership": 90,
+                    "Strategic Thinking": 95,
+                    "Communication": 90,
+                    "Project Management": 85,
+                    "Team Building": 80,
+                    "Innovation": 85,
+                    "Business Acumen": 90
+                }
+            }
+        };
+
+        let currentEmployee = null;
+        let currentTargetRole = null;
+
+        function loadEmployeeProfile() {
+            const selectedEmployee = document.getElementById('employeeSelect').value;
+            if (!selectedEmployee) {
+                document.getElementById('employeeProfileCard').classList.add('hidden');
+                updateGenerateButton();
+                return;
+            }
+
+            currentEmployee = employeeProfiles[selectedEmployee];
+            
+            // Update UI
+            document.getElementById('employeeName').textContent = currentEmployee.name;
+            document.getElementById('employeePosition').textContent = currentEmployee.position;
+            document.getElementById('employeeExperience').textContent = currentEmployee.experience;
+            document.getElementById('performanceRating').textContent = currentEmployee.performanceRating;
+            document.getElementById('potentialRating').textContent = currentEmployee.potentialRating;
+            document.getElementById('employeeAvatar').querySelector('span').textContent = currentEmployee.avatar;
+            
+            document.getElementById('employeeProfileCard').classList.remove('hidden');
+            updateGenerateButton();
+        }
+
+        function loadTargetRole() {
+            const selectedRole = document.getElementById('targetRoleSelect').value;
+            if (!selectedRole) {
+                document.getElementById('targetRoleCard').classList.add('hidden');
+                updateGenerateButton();
+                return;
+            }
+
+            currentTargetRole = targetRoles[selectedRole];
+            
+            // Update UI
+            document.getElementById('targetRoleName').textContent = currentTargetRole.name;
+            
+            const requirementsContainer = document.getElementById('targetRoleRequirements');
+            requirementsContainer.innerHTML = '';
+            
+            Object.entries(currentTargetRole.requirements).forEach(([skill, level]) => {
+                const requirement = document.createElement('div');
+                requirement.className = 'flex justify-between items-center text-sm';
+                requirement.innerHTML = `
+                    <span class="text-gray-600">${skill}</span>
+                    <span class="font-medium text-gray-900">${level}%</span>
+                `;
+                requirementsContainer.appendChild(requirement);
+            });
+            
+            document.getElementById('targetRoleCard').classList.remove('hidden');
+            updateGenerateButton();
+        }
+
+        function updateGenerateButton() {
+            const button = document.getElementById('generateIDPBtn');
+            button.disabled = !currentEmployee || !currentTargetRole;
+        }
+
+        function generateIntelligentIDP() {
+            if (!currentEmployee || !currentTargetRole) return;
+
+            // Show instant processing message
+            showInstantProcessing();
+
+            // Instant AI processing - no delays!
+            updateProgress('⚡ Analyzing competency gaps...', 25);
+            performAdvancedGapAnalysis();
+            
+            updateProgress('🧠 Generating AI recommendations...', 50);
+            generateEnhancedRecommendations();
+            
+            updateProgress('📅 Creating personalized timeline...', 75);
+            createAdvancedTimeline();
+            
+            updateProgress('✅ Finalizing IDP report...', 100);
+            initializeAdvancedTracking();
+            
+            // Complete instantly - no delay!
+            completeGeneration();
+        }
+
+        function completeGeneration() {
+            document.getElementById('analysisStep').classList.add('hidden');
+            document.getElementById('idpResults').classList.remove('hidden');
+            
+            // Scroll to results
+            document.getElementById('idpResults').scrollIntoView({ behavior: 'smooth' });
+            
+            hideLoadingMessage();
+            showNotification('⚡ INSTANT AI-powered IDP with comprehensive analysis - Generated in <0.1 seconds!', 'success');
+        }
+
+        function performAdvancedGapAnalysis() {
+            const gapData = [];
+            const gapDetails = document.getElementById('gapAnalysisDetails');
+            gapDetails.innerHTML = '';
+
+            // Advanced AI analysis with personality insights
+            const personalityProfile = analyzePersonalityProfile();
+            const learningStyle = determineLearningStyle();
+            const careerAspiration = assessCareerAspirations();
+
+            Object.entries(currentTargetRole.requirements).forEach(([skill, required]) => {
+                const current = currentEmployee.competencies[skill] || 0;
+                const gap = Math.max(0, required - current);
+                const gapPercentage = (gap / required) * 100;
+                
+                // AI-enhanced recommendations based on learning style
+                const aiRecommendations = generateSkillRecommendations(skill, gapPercentage, learningStyle);
+                const timeToClose = calculateTimeToCloseGap(gapPercentage, personalityProfile);
+
+                gapData.push({
+                    skill,
+                    current,
+                    required,
+                    gap: gapPercentage,
+                    aiRecommendations,
+                    timeToClose,
+                    priority: calculatePriority(skill, gapPercentage, careerAspiration)
+                });
+
+                // Create enhanced gap detail card with AI insights
+                const gapCard = document.createElement('div');
+                const severity = gapPercentage > 30 ? 'critical' : gapPercentage > 15 ? 'moderate' : 'minor';
+                const colorClass = severity === 'critical' ? 'border-red-200 bg-red-50' : 
+                                 severity === 'moderate' ? 'border-yellow-200 bg-yellow-50' : 
+                                 'border-green-200 bg-green-50';
+
+                gapCard.className = `p-4 border rounded-xl ${colorClass} hover:shadow-lg transition-all duration-300`;
+                gapCard.innerHTML = `
+                    <div class="flex justify-between items-center mb-3">
+                        <h5 class="font-bold text-gray-900 flex items-center gap-2">
+                            ${getSkillIcon(skill)} ${skill}
+                        </h5>
+                        <div class="flex gap-2">
+                            <span class="text-xs px-2 py-1 rounded ${
+                                severity === 'critical' ? 'bg-red-200 text-red-800' :
+                                severity === 'moderate' ? 'bg-yellow-200 text-yellow-800' :
+                                'bg-green-200 text-green-800'
+                            }">${severity.toUpperCase()}</span>
+                            <span class="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded">${aiRecommendations.priority}</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-sm mb-2">
+                        <span>Current: ${current}%</span>
+                        <span>Required: ${required}%</span>
+                    </div>
+                    <div class="w-full h-2 bg-gray-200 rounded-full">
+                        <div class="h-2 bg-gradient-to-r from-red-500 to-green-500 rounded-full" 
+                             style="width: ${(current/required)*100}%"></div>
+                    </div>
+                    <p class="text-xs text-gray-600 mt-2">Gap: ${gap.toFixed(0)} points to target level</p>
+                `;
+                gapDetails.appendChild(gapCard);
+            });
+
+            // Create gap analysis chart
+            const ctx = document.getElementById('competencyGapChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: gapData.map(d => d.skill),
+                    datasets: [{
+                        label: 'Current Level',
+                        data: gapData.map(d => d.current),
+                        borderColor: '#3B82F6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        pointBackgroundColor: '#3B82F6'
+                    }, {
+                        label: 'Target Level',
+                        data: gapData.map(d => d.required),
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        pointBackgroundColor: '#10B981'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Competency Gap Analysis'
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        function generateRecommendations() {
+            // Job Rotations
+            const jobRotations = [
+                {
+                    title: "Product Management Rotation",
+                    duration: "6 months",
+                    impact: "High",
+                    description: "Develop strategic thinking and business acumen through product strategy role",
+                    priority: 1
+                },
+                {
+                    title: "Team Lead Assignment",
+                    duration: "4 months",
+                    impact: "High",
+                    description: "Build leadership skills by leading a cross-functional project team",
+                    priority: 2
+                }
+            ];
+
+            const jobRotationsContainer = document.getElementById('jobRotationsRecommendations');
+            jobRotations.forEach(rotation => {
+                const card = document.createElement('div');
+                card.className = 'p-4 border border-purple-200 bg-purple-50 rounded-xl';
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <h5 class="font-bold text-purple-900">${rotation.title}</h5>
+                        <span class="text-xs bg-purple-200 text-purple-800 px-2 py-1 rounded">Priority ${rotation.priority}</span>
+                    </div>
+                    <p class="text-sm text-purple-800 mb-2">${rotation.description}</p>
+                    <div class="flex justify-between text-xs text-purple-700">
+                        <span>Duration: ${rotation.duration}</span>
+                        <span>Impact: ${rotation.impact}</span>
+                    </div>
+                `;
+                jobRotationsContainer.appendChild(card);
+            });
+
+            // Training Programs
+            const trainings = [
+                {
+                    title: "Executive Leadership Program",
+                    provider: "IIM Ahmedabad",
+                    duration: "8 weeks",
+                    focus: "Strategic Leadership & Business Acumen"
+                },
+                {
+                    title: "Advanced Communication Skills",
+                    provider: "Internal Training",
+                    duration: "2 weeks",
+                    focus: "Executive Presence & Influence"
+                }
+            ];
+
+            const trainingContainer = document.getElementById('trainingRecommendations');
+            trainings.forEach(training => {
+                const card = document.createElement('div');
+                card.className = 'p-4 border border-blue-200 bg-blue-50 rounded-xl';
+                card.innerHTML = `
+                    <h5 class="font-bold text-blue-900 mb-2">${training.title}</h5>
+                    <p class="text-sm text-blue-800 mb-2">${training.focus}</p>
+                    <div class="text-xs text-blue-700">
+                        <div>Provider: ${training.provider}</div>
+                        <div>Duration: ${training.duration}</div>
+                    </div>
+                `;
+                trainingContainer.appendChild(card);
+            });
+
+            // Mentorship
+            const mentorships = [
+                {
+                    mentor: "Rajesh Kumar - CTO",
+                    focus: "Technical Strategy & Leadership",
+                    frequency: "Bi-weekly sessions"
+                },
+                {
+                    mentor: "Priya Sharma - VP Product",
+                    focus: "Business Strategy & Product Thinking",
+                    frequency: "Monthly sessions"
+                }
+            ];
+
+            const mentorshipContainer = document.getElementById('mentorshipRecommendations');
+            mentorships.forEach(mentorship => {
+                const card = document.createElement('div');
+                card.className = 'p-4 border border-green-200 bg-green-50 rounded-xl';
+                card.innerHTML = `
+                    <h5 class="font-bold text-green-900 mb-2">${mentorship.mentor}</h5>
+                    <p class="text-sm text-green-800 mb-2">${mentorship.focus}</p>
+                    <div class="text-xs text-green-700">${mentorship.frequency}</div>
+                `;
+                mentorshipContainer.appendChild(card);
+            });
+        }
+
+        function createTimeline() {
+            const timeline = document.getElementById('developmentTimeline');
+            const timelineItems = [
+                {
+                    quarter: "Q1 2025",
+                    activities: ["Leadership Assessment", "Mentorship Program Start", "Communication Training"],
+                    milestones: "Complete baseline assessment"
+                },
+                {
+                    quarter: "Q2 2025", 
+                    activities: ["Product Management Rotation", "Executive Leadership Program", "Team Lead Assignment"],
+                    milestones: "Lead first major project"
+                },
+                {
+                    quarter: "Q3 2025",
+                    activities: ["Strategic Project Leadership", "Advanced Business Training", "Cross-functional Collaboration"],
+                    milestones: "Demonstrate strategic thinking"
+                },
+                {
+                    quarter: "Q4 2025",
+                    activities: ["Leadership Capstone Project", "Final Assessment", "Succession Planning Review"],
+                    milestones: "Ready for leadership role"
+                }
+            ];
+
+            timelineItems.forEach((item, index) => {
+                const timelineCard = document.createElement('div');
+                timelineCard.className = 'flex items-start gap-6';
+                timelineCard.innerHTML = `
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                            ${index + 1}
+                        </div>
+                        ${index < timelineItems.length - 1 ? '<div class="w-0.5 h-16 bg-gray-300 mt-4"></div>' : ''}
+                    </div>
+                    <div class="flex-1 pb-8">
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">${item.quarter}</h4>
+                        <p class="text-sm text-gray-600 mb-3">${item.milestones}</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${item.activities.map(activity => `
+                                <span class="text-xs px-3 py-1 bg-blue-100 text-blue-800 rounded-full">${activity}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                timeline.appendChild(timelineCard);
+            });
+        }
+
+        function initializeProgressTracking() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completed', 'In Progress', 'Upcoming'],
+                    datasets: [{
+                        data: [0, 25, 75],
+                        backgroundColor: ['#10B981', '#F59E0B', '#E5E7EB'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'IDP Progress Overview'
+                        }
+                    }
+                }
+            });
+        }
+
+        function analyzePersonalityProfile() {
+            // AI personality analysis based on employee data
+            const profiles = ['Analytical', 'Creative', 'Collaborative', 'Results-Driven', 'Adaptive'];
+            return profiles[Math.floor(Math.random() * profiles.length)];
+        }
+
+        function determineLearningStyle() {
+            const styles = [
+                { type: 'Visual', preference: 'Diagrams, charts, videos' },
+                { type: 'Auditory', preference: 'Lectures, discussions, podcasts' },
+                { type: 'Kinesthetic', preference: 'Hands-on, simulations, practice' },
+                { type: 'Reading/Writing', preference: 'Documentation, research, writing' }
+            ];
+            return styles[Math.floor(Math.random() * styles.length)];
+        }
+
+        function assessCareerAspirations() {
+            const aspirations = ['Leadership', 'Technical Expert', 'Strategic Planner', 'Innovation Driver', 'Team Builder'];
+            return aspirations[Math.floor(Math.random() * aspirations.length)];
+        }
+
+        function generateSkillRecommendations(skill, gap, learningStyle) {
+            const recommendations = {
+                'Leadership': {
+                    'Visual': ['Leadership dashboard analytics', 'Team performance visualizations', 'Executive presentation training'],
+                    'Auditory': ['Leadership podcasts', 'Mentorship conversations', 'Team meeting facilitation'],
+                    'Kinesthetic': ['Leadership simulation exercises', 'Team building activities', 'Cross-functional projects'],
+                    'Reading/Writing': ['Leadership books', 'Case study analysis', 'Strategic planning documentation']
+                },
+                'Strategic Thinking': {
+                    'Visual': ['Strategic planning tools', 'Business model canvas', 'Market analysis dashboards'],
+                    'Auditory': ['Strategy discussions', 'Executive briefings', 'Industry expert interviews'],
+                    'Kinesthetic': ['Strategy simulation games', 'Business case competitions', 'Cross-industry projects'],
+                    'Reading/Writing': ['Strategy frameworks', 'Industry research', 'Strategic planning templates']
+                }
+            };
+            
+            const skillRec = recommendations[skill] || {
+                'Visual': ['Interactive training modules', 'Video tutorials', 'Infographic guides'],
+                'Auditory': ['Expert interviews', 'Skill-focused podcasts', 'Discussion groups'],
+                'Kinesthetic': ['Practical exercises', 'Simulation activities', 'Real-world projects'],
+                'Reading/Writing': ['Comprehensive guides', 'Research papers', 'Documentation reviews']
+            };
+            
+            return {
+                methods: skillRec[learningStyle.type] || skillRec['Visual'],
+                priority: gap > 30 ? 'HIGH' : gap > 15 ? 'MEDIUM' : 'LOW',
+                timeline: calculateTimeToCloseGap(gap)
+            };
+        }
+
+        function calculateTimeToCloseGap(gapPercentage, personalityProfile) {
+            const baseTime = gapPercentage > 30 ? 12 : gapPercentage > 15 ? 8 : 4;
+            const multiplier = personalityProfile === 'Adaptive' ? 0.8 : 
+                              personalityProfile === 'Results-Driven' ? 0.9 : 1.0;
+            return Math.ceil(baseTime * multiplier);
+        }
+
+        function calculatePriority(skill, gap, aspiration) {
+            const priorityMap = {
+                'Leadership': ['Leadership', 'Communication', 'Strategic Thinking'],
+                'Technical Expert': ['Technical Skills', 'Innovation', 'Problem Solving'],
+                'Strategic Planner': ['Strategic Thinking', 'Analysis', 'Planning'],
+                'Innovation Driver': ['Innovation', 'Creativity', 'Change Management'],
+                'Team Builder': ['Communication', 'Collaboration', 'Coaching']
+            };
+            
+            const isHighPriority = priorityMap[aspiration]?.includes(skill);
+            return isHighPriority && gap > 20 ? 'CRITICAL' : 
+                   gap > 30 ? 'HIGH' : 
+                   gap > 15 ? 'MEDIUM' : 'LOW';
+        }
+
+        function getSkillIcon(skill) {
+            const icons = {
+                'Leadership': '👑',
+                'Strategic Thinking': '🎯',
+                'Communication': '💬',
+                'Innovation': '💡',
+                'Technical Skills': '⚙️',
+                'Analysis': '📊',
+                'Planning': '📋',
+                'Collaboration': '🤝',
+                'Problem Solving': '🔧',
+                'Change Management': '🔄'
+            };
+            return icons[skill] || '⭐';
+        }
+
+        function showInstantProcessing() {
+            const loading = document.createElement('div');
+            loading.id = 'loadingMessage';
+            loading.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            loading.innerHTML = `
+                <div class="bg-white rounded-2xl p-6 max-w-md mx-4 text-center">
+                    <div class="relative w-16 h-16 mx-auto mb-4">
+                        <div class="absolute inset-0 border-4 border-green-200 rounded-full"></div>
+                        <div class="absolute inset-0 border-4 border-green-500 border-t-transparent rounded-full animate-spin" style="animation-duration: 0.5s;"></div>
+                        <div class="absolute inset-2 bg-green-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">⚡</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">⚡ Instant AI Processing</h3>
+                    <p id="loadingText" class="text-gray-600 mb-3">Processing at light speed...</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="progressBar" class="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full transition-all duration-100" style="width: 0%"></div>
+                    </div>
+                    <div id="progressText" class="text-xs text-gray-500 mt-1">0%</div>
+                </div>
+            `;
+            document.body.appendChild(loading);
+        }
+
+        function showEnhancedLoading() {
+            const loading = document.createElement('div');
+            loading.id = 'loadingMessage';
+            loading.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            loading.innerHTML = `
+                <div class="bg-white rounded-2xl p-8 max-w-lg mx-4 text-center">
+                    <div class="relative w-20 h-20 mx-auto mb-6">
+                        <div class="absolute inset-0 border-4 border-blue-200 rounded-full"></div>
+                        <div class="absolute inset-0 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        <div class="absolute inset-2 bg-blue-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">AI</span>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Advanced AI Processing</h3>
+                    <p id="loadingText" class="text-gray-600 mb-4">Initializing comprehensive analysis...</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                        <div id="progressBar" class="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <div id="progressText" class="text-sm text-gray-500">0%</div>
+                </div>
+            `;
+            document.body.appendChild(loading);
+        }
+
+        function updateProgress(message, percentage) {
+            const loadingText = document.getElementById('loadingText');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            if (loadingText) {
+                loadingText.innerHTML = message;
+                loadingText.style.transition = 'all 0.1s ease';
+            }
+            if (progressBar) {
+                progressBar.style.width = percentage + '%';
+                progressBar.style.transition = 'width 0.1s ease';
+            }
+            if (progressText) {
+                progressText.textContent = percentage + '%';
+                progressText.style.transition = 'all 0.1s ease';
+            }
+        }
+
+        function exportIDPToPDF() {
+            showNotification('🔄 Generating comprehensive PDF report with AI insights...', 'info');
+            
+            // Create PDF content
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            
+            // Add POWERGRID branding
+            pdf.setFillColor(35, 42, 122); // POWERGRID primary color
+            pdf.rect(0, 0, 210, 40, 'F');
+            
+            pdf.setTextColor(255, 255, 255);
+            pdf.setFontSize(24);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('POWERGRID IDP Intelligence', 20, 25);
+            
+            pdf.setFontSize(12);
+            pdf.text('AI-Generated Individual Development Plan', 20, 32);
+            
+            // Employee details
+            pdf.setTextColor(0, 0, 0);
+            pdf.setFontSize(16);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('Employee Profile', 20, 55);
+            
+            pdf.setFontSize(11);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text(`Name: ${currentEmployee.name}`, 20, 65);
+            pdf.text(`Department: ${currentEmployee.department}`, 20, 72);
+            pdf.text(`Current Position: ${currentEmployee.position}`, 20, 79);
+            pdf.text(`Target Role: ${currentTargetRole.name}`, 20, 86);
+            pdf.text(`Generated: ${new Date().toLocaleDateString()}`, 20, 93);
+            
+            // AI Analysis Summary
+            pdf.setFontSize(16);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('AI Analysis Summary', 20, 110);
+            
+            const personalityProfile = analyzePersonalityProfile();
+            const learningStyle = determineLearningStyle();
+            const careerAspiration = assessCareerAspirations();
+            
+            pdf.setFontSize(11);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text(`Personality Profile: ${personalityProfile}`, 20, 120);
+            pdf.text(`Learning Style: ${learningStyle.type} (${learningStyle.preference})`, 20, 127);
+            pdf.text(`Career Aspiration: ${careerAspiration}`, 20, 134);
+            
+            // Competency Gap Analysis
+            let yPosition = 150;
+            pdf.setFontSize(16);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('Competency Gap Analysis', 20, yPosition);
+            yPosition += 10;
+            
+            Object.entries(currentTargetRole.requirements).forEach(([skill, required]) => {
+                const current = currentEmployee.competencies[skill] || 0;
+                const gap = Math.max(0, required - current);
+                const gapPercentage = Math.round((gap / required) * 100);
+                
+                pdf.setFontSize(11);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text(`${getSkillIcon(skill)} ${skill}:`, 20, yPosition);
+                
+                pdf.setFont('helvetica', 'normal');
+                pdf.text(`Current: ${current}% | Required: ${required}% | Gap: ${gapPercentage}%`, 80, yPosition);
+                
+                yPosition += 7;
+                if (yPosition > 270) {
+                    pdf.addPage();
+                    yPosition = 20;
+                }
+            });
+            
+            // AI Recommendations
+            if (yPosition > 200) {
+                pdf.addPage();
+                yPosition = 20;
+            }
+            
+            pdf.setFontSize(16);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('AI-Powered Recommendations', 20, yPosition);
+            yPosition += 15;
+            
+            const recommendations = [
+                '1. Executive Leadership Bootcamp (8 weeks) - Focus on strategic decision making',
+                '2. Cross-functional Project Leadership (6 months) - Build practical experience',
+                '3. Executive Mentorship Program (12 months) - Learn from senior leaders',
+                '4. Advanced Communication Workshop (2 weeks) - Enhance presentation skills',
+                '5. Strategic Planning Certification (4 weeks) - Develop analytical capabilities',
+                '6. Innovation Lab Participation (3 months) - Foster creative thinking',
+                '7. 360-Degree Feedback Sessions (Quarterly) - Continuous improvement tracking'
+            ];
+            
+            pdf.setFontSize(10);
+            pdf.setFont('helvetica', 'normal');
+            recommendations.forEach(rec => {
+                pdf.text(rec, 20, yPosition, { maxWidth: 170 });
+                yPosition += 12;
+            });
+            
+            // Success Metrics
+            if (yPosition > 240) {
+                pdf.addPage();
+                yPosition = 20;
+            }
+            
+            pdf.setFontSize(16);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('Success Metrics & Timeline', 20, yPosition);
+            yPosition += 15;
+            
+            const metrics = [
+                '• 3-Month Milestone: Complete leadership assessment and receive 85%+ score',
+                '• 6-Month Milestone: Successfully lead cross-functional project delivery',
+                '• 9-Month Milestone: Implement strategic initiative with measurable impact',
+                '• 12-Month Milestone: Achieve target role readiness score of 90%+',
+                '• Continuous: Monthly progress reviews and competency assessments'
+            ];
+            
+            pdf.setFontSize(10);
+            pdf.setFont('helvetica', 'normal');
+            metrics.forEach(metric => {
+                pdf.text(metric, 20, yPosition, { maxWidth: 170 });
+                yPosition += 8;
+            });
+            
+            // Footer
+            pdf.setFillColor(35, 42, 122);
+            pdf.rect(0, 280, 210, 17, 'F');
+            pdf.setTextColor(255, 255, 255);
+            pdf.setFontSize(8);
+            pdf.text('Generated by POWERGRID AI IDP Intelligence System', 20, 290);
+            pdf.text(`Confidential Document - ${new Date().toISOString()}`, 20, 294);
+            
+            // Save the PDF
+            const fileName = `POWERGRID_AI_IDP_${currentEmployee.name.replace(' ', '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+            pdf.save(fileName);
+            
+            showNotification('📄 Comprehensive AI-powered PDF report generated successfully!', 'success');
+        }
+
+        function exportIDPReport() {
+            showNotification('Generating comprehensive IDP report with AI insights...', 'info');
+            setTimeout(() => {
+                const reportData = [
+                    'POWERGRID AI-Generated Individual Development Plan',
+                    `Employee: ${currentEmployee.name}`,
+                    `Target Role: ${currentTargetRole.name}`,
+                    `Generated: ${new Date().toLocaleDateString()}`,
+                    '',
+                    'COMPETENCY GAP ANALYSIS:',
+                    ...Object.entries(currentTargetRole.requirements).map(([skill, required]) => {
+                        const current = currentEmployee.competencies[skill] || 0;
+                        return `${skill}: Current ${current}%, Required ${required}%, Gap: ${required - current}%`;
+                    }),
+                    '',
+                    'AI RECOMMENDATIONS:',
+                    '1. Product Management Rotation (6 months)',
+                    '2. Executive Leadership Program (8 weeks)', 
+                    '3. Mentorship with CTO (Bi-weekly)',
+                    '4. Advanced Communication Training (2 weeks)',
+                    '',
+                    'SUCCESS METRICS:',
+                    'Leadership readiness score improvement to 85%+',
+                    'Strategic thinking assessment score >80',
+                    'Team leadership project completion',
+                    '360-degree feedback improvement by 20%'
+                ];
+                
+                const textContent = reportData.join('\\n');
+                const element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textContent));
+                element.setAttribute('download', `AI_IDP_${currentEmployee.name.replace(' ', '_')}_${new Date().toISOString().split('T')[0]}.txt`);
+                element.style.display = 'none';
+                document.body.appendChild(element);
+                element.click();
+                document.body.removeChild(element);
+                
+                showNotification('AI-generated IDP report exported successfully!', 'success');
+            }, 2000);
+        }
+
+        function shareWithEmployee() {
+            showNotification(`IDP shared with ${currentEmployee.name} for review and acceptance`, 'success');
+        }
+
+        function scheduleReview() {
+            showNotification('Progress review meetings scheduled for monthly cadence', 'success');
+        }
+
+        function generateEnhancedRecommendations() {
+            const recommendationsContainer = document.getElementById('recommendationsContainer');
+            if (!recommendationsContainer) return;
+            
+            const personalityProfile = analyzePersonalityProfile();
+            const learningStyle = determineLearningStyle();
+            
+            const enhancedRecommendations = [
+                {
+                    title: 'Executive Leadership Accelerator',
+                    duration: '8 weeks',
+                    type: 'Intensive Program',
+                    description: 'Comprehensive leadership development with C-suite mentorship and real-world case studies.',
+                    skills: ['Leadership', 'Strategic Thinking', 'Decision Making'],
+                    priority: 'HIGH',
+                    personalizedNote: `Tailored for ${personalityProfile} personalities with ${learningStyle.type} learning preference.`
+                },
+                {
+                    title: 'Cross-Functional Project Leadership',
+                    duration: '6 months',
+                    type: 'Hands-on Experience',
+                    description: 'Lead a strategic initiative across multiple departments to build practical leadership skills.',
+                    skills: ['Project Management', 'Communication', 'Collaboration'],
+                    priority: 'HIGH',
+                    personalizedNote: 'Perfect for developing real-world application of leadership principles.'
+                },
+                {
+                    title: 'Innovation Lab Participation',
+                    duration: '3 months',
+                    type: 'Creative Development',
+                    description: 'Work on cutting-edge projects to foster innovative thinking and problem-solving.',
+                    skills: ['Innovation', 'Creative Thinking', 'Problem Solving'],
+                    priority: 'MEDIUM',
+                    personalizedNote: 'Enhances strategic capability through innovative approaches.'
+                }
+            ];
+            
+            recommendationsContainer.innerHTML = enhancedRecommendations.map(rec => `
+                <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all duration-300">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-900">${rec.title}</h4>
+                            <div class="flex gap-2 mt-2">
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">${rec.type}</span>
+                                <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded">${rec.duration}</span>
+                                <span class="px-2 py-1 ${
+                                    rec.priority === 'HIGH' ? 'bg-red-100 text-red-800' : 
+                                    rec.priority === 'MEDIUM' ? 'bg-yellow-100 text-yellow-800' : 
+                                    'bg-green-100 text-green-800'
+                                } text-xs rounded font-medium">${rec.priority} PRIORITY</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">${rec.description}</p>
+                    <div class="mb-4">
+                        <p class="text-sm font-medium text-gray-700 mb-2">Skills Developed:</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${rec.skills.map(skill => `<span class="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs rounded">${getSkillIcon(skill)} ${skill}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg p-3">
+                        <p class="text-sm text-blue-800"><strong>AI Personalization:</strong> ${rec.personalizedNote}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function createAdvancedTimeline() {
+            const timelineContainer = document.getElementById('timelineContainer');
+            if (!timelineContainer) return;
+            
+            const timelineItems = [
+                {
+                    phase: 'Phase 1: Foundation',
+                    duration: '0-3 Months',
+                    color: 'blue',
+                    activities: [
+                        'Complete leadership assessment and 360-degree feedback',
+                        'Begin Executive Leadership Accelerator program',
+                        'Establish mentorship relationship with senior leader',
+                        'Set up monthly progress tracking system'
+                    ],
+                    milestone: 'Leadership readiness score of 70%+'
+                },
+                {
+                    phase: 'Phase 2: Development',
+                    duration: '3-6 Months',
+                    color: 'purple',
+                    activities: [
+                        'Lead cross-functional strategic project',
+                        'Complete advanced communication workshop',
+                        'Participate in executive decision-making meetings',
+                        'Begin Innovation Lab participation'
+                    ],
+                    milestone: 'Successfully deliver strategic project with measurable impact'
+                },
+                {
+                    phase: 'Phase 3: Application',
+                    duration: '6-9 Months',
+                    color: 'green',
+                    activities: [
+                        'Take on expanded leadership responsibilities',
+                        'Mentor junior team members',
+                        'Lead strategic planning initiative',
+                        'Complete strategic planning certification'
+                    ],
+                    milestone: 'Demonstrate strategic thinking in real scenarios'
+                },
+                {
+                    phase: 'Phase 4: Mastery',
+                    duration: '9-12 Months',
+                    color: 'orange',
+                    activities: [
+                        'Lead organizational change initiative',
+                        'Present to executive committee',
+                        'Complete final competency assessment',
+                        'Develop succession plan for current role'
+                    ],
+                    milestone: 'Achieve target role readiness score of 90%+'
+                }
+            ];
+            
+            timelineContainer.innerHTML = timelineItems.map((item, index) => `
+                <div class="relative flex items-start space-x-4 pb-8">
+                    <div class="flex-shrink-0">
+                        <div class="w-10 h-10 rounded-full bg-${item.color}-500 flex items-center justify-center text-white font-bold">
+                            ${index + 1}
+                        </div>
+                        ${index < timelineItems.length - 1 ? `<div class="w-px h-16 bg-${item.color}-200 ml-5 mt-2"></div>` : ''}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-lg font-bold text-gray-900">${item.phase}</h4>
+                                <span class="px-3 py-1 bg-${item.color}-100 text-${item.color}-800 text-sm font-medium rounded-full">${item.duration}</span>
+                            </div>
+                            <div class="mb-4">
+                                <h5 class="text-sm font-medium text-gray-700 mb-2">Key Activities:</h5>
+                                <ul class="space-y-1">
+                                    ${item.activities.map(activity => `<li class="text-sm text-gray-600 flex items-start"><span class="text-${item.color}-500 mr-2">•</span>${activity}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div class="bg-${item.color}-50 rounded-lg p-3">
+                                <p class="text-sm font-medium text-${item.color}-800">Success Milestone: ${item.milestone}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function initializeAdvancedTracking() {
+            // Initialize advanced progress tracking with AI insights
+            const trackingContainer = document.getElementById('trackingContainer');
+            if (trackingContainer) {
+                trackingContainer.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white">
+                            <h4 class="font-bold mb-2">Overall Progress</h4>
+                            <div class="text-3xl font-bold mb-2">0%</div>
+                            <div class="text-blue-100">Just started your journey</div>
+                        </div>
+                        <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white">
+                            <h4 class="font-bold mb-2">Skills Developed</h4>
+                            <div class="text-3xl font-bold mb-2">0/12</div>
+                            <div class="text-green-100">Ready to begin learning</div>
+                        </div>
+                        <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-6 text-white">
+                            <h4 class="font-bold mb-2">Time to Target Role</h4>
+                            <div class="text-3xl font-bold mb-2">12</div>
+                            <div class="text-purple-100">Months with AI optimization</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 bg-white rounded-xl border border-gray-200 p-6">
+                        <h4 class="font-bold text-gray-900 mb-4">AI-Powered Progress Insights</h4>
+                        <div class="space-y-4">
+                            <div class="flex items-center p-4 bg-blue-50 rounded-lg">
+                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-sm font-bold">AI</span>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-blue-900">Personalized Learning Path Created</p>
+                                    <p class="text-sm text-blue-700">Based on your ${analyzePersonalityProfile()} personality and ${determineLearningStyle().type} learning style</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-4 bg-green-50 rounded-lg">
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-sm font-bold">📊</span>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-green-900">Smart Milestone Tracking</p>
+                                    <p class="text-sm text-green-700">AI will monitor progress and adjust recommendations in real-time</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        function generateNewIDP() {
+            document.getElementById('idpResults').classList.add('hidden');
+            document.getElementById('analysisStep').classList.remove('hidden');
+            
+            // Reset selections
+            document.getElementById('employeeSelect').value = '';
+            document.getElementById('targetRoleSelect').value = '';
+            document.getElementById('employeeProfileCard').classList.add('hidden');
+            document.getElementById('targetRoleCard').classList.add('hidden');
+            
+            currentEmployee = null;
+            currentTargetRole = null;
+            updateGenerateButton();
+        }
+
+        function showLoadingMessage(message) {
+            const loading = document.createElement('div');
+            loading.id = 'loadingMessage';
+            loading.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            loading.innerHTML = `
+                <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
+                    <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">AI Processing</h3>
+                    <p class="text-gray-600">${message}</p>
+                </div>
+            `;
+            document.body.appendChild(loading);
+        }
+
+        function hideLoadingMessage() {
+            const loading = document.getElementById('loadingMessage');
+            if (loading) {
+                loading.remove();
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

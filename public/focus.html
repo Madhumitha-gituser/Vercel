@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Mode - POWERGRID IDP Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root {
+            --powergrid-primary: #1e40af;
+            --powergrid-accent: #3b82f6;
+        }
+        
+        .bg-powergrid-primary { background-color: var(--powergrid-primary); }
+        .bg-powergrid-accent { background-color: var(--powergrid-accent); }
+        .text-powergrid-primary { color: var(--powergrid-primary); }
+        .border-powergrid-primary { border-color: var(--powergrid-primary); }
+        
+        /* Custom scrollbar for better focus experience */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-thumb { background: var(--powergrid-primary); border-radius: 4px; }
+        
+        /* Hide all UI chrome in focus mode */
+        .focus-mode-active {
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        /* Minimal notifications */
+        .focus-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            max-width: 300px;
+            transition: all 0.3s ease;
+        }
+        
+        .focus-notification.success { background: #10b981; }
+        .focus-notification.error { background: #ef4444; }
+        .focus-notification.info { background: #3b82f6; }
+    </style>
+</head>
+<body class="bg-black text-white focus-mode-active overflow-hidden">
+    <!-- Minimal Exit Overlay (Hidden by default) -->
+    <div id="exitOverlay" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center">
+        <div class="bg-gray-900 rounded-2xl p-8 max-w-md mx-4 text-center border border-gray-700">
+            <div class="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="log-out" class="w-8 h-8 text-red-400"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Exit Focus Mode?</h3>
+            <p class="text-gray-300 mb-6">Your progress will be saved automatically.</p>
+            <div class="flex gap-3">
+                <button onclick="hideExitOverlay()" class="flex-1 px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">
+                    Stay in Focus
+                </button>
+                <button onclick="exitFocusMode()" class="flex-1 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                    Exit to Course
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minimal Top Bar -->
+    <div class="fixed top-0 left-0 right-0 z-40 bg-gradient-to-r from-powergrid-primary to-powergrid-accent px-6 py-3">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                    <i data-lucide="eye" class="w-5 h-5 text-white"></i>
+                </div>
+                <div>
+                    <h1 id="focusTitle" class="text-white font-bold text-lg">Focus Mode</h1>
+                    <div class="text-white/70 text-sm">Distraction-free learning</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="text-white/70 text-sm" id="focusProgress">0%</div>
+                <button onclick="showExitOverlay()" class="text-white/80 hover:text-red-300 bg-red-500/20 hover:bg-red-500/40 rounded-lg px-3 py-2 transition-all flex items-center gap-2" title="Exit Focus Mode">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                    <span class="text-sm">Exit</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Screen Video -->
+    <div class="pt-16 h-screen bg-black">
+        <div class="h-full flex items-center justify-center">
+            <video id="focusVideo" class="w-full h-full object-contain" controls controlsList="nodownload" autoplay>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <!-- Minimal Progress Overlay -->
+    <div class="fixed bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black to-transparent p-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-gray-900/80 backdrop-blur-sm rounded-2xl p-4 border border-gray-700/50">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="text-white font-medium">Learning Progress</div>
+                    <div class="text-green-400 font-bold" id="progressText">0%</div>
+                </div>
+                <div class="bg-gray-700 rounded-full h-2 mb-2">
+                    <div id="progressBar" class="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <div class="flex items-center justify-between text-sm text-gray-400">
+                    <span id="timeDisplay">0:00 / 0:00</span>
+                    <span class="text-yellow-400">⚠️ Watch 95% to complete</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completion Modal -->
+    <div id="completionModal" class="fixed inset-0 bg-black/90 hidden z-60 flex items-center justify-center">
+        <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 max-w-md mx-4 text-center border border-gray-700">
+            <div class="w-20 h-20 bg-green-500/20 rounded-full mx-auto flex items-center justify-center mb-6">
+                <i data-lucide="check-circle" class="w-10 h-10 text-green-400"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">🎉 Course Completed!</h3>
+            <p class="text-gray-300 mb-6">You've successfully completed the course in focus mode.</p>
+            <div class="space-y-3">
+                <button onclick="generateCertificate()" class="w-full px-6 py-3 bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white rounded-xl font-medium transition-all transform hover:scale-105">
+                    <i data-lucide="award" class="w-5 h-5 inline mr-2"></i>
+                    Generate Certificate
+                </button>
+                <button onclick="exitFocusMode()" class="w-full px-6 py-3 bg-gray-700 text-white rounded-xl hover:bg-gray-600 transition-colors">
+                    Return to Course Page
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Focus Mode Data Management
+        let focusData = {};
+        let videoWatchData = {
+            totalDuration: 0,
+            watchedTime: 0,
+            currentProgress: 0,
+            lastValidTime: 0,
+            skipAttempts: 0,
+            isValidWatch: true,
+            requiredPercentage: 95
+        };
+
+        // Initialize focus mode on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFocusMode();
+        });
+
+        function loadFocusMode() {
+            // Get focus data from localStorage
+            const storedData = localStorage.getItem('focusModeData');
+            if (!storedData) {
+                showFocusNotification('⚠️ No focus session found. Redirecting back...', 'error');
+                setTimeout(() => {
+                    window.location.href = 'courses.html';
+                }, 2000);
+                return;
+            }
+
+            focusData = JSON.parse(storedData);
+            const video = document.getElementById('focusVideo');
+            
+            // Set video source and resume position
+            video.src = focusData.videoUrl;
+            video.currentTime = focusData.currentTime || 0;
+            
+            // Update UI with course information
+            const course = getCourseById(focusData.courseId);
+            if (course) {
+                document.getElementById('focusTitle').textContent = course.title;
+                document.title = `Focus Mode - ${course.title}`;
+            }
+            
+            // Restore progress data
+            videoWatchData.currentProgress = focusData.progress || 0;
+            videoWatchData.lastValidTime = focusData.currentTime || 0;
+            
+            // Initialize video event listeners
+            initializeFocusVideo();
+            
+            showFocusNotification('🎯 Focus mode activated! Minimal distractions enabled.', 'success');
+        }
+
+        function initializeFocusVideo() {
+            const video = document.getElementById('focusVideo');
+            
+            video.addEventListener('loadedmetadata', function() {
+                videoWatchData.totalDuration = video.duration;
+                updateFocusProgress();
+            });
+
+            video.addEventListener('timeupdate', function() {
+                const currentTime = video.currentTime;
+                const progress = (currentTime / videoWatchData.totalDuration) * 100;
+                
+                // Detect skipping (simplified for focus mode)
+                if (currentTime > videoWatchData.lastValidTime + 10) {
+                    video.currentTime = videoWatchData.lastValidTime;
+                    showFocusNotification('⚠️ Skipping detected! Please watch continuously.', 'error');
+                    return;
+                }
+                
+                // Update progress for continuous watching
+                if (currentTime >= videoWatchData.lastValidTime) {
+                    videoWatchData.lastValidTime = currentTime;
+                    videoWatchData.currentProgress = progress;
+                    updateFocusProgress();
+                    
+                    // Save progress periodically
+                    saveFocusProgress();
+                }
+            });
+
+            video.addEventListener('ended', function() {
+                if (videoWatchData.currentProgress >= videoWatchData.requiredPercentage) {
+                    showCompletionModal();
+                }
+            });
+        }
+
+        function updateFocusProgress() {
+            const progress = Math.min(videoWatchData.currentProgress, 100);
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const focusProgress = document.getElementById('focusProgress');
+            const timeDisplay = document.getElementById('timeDisplay');
+            
+            if (progressBar) progressBar.style.width = progress + '%';
+            if (progressText) progressText.textContent = Math.floor(progress) + '%';
+            if (focusProgress) focusProgress.textContent = Math.floor(progress) + '%';
+            
+            if (timeDisplay) {
+                const currentTime = formatTime(videoWatchData.lastValidTime);
+                const totalTime = formatTime(videoWatchData.totalDuration);
+                timeDisplay.textContent = `${currentTime} / ${totalTime}`;
+            }
+            
+            // Check for completion
+            if (progress >= videoWatchData.requiredPercentage) {
+                setTimeout(() => showCompletionModal(), 1000);
+            }
+        }
+
+        function saveFocusProgress() {
+            // Update localStorage with current progress
+            focusData.currentTime = videoWatchData.lastValidTime;
+            focusData.progress = videoWatchData.currentProgress;
+            focusData.timestamp = Date.now();
+            localStorage.setItem('focusModeData', JSON.stringify(focusData));
+            
+            // Also save to course progress
+            const courseProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
+            courseProgress[focusData.courseId] = {
+                progress: videoWatchData.currentProgress,
+                lastPosition: videoWatchData.lastValidTime,
+                timestamp: Date.now()
+            };
+            localStorage.setItem('courseProgress', JSON.stringify(courseProgress));
+        }
+
+        function showExitOverlay() {
+            document.getElementById('exitOverlay').classList.remove('hidden');
+        }
+
+        function hideExitOverlay() {
+            document.getElementById('exitOverlay').classList.add('hidden');
+        }
+
+        function exitFocusMode() {
+            // Save final progress
+            saveFocusProgress();
+            
+            // Clear focus mode data
+            localStorage.removeItem('focusModeData');
+            
+            // Redirect back to courses
+            window.location.href = 'courses.html';
+        }
+
+        function showCompletionModal() {
+            document.getElementById('completionModal').classList.remove('hidden');
+            showFocusNotification('🎉 Congratulations! Course completed in focus mode!', 'success');
+        }
+
+        function generateCertificate() {
+            // Mark course as completed
+            const completedCourses = JSON.parse(localStorage.getItem('completedCourses') || '[]');
+            if (!completedCourses.includes(parseInt(focusData.courseId))) {
+                completedCourses.push(parseInt(focusData.courseId));
+                localStorage.setItem('completedCourses', JSON.stringify(completedCourses));
+            }
+            
+            showFocusNotification('🏆 Certificate generated! Redirecting to download...', 'success');
+            
+            // Redirect to courses page with certificate modal
+            setTimeout(() => {
+                localStorage.setItem('showCertificate', focusData.courseId);
+                exitFocusMode();
+            }, 2000);
+        }
+
+        // Keyboard shortcuts for focus mode
+        document.addEventListener('keydown', function(e) {
+            const video = document.getElementById('focusVideo');
+            switch(e.key) {
+                case 'Escape':
+                    showExitOverlay();
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    if (video.paused) {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
+                    break;
+            }
+        });
+
+        // Utility functions
+        function formatTime(seconds) {
+            if (!seconds || seconds < 0) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function getCourseById(courseId) {
+            // Simple course data (should match courses.html)
+            const courses = [
+                {
+                    id: 0,
+                    title: '🧪 Test Course - Full Feature Demo',
+                    duration: '30 seconds',
+                    instructor: 'POWERGRID IDP System'
+                },
+                {
+                    id: 1,
+                    title: 'Advanced Leadership Strategies',
+                    duration: '6 weeks',
+                    instructor: 'Dr. Sarah Johnson'
+                },
+                {
+                    id: 2,
+                    title: 'Power Grid Safety Protocols',
+                    duration: '4 weeks',
+                    instructor: 'Eng. Rajesh Patel'
+                }
+            ];
+            return courses.find(c => c.id == courseId);
+        }
+
+        function showFocusNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `focus-notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

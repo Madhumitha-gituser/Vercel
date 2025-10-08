@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POWERGRID IDP Intelligence - Analytics & Reports</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        powergrid: {
+                            primary: "#232A7A",
+                            secondary: "#DA251D", 
+                            light: "#F8F9FA",
+                            dark: "#495057",
+                            accent: "#4A90E2"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo and Title -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-powergrid-primary to-powergrid-accent rounded-lg flex items-center justify-center">
+                            <i data-lucide="zap" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">POWERGRID IDP Intelligence</h1>
+                            <p class="text-sm text-gray-600">AI-Powered Development Platform</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-powergrid-primary transition-colors">Dashboard</a>
+                    <a href="profile.html" class="text-gray-600 hover:text-powergrid-primary transition-colors">My Profile</a>
+                    <a href="idp.html" class="text-gray-600 hover:text-powergrid-primary transition-colors">IDP</a>
+                    <a href="courses.html" class="text-gray-600 hover:text-powergrid-primary transition-colors">Courses</a>
+                    <a href="analytics.html" class="text-powergrid-primary font-medium border-b-2 border-powergrid-primary pb-1">Analytics</a>
+                    <a href="employee-idp-generator.html" class="text-gray-600 hover:text-powergrid-primary transition-colors">AI IDP Generator</a>
+                    <a href="wellness.html" class="text-gray-600 hover:text-powergrid-primary transition-colors">Wellness</a>
+                </nav>
+
+                <!-- User Section -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-powergrid-primary flex items-center justify-center text-white font-medium text-sm">M</div>
+                        <div class="hidden sm:block">
+                            <p class="text-sm font-medium text-gray-900">Madhumitha M</p>
+                            <p class="text-xs text-gray-500">Senior Engineer</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Exit/Logout Button -->
+                    <button onclick="exitApplication()" 
+                            class="flex items-center justify-center w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
+                            title="Exit Application">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Analytics & Performance Reports</h2>
+                    <p class="text-gray-600">Comprehensive insights into your professional development journey</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powergrid-primary">
+                        <option>Last 30 Days</option>
+                        <option>Last 3 Months</option>
+                        <option>Last 6 Months</option>
+                        <option>Last Year</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Metrics Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i data-lucide="trending-up" class="w-6 h-6 text-blue-600"></i>
+                    </div>
+                    <span class="text-sm text-green-600 font-medium">+23%</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">89%</h3>
+                <p class="text-gray-600 text-sm">Learning Progress</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        <i data-lucide="award" class="w-6 h-6 text-green-600"></i>
+                    </div>
+                    <span class="text-sm text-green-600 font-medium">+3</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">12</h3>
+                <p class="text-gray-600 text-sm">Certifications Earned</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                        <i data-lucide="clock" class="w-6 h-6 text-purple-600"></i>
+                    </div>
+                    <span class="text-sm text-green-600 font-medium">+15h</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">145</h3>
+                <p class="text-gray-600 text-sm">Learning Hours</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                        <i data-lucide="target" class="w-6 h-6 text-orange-600"></i>
+                    </div>
+                    <span class="text-sm text-green-600 font-medium">+2</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">8/12</h3>
+                <p class="text-gray-600 text-sm">Goals Completed</p>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Learning Progress Chart -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-semibold text-gray-900">Learning Progress Trend</h3>
+                        <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-1">
+                                <div class="w-3 h-3 bg-powergrid-primary rounded-full"></div>
+                                <span class="text-sm text-gray-600">Completed</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <div class="w-3 h-3 bg-powergrid-accent rounded-full"></div>
+                                <span class="text-sm text-gray-600">In Progress</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <canvas id="learningProgressChart" width="400" height="250"></canvas>
+                </div>
+            </div>
+
+            <!-- Skills Development Chart -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900">Skills Development</h3>
+                </div>
+                <div class="p-6">
+                    <canvas id="skillsChart" width="400" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Analytics -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Course Completion Rate -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900">Course Completion</h3>
+                </div>
+                <div class="p-6">
+                    <canvas id="completionChart" width="300" height="200"></canvas>
+                    <div class="mt-4 space-y-2">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-600">Completed</span>
+                            <span class="font-medium text-gray-900">15 courses</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-600">In Progress</span>
+                            <span class="font-medium text-gray-900">3 courses</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-600">Not Started</span>
+                            <span class="font-medium text-gray-900">7 courses</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time Distribution -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900">Time Distribution</h3>
+                </div>
+                <div class="p-6">
+                    <canvas id="timeChart" width="300" height="200"></canvas>
+                    <div class="mt-4 space-y-2">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-600">Technical Skills</span>
+                            <span class="font-medium text-gray-900">45%</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-600">Leadership</span>
+                            <span class="font-medium text-gray-900">30%</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-600">Communication</span>
+                            <span class="font-medium text-gray-900">25%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievement Rate -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900">Achievement Rate</h3>
+                </div>
+                <div class="p-6">
+                    <div class="text-center mb-4">
+                        <div class="text-3xl font-bold text-gray-900 mb-2">87%</div>
+                        <p class="text-gray-600">Overall Achievement</p>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-sm text-gray-600">Goals</span>
+                                <span class="text-sm font-medium">8/12</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 67%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-sm text-gray-600">Courses</span>
+                                <span class="text-sm font-medium">15/18</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: 83%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-sm text-gray-600">Skills</span>
+                                <span class="text-sm font-medium">12/15</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-purple-500 h-2 rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Analytics Tables -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Recent Activities -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900">Recent Activities</h3>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4" id="recentActivities">
+                        <!-- Activities will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Benchmarks -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900">Performance Benchmarks</h3>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4" id="benchmarks">
+                        <!-- Benchmarks will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comprehensive Report -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-semibold text-gray-900">Detailed Performance Report</h3>
+                    <div class="flex items-center gap-3">
+                        <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i data-lucide="file-spreadsheet" class="w-4 h-4 mr-2"></i>Export Excel
+                        </button>
+                        <button class="px-4 py-2 bg-powergrid-primary text-white rounded-lg hover:bg-opacity-90 transition-colors">
+                            <i data-lucide="download" class="w-4 h-4 mr-2"></i>Export Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-left py-3 px-4 font-semibold text-gray-900">Metric</th>
+                                <th class="text-left py-3 px-4 font-semibold text-gray-900">Current</th>
+                                <th class="text-left py-3 px-4 font-semibold text-gray-900">Target</th>
+                                <th class="text-left py-3 px-4 font-semibold text-gray-900">Progress</th>
+                                <th class="text-left py-3 px-4 font-semibold text-gray-900">Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody id="performanceTable">
+                            <!-- Table rows will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function exitApplication() {
+            // Show confirmation dialog
+            const confirmExit = confirm('Are you sure you want to log out?\n\nYou will be redirected to the login page.');
+            
+            if (confirmExit) {
+                // Clear all stored data
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // Show loading state on exit button
+                const exitBtn = document.querySelector('[onclick="exitApplication()"]');
+                if (exitBtn) {
+                    exitBtn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i>';
+                    exitBtn.disabled = true;
+                    lucide.createIcons();
+                }
+                
+                // Add fade-out effect and redirect
+                setTimeout(() => {
+                    document.body.style.transition = 'opacity 0.5s ease-out';
+                    document.body.style.opacity = '0.5';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 500);
+                }, 1000);
+            }
+        }
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Sample data
+        const recentActivities = [
+            { date: '2025-10-01', activity: 'Completed "Advanced Leadership" course', type: 'course', status: 'completed' },
+            { date: '2025-09-28', activity: 'Achieved Technical Excellence badge', type: 'badge', status: 'earned' },
+            { date: '2025-09-25', activity: 'Updated IDP goals for Q4 2025', type: 'goal', status: 'updated' },
+            { date: '2025-09-22', activity: 'Participated in Team Building workshop', type: 'workshop', status: 'attended' },
+            { date: '2025-09-20', activity: 'Started "Project Management Fundamentals"', type: 'course', status: 'started' }
+        ];
+
+        const benchmarks = [
+            { metric: 'Learning Hours/Month', current: 32, benchmark: 25, performance: 'above' },
+            { metric: 'Course Completion Rate', current: 89, benchmark: 75, performance: 'above' },
+            { metric: 'Goal Achievement Rate', current: 67, benchmark: 70, performance: 'below' },
+            { metric: 'Skill Development Score', current: 8.2, benchmark: 7.5, performance: 'above' },
+            { metric: 'Engagement Score', current: 92, benchmark: 85, performance: 'above' }
+        ];
+
+        const performanceMetrics = [
+            { metric: 'Overall IDP Progress', current: 67, target: 80, progress: 84, trend: 'up' },
+            { metric: 'Technical Skills', current: 8.2, target: 9.0, progress: 91, trend: 'up' },
+            { metric: 'Leadership Skills', current: 6.5, target: 8.5, progress: 76, trend: 'up' },
+            { metric: 'Communication Skills', current: 7.8, target: 9.0, progress: 87, trend: 'stable' },
+            { metric: 'Project Management', current: 5.2, target: 8.0, progress: 65, trend: 'up' },
+            { metric: 'Learning Engagement', current: 92, target: 95, progress: 97, trend: 'up' }
+        ];
+
+        // Initialize charts
+        function initLearningProgressChart() {
+            const ctx = document.getElementById('learningProgressChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                    datasets: [{
+                        label: 'Completed Hours',
+                        data: [12, 19, 23, 28, 32, 35, 38, 42, 45, 48],
+                        borderColor: '#232A7A',
+                        backgroundColor: 'rgba(35, 42, 122, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'In Progress Hours',
+                        data: [8, 12, 15, 18, 22, 25, 28, 30, 32, 35],
+                        borderColor: '#4A90E2',
+                        backgroundColor: 'rgba(74, 144, 226, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function initSkillsChart() {
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Leadership', 'Technical', 'Communication', 'Project Mgmt', 'Innovation', 'Problem Solving'],
+                    datasets: [{
+                        label: 'Current Level',
+                        data: [6.5, 8.2, 7.8, 5.2, 6.8, 7.5],
+                        backgroundColor: '#232A7A'
+                    }, {
+                        label: 'Target Level',
+                        data: [8.5, 9.0, 9.0, 8.0, 8.0, 8.5],
+                        backgroundColor: '#DA251D'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            });
+        }
+
+        function initCompletionChart() {
+            const ctx = document.getElementById('completionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completed', 'In Progress', 'Not Started'],
+                    datasets: [{
+                        data: [15, 3, 7],
+                        backgroundColor: ['#10B981', '#F59E0B', '#6B7280'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function initTimeChart() {
+            const ctx = document.getElementById('timeChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Technical Skills', 'Leadership', 'Communication'],
+                    datasets: [{
+                        data: [45, 30, 25],
+                        backgroundColor: ['#232A7A', '#4A90E2', '#10B981'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderRecentActivities() {
+            const container = document.getElementById('recentActivities');
+            container.innerHTML = recentActivities.map(activity => `
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 bg-${activity.type === 'course' ? 'blue' : activity.type === 'badge' ? 'yellow' : activity.type === 'goal' ? 'green' : 'purple'}-100 rounded-full flex items-center justify-center">
+                        <i data-lucide="${activity.type === 'course' ? 'book-open' : activity.type === 'badge' ? 'award' : activity.type === 'goal' ? 'target' : 'users'}" class="w-4 h-4 text-${activity.type === 'course' ? 'blue' : activity.type === 'badge' ? 'yellow' : activity.type === 'goal' ? 'green' : 'purple'}-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-gray-900 mb-1">${activity.activity}</p>
+                        <p class="text-xs text-gray-500">${new Date(activity.date).toLocaleDateString()}</p>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderBenchmarks() {
+            const container = document.getElementById('benchmarks');
+            container.innerHTML = benchmarks.map(benchmark => `
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-900">${benchmark.metric}</p>
+                        <p class="text-xs text-gray-500">Benchmark: ${benchmark.benchmark}${benchmark.metric.includes('Rate') ? '%' : benchmark.metric.includes('Score') ? '/10' : ''}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm font-medium text-gray-900">${benchmark.current}${benchmark.metric.includes('Rate') ? '%' : benchmark.metric.includes('Score') ? '/10' : ''}</span>
+                        <div class="w-2 h-2 rounded-full ${benchmark.performance === 'above' ? 'bg-green-500' : 'bg-red-500'}"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderPerformanceTable() {
+            const container = document.getElementById('performanceTable');
+            container.innerHTML = performanceMetrics.map(metric => `
+                <tr class="border-b border-gray-100">
+                    <td class="py-3 px-4 text-gray-900">${metric.metric}</td>
+                    <td class="py-3 px-4 text-gray-900">${metric.current}${metric.metric.includes('Progress') ? '%' : metric.metric.includes('Skills') || metric.metric.includes('Score') ? '/10' : ''}</td>
+                    <td class="py-3 px-4 text-gray-900">${metric.target}${metric.metric.includes('Progress') ? '%' : metric.metric.includes('Skills') || metric.metric.includes('Score') ? '/10' : ''}</td>
+                    <td class="py-3 px-4">
+                        <div class="flex items-center gap-2">
+                            <div class="w-20 bg-gray-200 rounded-full h-2">
+                                <div class="bg-powergrid-primary h-2 rounded-full" style="width: ${metric.progress}%"></div>
+                            </div>
+                            <span class="text-sm text-gray-600">${metric.progress}%</span>
+                        </div>
+                    </td>
+                    <td class="py-3 px-4">
+                        <div class="flex items-center gap-1">
+                            <i data-lucide="trending-${metric.trend === 'up' ? 'up' : metric.trend === 'down' ? 'down' : 'right'}" class="w-4 h-4 text-${metric.trend === 'up' ? 'green' : metric.trend === 'down' ? 'red' : 'gray'}-600"></i>
+                            <span class="text-sm text-${metric.trend === 'up' ? 'green' : metric.trend === 'down' ? 'red' : 'gray'}-600 capitalize">${metric.trend}</span>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initLearningProgressChart();
+            initSkillsChart();
+            initCompletionChart();
+            initTimeChart();
+            renderRecentActivities();
+            renderBenchmarks();
+            renderPerformanceTable();
+        });
+    </script>
+</body>
+</html>

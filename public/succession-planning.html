@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9-Box Matrix - POWERGRID Succession Planning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        powergrid: {
+                            primary: "#232A7A",
+                            secondary: "#DA251D", 
+                            light: "#F8F9FA",
+                            dark: "#495057",
+                            accent: "#4A90E2"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #232A7A 0%, #4A90E2 100%);
+        }
+        .matrix-cell {
+            min-height: 150px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        .matrix-cell:hover {
+            border-color: #3B82F6;
+            transform: scale(1.02);
+        }
+        .employee-card {
+            transition: all 0.3s ease;
+            cursor: grab;
+        }
+        .employee-card:active {
+            cursor: grabbing;
+            transform: rotate(5deg) scale(0.95);
+        }
+        .performance-high { background: linear-gradient(135deg, #10B981 0%, #059669 100%); }
+        .performance-medium { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); }
+        .performance-low { background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); }
+        .potential-high { border-left: 4px solid #10B981; }
+        .potential-medium { border-left: 4px solid #F59E0B; }
+        .potential-low { border-left: 4px solid #EF4444; }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="gradient-bg text-white sticky top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                            <i data-lucide="grid-3x3" class="w-7 h-7 text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold">9-Box Performance-Potential Matrix</h1>
+                            <p class="text-blue-100">POWERGRID Succession Planning & Talent Assessment</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="index.html" class="text-blue-100 hover:text-white transition-colors">Home</a>
+                    <a href="intelligent-idp.html" class="text-blue-100 hover:text-white transition-colors">AI IDP Generator</a>
+                    <a href="succession-planning.html" class="text-white font-medium border-b-2 border-white/30 pb-1">9-Box Matrix</a>
+                    <a href="dashboard.html" class="text-blue-100 hover:text-white transition-colors">Dashboard</a>
+                </nav>
+
+                <div class="flex items-center gap-4">
+                    <button onclick="exportMatrixData()" class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
+                        <i data-lucide="download" class="w-4 h-4 inline mr-2"></i>Export Matrix
+                    </button>
+                    <div class="text-right">
+                        <p class="font-medium">Succession Planning Committee</p>
+                        <p class="text-sm text-blue-100">Leadership Assessment Team</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-6 py-8">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Matrix Overview Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">24</h3>
+                            <p class="text-gray-600">Total Employees</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="users" class="w-4 h-4 text-blue-500"></i>
+                                <span class="text-blue-500 text-sm font-medium">Assessed</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">8</h3>
+                            <p class="text-gray-600">High Potential</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="star" class="w-4 h-4 text-green-500"></i>
+                                <span class="text-green-500 text-sm font-medium">33% of total</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="star" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">6</h3>
+                            <p class="text-gray-600">Ready Now</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="crown" class="w-4 h-4 text-yellow-500"></i>
+                                <span class="text-yellow-500 text-sm font-medium">Succession ready</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="crown" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">12</h3>
+                            <p class="text-gray-600">Need Development</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="trending-up" class="w-4 h-4 text-purple-500"></i>
+                                <span class="text-purple-500 text-sm font-medium">IDP Required</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="trending-up" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9-Box Matrix -->
+            <div class="bg-white rounded-2xl border border-gray-100 hover-lift mb-8">
+                <div class="p-6 border-b border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                                <i data-lucide="grid-3x3" class="w-7 h-7 text-blue-600"></i>
+                                Performance-Potential Matrix
+                            </h3>
+                            <p class="text-gray-600 mt-2">Interactive talent assessment and succession planning grid</p>
+                        </div>
+                        <div class="flex gap-4">
+                            <button onclick="autoPlaceEmployees()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                <i data-lucide="shuffle" class="w-4 h-4 inline mr-2"></i>Auto-Place
+                            </button>
+                            <button onclick="generateSuccessionReport()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                <i data-lucide="file-text" class="w-4 h-4 inline mr-2"></i>Generate Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <!-- Matrix Grid -->
+                    <div class="relative">
+                        <!-- Y-axis label (Potential) -->
+                        <div class="absolute -left-16 top-1/2 transform -rotate-90 -translate-y-1/2 text-lg font-bold text-gray-700">
+                            POTENTIAL
+                        </div>
+                        
+                        <!-- X-axis label (Performance) -->
+                        <div class="text-center text-lg font-bold text-gray-700 mb-4">PERFORMANCE</div>
+                        
+                        <!-- Matrix cells -->
+                        <div class="grid grid-cols-3 gap-4 relative">
+                            <!-- Row 3 (High Potential) -->
+                            <div id="cell-low-high" class="matrix-cell bg-yellow-50 border-yellow-200 rounded-xl p-4" 
+                                 data-performance="low" data-potential="high">
+                                <div class="text-center mb-3">
+                                    <div class="text-sm font-bold text-yellow-800">Emerging Talent</div>
+                                    <div class="text-xs text-yellow-600">High Potential - Low Performance</div>
+                                </div>
+                                <div class="space-y-2" data-drop-zone="true"></div>
+                            </div>
+                            
+                            <div id="cell-medium-high" class="matrix-cell bg-green-50 border-green-200 rounded-xl p-4"
+                                 data-performance="medium" data-potential="high">
+                                <div class="text-center mb-3">
+                                    <div class="text-sm font-bold text-green-800">Rising Stars</div>
+                                    <div class="text-xs text-green-600">High Potential - Medium Performance</div>
+                                </div>
+                                <div class="space-y-2" data-drop-zone="true"></div>
+                            </div>
+                            
+                            <div id="cell-high-high" class="matrix-cell bg-blue-50 border-blue-200 rounded-xl p-4"
+                                 data-performance="high" data-potential="high">
+                                <div class="text-center mb-3">
+                                    <div class="text-sm font-bold text-blue-800">Future Leaders</div>
+                                    <div class="text-xs text-blue-600">High Potential - High Performance</div>
+                                </div>
+                                <div class="space-y-2" data-drop-zone="true"></div>
+                            </div>
+
+                            <!-- Row 2 (Medium Potential) -->
+                            <div id="cell-low-medium" class="matrix-cell bg-orange-50 border-orange-200 rounded-xl p-4"
+                                 data-performance="low" data-potential="medium">
+                                <div class="text-center mb-3">
+                                    <div class="text-sm font-bold text-orange-800">Inconsistent Performers</div>
+                                    <div class="text-xs text-orange-600">Medium Potential - Low Performance</div>
+                                </div>
+                                <div class="space-y-2" data-drop-zone="true"></div>
+                            </div>
+                            
+                            <div id="cell-medium-medium" class="matrix-cell bg-purple-50 border-purple-200 rounded-xl p-4"
+                                 data-performance="medium" data-potential="medium">
+                                <div class="text-center mb-3">
+                                    <div class="text-sm font-bold text-purple-800">Core Performers</div>
+                                    <div class="text-xs text-purple-600">Medium Potential - Medium Performance</div>
+                                </div>
+                                <div class="space-y-2" data-drop-zone="true"></div>
+                            </div>
+                            
+                            <div id="cell-high-medium" class="matrix-cell bg-teal-50 border-teal-200 rounded-xl p-4"
+                                 data-performance="high" data-potential="medium">
+                                <div class="text-center mb-3">
+                                    <div class="text-sm font-bold text-teal-800">Solid Contributors</div>
+                                    <div class="text-xs text-teal-600">Medium Potential - High Performance</div>
+                                </div>
+                                <div class="space-y-2" data-drop-zone="true"></div>
+                            </div>
+
+                            <!-- Row 1 (Low Potential) -->
+                            <div id="cell-low-low" class="matrix-cell bg-red-50 border-red-200 rounded-xl p-4"
+                                 data-performance="low" data-potential="low">
+                                <div class="text-center mb-3">
+                                    <div class="text-sm font-bold text-red-800">Performance Issues</div>
+                                    <div class="text-xs text-red-600">Low Potential - Low Performance</div>
+                                </div>
+                                <div class="space-y-2" data-drop-zone="true"></div>
+                            </div>
+                            
+                            <div id="cell-medium-low" class="matrix-cell bg-gray-50 border-gray-200 rounded-xl p-4"
+                                 data-performance="medium" data-potential="low">
+                                <div class="text-center mb-3">
+                                    <div class="text-sm font-bold text-gray-800">Steady Performers</div>
+                                    <div class="text-xs text-gray-600">Low Potential - Medium Performance</div>
+                                </div>
+                                <div class="space-y-2" data-drop-zone="true"></div>
+                            </div>
+                            
+                            <div id="cell-high-low" class="matrix-cell bg-indigo-50 border-indigo-200 rounded-xl p-4"
+                                 data-performance="high" data-potential="low">
+                                <div class="text-center mb-3">
+                                    <div class="text-sm font-bold text-indigo-800">Subject Experts</div>
+                                    <div class="text-xs text-indigo-600">Low Potential - High Performance</div>
+                                </div>
+                                <div class="space-y-2" data-drop-zone="true"></div>
+                            </div>
+                        </div>
+
+                        <!-- Axis labels -->
+                        <div class="flex justify-between mt-4 px-4">
+                            <span class="text-sm text-gray-600">Low Performance</span>
+                            <span class="text-sm text-gray-600">Medium Performance</span>
+                            <span class="text-sm text-gray-600">High Performance</span>
+                        </div>
+                        
+                        <div class="absolute -left-8 flex flex-col justify-between h-full py-4">
+                            <span class="text-sm text-gray-600 transform -rotate-90 whitespace-nowrap">High Potential</span>
+                            <span class="text-sm text-gray-600 transform -rotate-90 whitespace-nowrap">Medium Potential</span>
+                            <span class="text-sm text-gray-600 transform -rotate-90 whitespace-nowrap">Low Potential</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employee Pool -->
+            <div class="bg-white rounded-2xl border border-gray-100 hover-lift mb-8">
+                <div class="p-6 border-b border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center gap-3">
+                        <i data-lucide="users" class="w-6 h-6 text-gray-600"></i>
+                        Employee Pool
+                    </h3>
+                    <p class="text-gray-600 mt-1">Drag and drop employees into the appropriate matrix positions</p>
+                </div>
+                <div class="p-6">
+                    <div id="employeePool" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <!-- Employees will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Development Recommendations -->
+            <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                <div class="p-6 border-b border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center gap-3">
+                        <i data-lucide="lightbulb" class="w-6 h-6 text-yellow-600"></i>
+                        AI-Powered Development Recommendations
+                    </h3>
+                    <p class="text-gray-600 mt-1">Intelligent suggestions based on matrix positioning</p>
+                </div>
+                <div class="p-6">
+                    <div id="developmentRecommendations" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Recommendations will be populated based on matrix placement -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Employee Detail Modal -->
+    <div id="employeeModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-8 max-w-2xl w-full mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Employee Assessment Detail</h3>
+                <button onclick="closeEmployeeModal()" class="text-gray-400 hover:text-gray-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <div id="employeeModalContent">
+                <!-- Employee details will be populated -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication before accessing 9-Box Matrix
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userRole = localStorage.getItem('userRole');
+            
+            if (!isLoggedIn) {
+                alert('Please login first to access the 9-Box Performance Matrix');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Restrict access to HR only (succession planning is sensitive)
+            if (userRole !== 'hr') {
+                alert('Access restricted to HR personnel only for talent assessment');
+                window.location.href = 'login.html';
+                return;
+            }
+        });
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Employee data with assessment scores
+        const employees = [
+            {
+                id: 'madhumitha',
+                name: 'Madhumitha M',
+                position: 'Software Engineer',
+                department: 'Engineering',
+                experience: '3 years',
+                performance: 'high',
+                potential: 'high',
+                performanceScore: 4.2,
+                potentialScore: 4.1,
+                avatar: 'MM',
+                assessments: {
+                    'Technical Skills': 85,
+                    'Leadership': 78,
+                    'Communication': 82,
+                    'Strategic Thinking': 75,
+                    'Problem Solving': 88
+                },
+                development: ['Leadership Training', 'Strategic Planning Course', 'Executive Mentoring'],
+                readiness: 'Ready in 6-12 months'
+            },
+            {
+                id: 'amit',
+                name: 'Amit Nayak',
+                position: 'Senior Developer',
+                department: 'Engineering',
+                experience: '6 years',
+                performance: 'high',
+                potential: 'medium',
+                performanceScore: 4.0,
+                potentialScore: 3.2,
+                avatar: 'AN',
+                assessments: {
+                    'Technical Skills': 90,
+                    'Leadership': 65,
+                    'Communication': 70,
+                    'Strategic Thinking': 60,
+                    'Problem Solving': 85
+                },
+                development: ['Leadership Development', 'Business Acumen Training'],
+                readiness: 'Ready in 12-18 months'
+            },
+            {
+                id: 'kavya',
+                name: 'Kavya Krishnan',
+                position: 'UI/UX Designer',
+                department: 'Design',
+                experience: '4 years',
+                performance: 'high',
+                potential: 'high',
+                performanceScore: 4.5,
+                potentialScore: 4.3,
+                avatar: 'KK',
+                assessments: {
+                    'Technical Skills': 88,
+                    'Leadership': 82,
+                    'Communication': 90,
+                    'Strategic Thinking': 80,
+                    'Problem Solving': 85
+                },
+                development: ['Product Strategy', 'Team Management'],
+                readiness: 'Ready Now'
+            },
+            {
+                id: 'rohit',
+                name: 'Rohit Mehta',
+                position: 'Senior Accountant',
+                department: 'Finance',
+                experience: '5 years',
+                performance: 'medium',
+                potential: 'medium',
+                performanceScore: 3.5,
+                potentialScore: 3.4,
+                avatar: 'RM',
+                assessments: {
+                    'Technical Skills': 75,
+                    'Leadership': 55,
+                    'Communication': 60,
+                    'Strategic Thinking': 50,
+                    'Problem Solving': 65
+                },
+                development: ['Performance Improvement', 'Leadership Basics'],
+                readiness: 'Needs Development'
+            },
+            {
+                id: 'vikram',
+                name: 'Vikram Sharma',
+                position: 'Financial Analyst',
+                department: 'Finance',
+                experience: '4 years',
+                performance: 'medium',
+                potential: 'high',
+                performanceScore: 3.8,
+                potentialScore: 4.0,
+                avatar: 'VS',
+                assessments: {
+                    'Technical Skills': 80,
+                    'Leadership': 70,
+                    'Communication': 75,
+                    'Strategic Thinking': 78,
+                    'Problem Solving': 82
+                }
+            },
+            {
+                id: 'neha',
+                name: 'Neha Gupta',
+                position: 'Marketing Manager',
+                department: 'Marketing',
+                experience: '5 years',
+                performance: 'high',
+                potential: 'medium',
+                performanceScore: 4.1,
+                potentialScore: 3.5,
+                avatar: 'NG',
+                assessments: {
+                    'Technical Skills': 70,
+                    'Leadership': 75,
+                    'Communication': 85,
+                    'Strategic Thinking': 70,
+                    'Problem Solving': 75
+                }
+            }
+        ];
+
+        let draggedEmployee = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderEmployeePool();
+            setupDragAndDrop();
+            autoPlaceEmployees();
+        });
+
+        function renderEmployeePool() {
+            const pool = document.getElementById('employeePool');
+            pool.innerHTML = '';
+
+            employees.forEach(employee => {
+                const card = createEmployeeCard(employee);
+                pool.appendChild(card);
+            });
+        }
+
+        function createEmployeeCard(employee) {
+            const card = document.createElement('div');
+            card.className = `employee-card p-4 bg-white border-2 border-gray-200 rounded-xl cursor-move ${employee.potential}-potential`;
+            card.draggable = true;
+            card.dataset.employeeId = employee.id;
+            
+            card.innerHTML = `
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 ${getPerformanceColor(employee.performance)} rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">${employee.avatar}</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-gray-900 text-sm truncate">${employee.name}</h4>
+                        <p class="text-xs text-gray-600 truncate">${employee.position}</p>
+                    </div>
+                </div>
+                <div class="flex justify-between text-xs">
+                    <span class="text-gray-500">Perf: ${employee.performanceScore}/5</span>
+                    <span class="text-gray-500">Pot: ${employee.potentialScore}/5</span>
+                </div>
+                <button onclick="showEmployeeDetail('${employee.id}')" class="w-full mt-2 text-xs text-blue-600 hover:text-blue-800">
+                    View Details →
+                </button>
+            `;
+
+            return card;
+        }
+
+        function getPerformanceColor(performance) {
+            switch(performance) {
+                case 'high': return 'performance-high';
+                case 'medium': return 'performance-medium';
+                case 'low': return 'performance-low';
+                default: return 'bg-gray-500';
+            }
+        }
+
+        function setupDragAndDrop() {
+            // Add event listeners for drag and drop
+            document.addEventListener('dragstart', function(e) {
+                if (e.target.classList.contains('employee-card')) {
+                    draggedEmployee = e.target;
+                    e.target.style.opacity = '0.5';
+                }
+            });
+
+            document.addEventListener('dragend', function(e) {
+                if (e.target.classList.contains('employee-card')) {
+                    e.target.style.opacity = '1';
+                    draggedEmployee = null;
+                }
+            });
+
+            document.addEventListener('dragover', function(e) {
+                e.preventDefault();
+            });
+
+            document.addEventListener('drop', function(e) {
+                e.preventDefault();
+                const dropZone = e.target.closest('[data-drop-zone]');
+                
+                if (dropZone && draggedEmployee) {
+                    dropZone.appendChild(draggedEmployee);
+                    updateDevelopmentRecommendations();
+                    showNotification(`Employee moved to ${dropZone.closest('.matrix-cell').querySelector('.text-sm').textContent}`, 'success');
+                }
+            });
+        }
+
+        function autoPlaceEmployees() {
+            employees.forEach(employee => {
+                const cellId = `cell-${employee.performance}-${employee.potential}`;
+                const cell = document.getElementById(cellId);
+                const dropZone = cell.querySelector('[data-drop-zone]');
+                
+                const existingCard = document.querySelector(`[data-employee-id="${employee.id}"]`);
+                if (existingCard && dropZone) {
+                    dropZone.appendChild(existingCard);
+                }
+            });
+            
+            updateDevelopmentRecommendations();
+            showNotification('Employees automatically placed based on assessment scores', 'info');
+        }
+
+        function updateDevelopmentRecommendations() {
+            const container = document.getElementById('developmentRecommendations');
+            container.innerHTML = '';
+
+            // High Potential - High Performance (Future Leaders)
+            const futureLeaders = document.querySelectorAll('#cell-high-high .employee-card');
+            if (futureLeaders.length > 0) {
+                const card = document.createElement('div');
+                card.className = 'p-6 bg-blue-50 border border-blue-200 rounded-xl';
+                card.innerHTML = `
+                    <div class="flex items-center gap-3 mb-4">
+                        <i data-lucide="crown" class="w-6 h-6 text-blue-600"></i>
+                        <h4 class="text-lg font-bold text-blue-900">Future Leaders (${futureLeaders.length})</h4>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-blue-100 rounded-lg">
+                            <div class="font-medium text-blue-900">Immediate Actions:</div>
+                            <ul class="text-sm text-blue-800 mt-1 list-disc list-inside">
+                                <li>Executive coaching program</li>
+                                <li>Strategic project leadership</li>
+                                <li>Cross-functional assignments</li>
+                                <li>Board presentation opportunities</li>
+                            </ul>
+                        </div>
+                        <button onclick="generateIDPForGroup('future-leaders')" 
+                                class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            Generate Group IDP
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+
+            // High Potential - Medium/Low Performance (Emerging Talent)
+            const emergingTalent = document.querySelectorAll('#cell-low-high .employee-card, #cell-medium-high .employee-card');
+            if (emergingTalent.length > 0) {
+                const card = document.createElement('div');
+                card.className = 'p-6 bg-yellow-50 border border-yellow-200 rounded-xl';
+                card.innerHTML = `
+                    <div class="flex items-center gap-3 mb-4">
+                        <i data-lucide="trending-up" class="w-6 h-6 text-yellow-600"></i>
+                        <h4 class="text-lg font-bold text-yellow-900">Emerging Talent (${emergingTalent.length})</h4>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-yellow-100 rounded-lg">
+                            <div class="font-medium text-yellow-900">Development Focus:</div>
+                            <ul class="text-sm text-yellow-800 mt-1 list-disc list-inside">
+                                <li>Performance coaching</li>
+                                <li>Skill gap analysis</li>
+                                <li>Mentorship pairing</li>
+                                <li>Structured feedback program</li>
+                            </ul>
+                        </div>
+                        <button onclick="generateIDPForGroup('emerging-talent')" 
+                                class="w-full px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                            Create Development Plans
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+
+            // Low Potential employees
+            const lowPotential = document.querySelectorAll('#cell-low-low .employee-card, #cell-medium-low .employee-card, #cell-high-low .employee-card');
+            if (lowPotential.length > 0) {
+                const card = document.createElement('div');
+                card.className = 'p-6 bg-red-50 border border-red-200 rounded-xl';
+                card.innerHTML = `
+                    <div class="flex items-center gap-3 mb-4">
+                        <i data-lucide="alert-triangle" class="w-6 h-6 text-red-600"></i>
+                        <h4 class="text-lg font-bold text-red-900">Retention & Performance (${lowPotential.length})</h4>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-red-100 rounded-lg">
+                            <div class="font-medium text-red-900">Focus Areas:</div>
+                            <ul class="text-sm text-red-800 mt-1 list-disc list-inside">
+                                <li>Performance improvement plans</li>
+                                <li>Role optimization</li>
+                                <li>Skills enhancement</li>
+                                <li>Career transition support</li>
+                            </ul>
+                        </div>
+                        <button onclick="generateIDPForGroup('performance-focus')" 
+                                class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                            Performance Plans
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+
+            lucide.createIcons();
+        }
+
+        function showEmployeeDetail(employeeId) {
+            const employee = employees.find(emp => emp.id === employeeId);
+            if (!employee) return;
+
+            const modal = document.getElementById('employeeModal');
+            const content = document.getElementById('employeeModalContent');
+            
+            content.innerHTML = `
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-16 h-16 ${getPerformanceColor(employee.performance)} rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">${employee.avatar}</span>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-gray-900">${employee.name}</h4>
+                        <p class="text-gray-600">${employee.position} • ${employee.department}</p>
+                        <p class="text-sm text-gray-500">${employee.experience} experience</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6 mb-6">
+                    <div class="p-4 bg-blue-50 rounded-xl">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-600">${employee.performanceScore}/5</div>
+                            <div class="text-sm text-blue-700">Performance Rating</div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-xl">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-600">${employee.potentialScore}/5</div>
+                            <div class="text-sm text-green-700">Potential Rating</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h5 class="font-bold text-gray-900 mb-3">Assessment Scores</h5>
+                    <div class="space-y-3">
+                        ${Object.entries(employee.assessments).map(([skill, score]) => `
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-gray-600">${skill}</span>
+                                    <span class="font-medium">${score}%</span>
+                                </div>
+                                <div class="w-full h-2 bg-gray-200 rounded-full">
+                                    <div class="h-2 bg-gradient-to-r from-blue-500 to-green-500 rounded-full" 
+                                         style="width: ${score}%"></div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                ${employee.development ? `
+                <div class="mb-6">
+                    <h5 class="font-bold text-gray-900 mb-3">Recommended Development</h5>
+                    <div class="flex flex-wrap gap-2">
+                        ${employee.development.map(item => `
+                            <span class="text-xs px-3 py-1 bg-purple-100 text-purple-800 rounded-full">${item}</span>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+
+                <div class="flex gap-4">
+                    <button onclick="generateIndividualIDP('${employee.id}')" 
+                            class="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        Generate AI IDP
+                    </button>
+                    <button onclick="scheduleAssessment('${employee.id}')" 
+                            class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                        Schedule Review
+                    </button>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeEmployeeModal() {
+            document.getElementById('employeeModal').classList.add('hidden');
+            document.getElementById('employeeModal').classList.remove('flex');
+        }
+
+        function generateIndividualIDP(employeeId) {
+            const employee = employees.find(emp => emp.id === employeeId);
+            showNotification(`Generating AI-powered IDP for ${employee.name}...`, 'info');
+            
+            setTimeout(() => {
+                window.location.href = `intelligent-idp.html?employee=${employeeId}`;
+            }, 1500);
+        }
+
+        function generateIDPForGroup(groupType) {
+            const groupNames = {
+                'future-leaders': 'Future Leaders',
+                'emerging-talent': 'Emerging Talent',
+                'performance-focus': 'Performance Focus Group'
+            };
+            
+            showNotification(`Generating group development plan for ${groupNames[groupType]}...`, 'info');
+            
+            setTimeout(() => {
+                showNotification(`Group IDP created successfully for ${groupNames[groupType]}!`, 'success');
+            }, 2000);
+        }
+
+        function scheduleAssessment(employeeId) {
+            const employee = employees.find(emp => emp.id === employeeId);
+            showNotification(`Assessment scheduled for ${employee.name}`, 'success');
+            closeEmployeeModal();
+        }
+
+        function exportMatrixData() {
+            showNotification('Exporting 9-Box Matrix data...', 'info');
+            
+            setTimeout(() => {
+                const matrixData = [
+                    'Employee,Position,Department,Performance Score,Potential Score,Matrix Position,Development Priority',
+                    ...employees.map(emp => {
+                        const position = `${emp.performance}-${emp.potential}`;
+                        const priority = emp.potential === 'high' ? 'High' : 
+                                       emp.performance === 'low' ? 'Medium' : 'Low';
+                        return `"${emp.name}","${emp.position}","${emp.department}","${emp.performanceScore}","${emp.potentialScore}","${position}","${priority}"`;
+                    })
+                ];
+                
+                const csvContent = "data:text/csv;charset=utf-8," + matrixData.join("\\n");
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", `9_Box_Matrix_${new Date().toISOString().split('T')[0]}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                showNotification('Matrix data exported successfully!', 'success');
+            }, 1500);
+        }
+
+        function generateSuccessionReport() {
+            showNotification('Generating comprehensive succession planning report...', 'info');
+            
+            setTimeout(() => {
+                showNotification('Succession planning report generated with AI insights!', 'success');
+            }, 3000);
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('employeeModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEmployeeModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team IDP Generator - Manager Dashboard - POWERGRID IDP Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        powergrid: {
+                            primary: "#232A7A",
+                            secondary: "#DA251D", 
+                            light: "#F8F9FA",
+                            dark: "#495057",
+                            accent: "#4A90E2"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo and Title -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-green-600 to-green-700 rounded-lg flex items-center justify-center">
+                            <i data-lucide="brain" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">Team IDP Generator</h1>
+                            <p class="text-sm text-gray-600">AI-Powered Team Development Planning</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="manager-dashboard.html" class="text-gray-600 hover:text-green-600 transition-colors">Team Overview</a>
+                    <a href="manager-idp.html" class="text-gray-600 hover:text-green-600 transition-colors">IDP Management</a>
+                    <a href="manager-analytics.html" class="text-gray-600 hover:text-green-600 transition-colors">Team Analytics</a>
+                    <a href="manager-development.html" class="text-gray-600 hover:text-green-600 transition-colors">Development Plans</a>
+                    <a href="manager-idp-generator.html" class="text-green-600 font-medium border-b-2 border-green-600 pb-1">AI IDP Generator</a>
+                </nav>
+
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <p class="font-medium">Rajesh Kumar</p>
+                        <p class="text-sm text-gray-500">Team Manager</p>
+                    </div>
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                        <span class="text-green-600 font-bold">RK</span>
+                    </div>
+                    
+                    <!-- Exit/Logout Button -->
+                    <button onclick="exitApplication()" 
+                            class="flex items-center justify-center w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
+                            title="Exit Application">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-6 py-8">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Manager Team Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">12</h3>
+                            <p class="text-gray-600">Team Members</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="users" class="w-4 h-4 text-blue-500"></i>
+                                <span class="text-blue-500 text-sm font-medium">Direct reports</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">8</h3>
+                            <p class="text-gray-600">IDPs Created</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="trending-up" class="w-4 h-4 text-green-500"></i>
+                                <span class="text-green-500 text-sm font-medium">+3 this month</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="check-circle" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">5</h3>
+                            <p class="text-gray-600">High Potential</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="star" class="w-4 h-4 text-yellow-500"></i>
+                                <span class="text-yellow-500 text-sm font-medium">Ready for promotion</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="star" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">92%</h3>
+                            <p class="text-gray-600">Team Engagement</p>
+                            <div class="flex items-center gap-1 mt-2">
+                                <i data-lucide="heart" class="w-4 h-4 text-red-500"></i>
+                                <span class="text-red-500 text-sm font-medium">Excellent</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="heart" class="w-6 h-6 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manager AI IDP Generation -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Team Member Selection -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100 gradient-bg text-white rounded-t-2xl">
+                        <h3 class="text-xl font-bold flex items-center gap-3">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                            Select Team Members for IDP
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Your Team Members</label>
+                                <div id="managerTeamList" class="max-h-64 overflow-y-auto border border-gray-200 rounded-xl">
+                                    <!-- Team member list will be populated -->
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Quick Selections</label>
+                                <div class="grid grid-cols-2 gap-3 mb-3">
+                                    <button onclick="selectHighPerformers()" class="px-4 py-2 bg-green-100 text-green-800 rounded-lg hover:bg-green-200 transition-colors">
+                                        <i data-lucide="trending-up" class="w-4 h-4 inline mr-2"></i>High Performers
+                                    </button>
+                                    <button onclick="selectNewHires()" class="px-4 py-2 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition-colors">
+                                        <i data-lucide="user-plus" class="w-4 h-4 inline mr-2"></i>New Team Members
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button onclick="selectAllMembers()" class="px-4 py-2 bg-purple-100 text-purple-800 rounded-lg hover:bg-purple-200 transition-colors">
+                                        <i data-lucide="check-circle" class="w-4 h-4 inline mr-2"></i>Select All
+                                    </button>
+                                    <button onclick="clearAllSelections()" class="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors">
+                                        <i data-lucide="x-circle" class="w-4 h-4 inline mr-2"></i>Clear All
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Development Goals -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100 gradient-bg text-white rounded-t-2xl">
+                        <h3 class="text-xl font-bold flex items-center gap-3">
+                            <i data-lucide="target" class="w-6 h-6"></i>
+                            Development Focus Areas
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Primary Development Goal</label>
+                                <select id="primaryGoal" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                    <option value="">Select Primary Goal</option>
+                                    <option value="leadership">Leadership Development</option>
+                                    <option value="technical">Technical Skills Enhancement</option>
+                                    <option value="communication">Communication & Collaboration</option>
+                                    <option value="management">People Management</option>
+                                    <option value="strategic">Strategic Thinking</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Timeline</label>
+                                <select id="timeline" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                    <option value="6">6 Months</option>
+                                    <option value="12" selected>12 Months</option>
+                                    <option value="18">18 Months</option>
+                                    <option value="24">24 Months</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Development Intensity</label>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <button onclick="setIntensity('standard')" id="intensityStandard" class="px-3 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50 transition-colors">
+                                        Standard
+                                    </button>
+                                    <button onclick="setIntensity('accelerated')" id="intensityAccelerated" class="px-3 py-2 border border-green-300 bg-green-50 text-green-800 rounded-lg text-sm hover:bg-green-100 transition-colors">
+                                        Accelerated
+                                    </button>
+                                    <button onclick="setIntensity('intensive')" id="intensityIntensive" class="px-3 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50 transition-colors">
+                                        Intensive
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="pt-4">
+                                <button id="generateTeamIDPBtn" onclick="generateTeamIDP()" disabled
+                                        class="w-full px-6 py-4 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-xl hover:from-green-700 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-bold text-lg">
+                                    <i data-lucide="sparkles" class="w-5 h-5 inline mr-2"></i>
+                                    Generate Personalized IDP
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manager Quick Actions -->
+            <div class="bg-white rounded-2xl border border-gray-100 hover-lift mb-8">
+                <div class="p-6 border-b border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center gap-3">
+                        <i data-lucide="zap" class="w-6 h-6 text-green-600"></i>
+                        Manager Quick Actions
+                    </h3>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                        <button onclick="createTeamSuccessionPlan()" class="p-4 bg-purple-50 border border-purple-200 rounded-xl hover:bg-purple-100 transition-colors text-left">
+                            <div class="flex items-center gap-3 mb-2">
+                                <i data-lucide="arrow-up-circle" class="w-5 h-5 text-purple-600"></i>
+                                <h4 class="font-bold text-purple-900">Succession Planning</h4>
+                            </div>
+                            <p class="text-sm text-purple-800">Identify and develop successors within team</p>
+                        </button>
+
+                        <button onclick="crossTrainingPlan()" class="p-4 bg-blue-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition-colors text-left">
+                            <div class="flex items-center gap-3 mb-2">
+                                <i data-lucide="repeat" class="w-5 h-5 text-blue-600"></i>
+                                <h4 class="font-bold text-blue-900">Cross-Training Plan</h4>
+                            </div>
+                            <p class="text-sm text-blue-800">Create skill-sharing development plans</p>
+                        </button>
+
+                        <button onclick="mentoringProgram()" class="p-4 bg-green-50 border border-green-200 rounded-xl hover:bg-green-100 transition-colors text-left">
+                            <div class="flex items-center gap-3 mb-2">
+                                <i data-lucide="user-check" class="w-5 h-5 text-green-600"></i>
+                                <h4 class="font-bold text-green-900">Mentoring Pairs</h4>
+                            </div>
+                            <p class="text-sm text-green-800">Setup peer mentoring within team</p>
+                        </button>
+
+                        <button onclick="performanceBooster()" class="p-4 bg-yellow-50 border border-yellow-200 rounded-xl hover:bg-yellow-100 transition-colors text-left">
+                            <div class="flex items-center gap-3 mb-2">
+                                <i data-lucide="rocket" class="w-5 h-5 text-yellow-600"></i>
+                                <h4 class="font-bold text-yellow-900">Performance Boost</h4>
+                            </div>
+                            <p class="text-sm text-yellow-800">Targeted improvement for underperformers</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team IDP Results -->
+            <div id="teamIDPResults" class="hidden space-y-8">
+                
+                <!-- Generated IDP Summary -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-7 h-7 text-green-600"></i>
+                            AI-Generated Team IDP
+                        </h3>
+                        <p class="text-gray-600 mt-2">Personalized development plan created successfully</p>
+                    </div>
+                    <div class="p-6">
+                        <div id="generatedIDPContent" class="space-y-6">
+                            <!-- Generated content will be populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Development Roadmap -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                            <i data-lucide="map" class="w-7 h-7 text-blue-600"></i>
+                            Team Development Roadmap
+                        </h3>
+                        <p class="text-gray-600 mt-2">Quarterly milestones and key activities</p>
+                    </div>
+                    <div class="p-6">
+                        <div id="teamRoadmapContent" class="space-y-4">
+                            <!-- Roadmap content will be populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manager Action Items -->
+                <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                            <i data-lucide="clipboard-list" class="w-7 h-7 text-purple-600"></i>
+                            Your Action Items as Manager
+                        </h3>
+                        <p class="text-gray-600 mt-2">Key responsibilities to support team member development</p>
+                    </div>
+                    <div class="p-6">
+                        <div id="managerActions" class="space-y-4">
+                            <!-- Manager actions will be populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manager Controls -->
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="approveAndAssignIDP()" 
+                            class="px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors">
+                        <i data-lucide="check" class="w-5 h-5 inline mr-2"></i>
+                        Approve & Assign IDP
+                    </button>
+                    <button onclick="scheduleDiscussion()" 
+                            class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors">
+                        <i data-lucide="calendar" class="w-5 h-5 inline mr-2"></i>
+                        Schedule 1:1 Discussion
+                    </button>
+                    <button onclick="exportManagerReport()" 
+                            class="px-6 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors">
+                        <i data-lucide="download" class="w-5 h-5 inline mr-2"></i>
+                        Export Manager Report
+                    </button>
+                    <button onclick="generateAnother()" 
+                            class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors">
+                        <i data-lucide="refresh-cw" class="w-5 h-5 inline mr-2"></i>
+                        Generate for Another Member
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function exitApplication() {
+            // Show confirmation dialog
+            const confirmExit = confirm('Are you sure you want to log out?\n\nYou will be redirected to the login page.');
+            
+            if (confirmExit) {
+                // Clear all stored data
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // Show loading state on exit button
+                const exitBtn = document.querySelector('[onclick="exitApplication()"]');
+                if (exitBtn) {
+                    exitBtn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i>';
+                    exitBtn.disabled = true;
+                    lucide.createIcons();
+                }
+                
+                // Add fade-out effect and redirect
+                setTimeout(() => {
+                    document.body.style.transition = 'opacity 0.5s ease-out';
+                    document.body.style.opacity = '0.5';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 500);
+                }, 1000);
+            }
+        }
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Manager's team members
+        const managerTeam = [
+            { id: 1, name: 'Amit Nayak', position: 'Senior Developer', performance: 4.0, potential: 'High', newHire: false },
+            { id: 2, name: 'Kavya Krishnan', position: 'UI/UX Designer', performance: 4.5, potential: 'High', newHire: false },
+            { id: 3, name: 'Rohit Mehta', position: 'Senior Accountant', performance: 3.5, potential: 'Medium', newHire: false },
+            { id: 4, name: 'Vikram Sharma', position: 'Financial Analyst', performance: 3.8, potential: 'High', newHire: true },
+            { id: 5, name: 'Sarah Johnson', position: 'Junior Developer', performance: 3.9, potential: 'High', newHire: true },
+            { id: 6, name: 'Raj Patel', position: 'QA Engineer', performance: 3.7, potential: 'Medium', newHire: false }
+        ];
+
+        let selectedTeamMember = null;
+        let currentIntensity = 'accelerated';
+
+        // Check if user has manager role and is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const userRole = localStorage.getItem('userRole');
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            
+            if (!isLoggedIn || userRole !== 'manager') {
+                alert('Please login first to access the Manager AI IDP Generator');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            renderManagerTeamList();
+        });
+
+        function renderManagerTeamList() {
+            const container = document.getElementById('managerTeamList');
+            container.innerHTML = '';
+
+            managerTeam.forEach(member => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100';
+                item.onclick = (e) => {
+                    if (e.target.type !== 'checkbox') {
+                        toggleTeamMember(member.id);
+                    }
+                };
+                
+                item.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" id="member-${member.id}" class="rounded text-green-600 focus:ring-green-500" onchange="toggleTeamMember(${member.id})">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                            <span class="text-green-600 font-bold text-xs">${member.name.split(' ').map(n => n[0]).join('')}</span>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-900">${member.name}</div>
+                            <div class="text-sm text-gray-600">${member.position}</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        ${member.newHire ? '<span class="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded mb-1">New</span><br>' : ''}
+                        <span class="text-xs px-2 py-1 rounded ${
+                            member.potential === 'High' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                        }">${member.potential} Potential</span>
+                        <div class="text-xs text-gray-500 mt-1">${member.performance}/5 Performance</div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+
+            // Add selection summary
+            const summaryDiv = document.createElement('div');
+            summaryDiv.id = 'selectionSummary';
+            summaryDiv.className = 'p-3 bg-blue-50 border-t border-blue-200 text-center text-sm text-blue-800';
+            summaryDiv.innerHTML = '<i data-lucide="users" class="w-4 h-4 inline mr-2"></i>Select multiple team members for batch IDP generation';
+            container.appendChild(summaryDiv);
+        }
+
+        // Update to use array for multiple selections
+        let selectedTeamMembers = [];
+
+        function toggleTeamMember(memberId) {
+            const checkbox = document.getElementById(`member-${memberId}`);
+            const member = managerTeam.find(m => m.id === memberId);
+            
+            if (checkbox.checked) {
+                if (!selectedTeamMembers.find(m => m.id === memberId)) {
+                    selectedTeamMembers.push(member);
+                }
+            } else {
+                selectedTeamMembers = selectedTeamMembers.filter(m => m.id !== memberId);
+            }
+            
+            updateSelectionSummary();
+            updateGenerateButton();
+        }
+
+        function updateSelectionSummary() {
+            const summaryDiv = document.getElementById('selectionSummary');
+            if (selectedTeamMembers.length === 0) {
+                summaryDiv.innerHTML = '<i data-lucide="users" class="w-4 h-4 inline mr-2"></i>Select multiple team members for batch IDP generation';
+                summaryDiv.className = 'p-3 bg-blue-50 border-t border-blue-200 text-center text-sm text-blue-800';
+            } else if (selectedTeamMembers.length === 1) {
+                summaryDiv.innerHTML = `<i data-lucide="user-check" class="w-4 h-4 inline mr-2"></i>1 member selected: ${selectedTeamMembers[0].name}`;
+                summaryDiv.className = 'p-3 bg-green-50 border-t border-green-200 text-center text-sm text-green-800';
+            } else {
+                const names = selectedTeamMembers.slice(0, 2).map(m => m.name.split(' ')[0]).join(', ');
+                const extra = selectedTeamMembers.length > 2 ? ` +${selectedTeamMembers.length - 2} more` : '';
+                summaryDiv.innerHTML = `<i data-lucide="users-check" class="w-4 h-4 inline mr-2"></i>${selectedTeamMembers.length} members selected: ${names}${extra}`;
+                summaryDiv.className = 'p-3 bg-green-50 border-t border-green-200 text-center text-sm text-green-800';
+            }
+        }
+
+        function selectHighPerformers() {
+            // Clear current selections first
+            selectedTeamMembers = [];
+            document.querySelectorAll('#managerTeamList input[type="checkbox"]').forEach(cb => cb.checked = false);
+            
+            const highPerformers = managerTeam.filter(m => m.performance >= 4.0);
+            highPerformers.forEach(member => {
+                const checkbox = document.getElementById(`member-${member.id}`);
+                checkbox.checked = true;
+                selectedTeamMembers.push(member);
+            });
+            
+            updateSelectionSummary();
+            updateGenerateButton();
+            showNotification(`Selected ${highPerformers.length} high performers for batch IDP generation`, 'success');
+        }
+
+        function selectNewHires() {
+            // Clear current selections first
+            selectedTeamMembers = [];
+            document.querySelectorAll('#managerTeamList input[type="checkbox"]').forEach(cb => cb.checked = false);
+            
+            const newHires = managerTeam.filter(m => m.newHire);
+            newHires.forEach(member => {
+                const checkbox = document.getElementById(`member-${member.id}`);
+                checkbox.checked = true;
+                selectedTeamMembers.push(member);
+            });
+            
+            updateSelectionSummary();
+            updateGenerateButton();
+            showNotification(`Selected ${newHires.length} new team members for batch IDP generation`, 'success');
+        }
+
+        function selectAllMembers() {
+            selectedTeamMembers = [];
+            managerTeam.forEach(member => {
+                const checkbox = document.getElementById(`member-${member.id}`);
+                checkbox.checked = true;
+                selectedTeamMembers.push(member);
+            });
+            
+            updateSelectionSummary();
+            updateGenerateButton();
+            showNotification(`Selected all ${managerTeam.length} team members for batch IDP generation`, 'success');
+        }
+
+        function clearAllSelections() {
+            selectedTeamMembers = [];
+            document.querySelectorAll('#managerTeamList input[type="checkbox"]').forEach(cb => cb.checked = false);
+            
+            updateSelectionSummary();
+            updateGenerateButton();
+            showNotification('Cleared all selections', 'info');
+        }
+
+        function setIntensity(intensity) {
+            currentIntensity = intensity;
+            
+            // Update button styles
+            ['standard', 'accelerated', 'intensive'].forEach(type => {
+                const btn = document.getElementById(`intensity${type.charAt(0).toUpperCase() + type.slice(1)}`);
+                if (type === intensity) {
+                    btn.className = 'px-3 py-2 border border-green-300 bg-green-50 text-green-800 rounded-lg text-sm hover:bg-green-100 transition-colors';
+                } else {
+                    btn.className = 'px-3 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50 transition-colors';
+                }
+            });
+        }
+
+        function updateGenerateButton() {
+            const button = document.getElementById('generateTeamIDPBtn');
+            const primaryGoal = document.getElementById('primaryGoal').value;
+            if (selectedTeamMembers.length > 0 && primaryGoal) {
+                button.disabled = false;
+                button.className = 'px-8 py-4 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-xl hover:from-green-700 hover:to-blue-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105';
+                if (selectedTeamMembers.length === 1) {
+                    button.innerHTML = `<i data-lucide="zap" class="w-5 h-5 inline mr-2"></i>🚀 Generate AI-Powered IDP`;
+                } else {
+                    button.innerHTML = `<i data-lucide="zap" class="w-5 h-5 inline mr-2"></i>🔥 Batch Generate ${selectedTeamMembers.length} AI-Powered IDPs`;
+                }
+            } else {
+                button.disabled = true;
+                button.className = 'px-8 py-4 bg-gray-300 text-gray-500 rounded-xl cursor-not-allowed font-semibold';
+                button.innerHTML = '<i data-lucide="users" class="w-5 h-5 inline mr-2"></i>Select Team Members for Batch Generation';
+            }
+        }
+
+        function generateTeamIDP() {
+            if (selectedTeamMembers.length === 0) {
+                showNotification('Please select at least one team member for batch generation', 'error');
+                return;
+            }
+
+            const primaryGoal = document.getElementById('primaryGoal').value;
+            const timeline = document.getElementById('timeline').value;
+            const isBatchMode = selectedTeamMembers.length > 1;
+
+            // Show enhanced loading message for batch processing
+            if (isBatchMode) {
+                showBatchProcessingMessage(selectedTeamMembers.length);
+            } else {
+                showLoadingMessage(`🤖 AI is creating personalized IDP for ${selectedTeamMembers[0].name}...`);
+            }
+
+            // Create progress tracking container
+            createBatchProgressTracker();
+
+            // Process each selected team member with enhanced feedback
+            let processedCount = 0;
+            const startTime = Date.now();
+            
+            selectedTeamMembers.forEach((member, index) => {
+                setTimeout(() => {
+                    processedCount++;
+                    
+                    // Update progress tracker
+                    updateBatchProgress(member.name, processedCount, selectedTeamMembers.length);
+                    
+                    // Generate IDP content for this member
+                    generateIDPContent(member, index);
+                    
+                    // Show enhanced progress notification
+                    if (isBatchMode) {
+                        showNotification(`🎯 AI Generated IDP for ${member.name} | Progress: ${processedCount}/${selectedTeamMembers.length}`, 'success');
+                    } else {
+                        showNotification(`✅ AI-Powered IDP Successfully Generated for ${member.name}!`, 'success');
+                    }
+                    
+                    // Final completion with performance metrics
+                    if (processedCount === selectedTeamMembers.length) {
+                        const processingTime = ((Date.now() - startTime) / 1000).toFixed(1);
+                        document.getElementById('teamIDPResults').classList.remove('hidden');
+                        document.getElementById('teamIDPResults').scrollIntoView({ behavior: 'smooth' });
+                        hideLoadingMessage();
+                        
+                        if (isBatchMode) {
+                            showNotification(`🚀 Batch Generation Complete! Generated ${processedCount} AI-powered IDPs in ${processingTime}s. Average: ${(processingTime/processedCount).toFixed(1)}s per IDP.`, 'success');
+                            showBatchCompletionSummary(processedCount, processingTime);
+                        } else {
+                            showNotification(`⚡ IDP Generation Complete in ${processingTime}s!`, 'success');
+                        }
+                        
+                        // Remove progress tracker after completion
+                        setTimeout(() => {
+                            const tracker = document.getElementById('batchProgressTracker');
+                            if (tracker) tracker.remove();
+                        }, 5000);
+                    }
+                }, (index + 1) * 600); // Slightly faster for demo
+            });
+        }
+
+        function generateIDPContent(member, index) {
+            const primaryGoal = document.getElementById('primaryGoal').value;
+            const timeline = document.getElementById('timeline').value;
+
+            // Generate IDP Summary
+            const idpContent = document.getElementById('generatedIDPContent');
+            
+            // If this is the first member, clear previous content
+            if (index === 0) {
+                idpContent.innerHTML = '';
+            }
+            
+            // Create a section for this team member
+            const memberSection = document.createElement('div');
+            memberSection.className = 'mb-8 p-6 bg-white rounded-xl border border-gray-200';
+            memberSection.innerHTML = `
+                <div class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        <span class="text-green-600 font-bold text-lg">${member.name.split(' ').map(n => n[0]).join('')}</span>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900">${member.name}</h3>
+                        <p class="text-gray-600">${member.position} • ${member.department}</p>
+                    </div>
+                    <div class="ml-auto">
+                        ${member.newHire ? '<span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">New Hire</span>' : ''}
+                        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">${member.potential} Potential</span>
+                    </div>
+                </div>
+            `;
+            
+            idpContent.appendChild(memberSection);
+            
+            // Add IDP details for this member
+            const detailsSection = document.createElement('div');
+            detailsSection.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="text-center p-4 bg-blue-50 rounded-xl">
+                        <div class="text-2xl font-bold text-blue-600">${timeline} Months</div>
+                        <div class="text-sm text-blue-700">Development Timeline</div>
+                    </div>
+                    <div class="text-center p-4 bg-green-50 rounded-xl">
+                        <div class="text-2xl font-bold text-green-600">7</div>
+                        <div class="text-sm text-green-700">Key Activities</div>
+                    </div>
+                    <div class="text-center p-4 bg-purple-50 rounded-xl">
+                        <div class="text-2xl font-bold text-purple-600">${currentIntensity.charAt(0).toUpperCase() + currentIntensity.slice(1)}</div>
+                        <div class="text-sm text-purple-700">Intensity Level</div>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-gray-50 rounded-xl">
+                    <h4 class="font-bold text-gray-900 mb-4">Personalized Development Plan for ${member.name}</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h5 class="font-medium text-gray-900 mb-3">Immediate Actions (Month 1-2)</h5>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle-dot" class="w-4 h-4 text-green-500 mt-0.5"></i>
+                                    ${getGoalSpecificAction(primaryGoal, 'immediate')}
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle-dot" class="w-4 h-4 text-green-500 mt-0.5"></i>
+                                    360-degree feedback collection from team and stakeholders
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle-dot" class="w-4 h-4 text-green-500 mt-0.5"></i>
+                                    Establish weekly 1:1 coaching sessions with manager
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-medium text-gray-900 mb-3">Medium-term Goals (Month 3-6)</h5>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle-dot" class="w-4 h-4 text-blue-500 mt-0.5"></i>
+                                    ${getGoalSpecificAction(primaryGoal, 'medium')}
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle-dot" class="w-4 h-4 text-blue-500 mt-0.5"></i>
+                                    Lead cross-functional project with 3+ departments
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i data-lucide="circle-dot" class="w-4 h-4 text-blue-500 mt-0.5"></i>
+                                    Complete external certification in chosen focus area
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            memberSection.appendChild(detailsSection);
+
+            // Generate Roadmap (only for the first member to avoid duplication)
+            if (index === 0) {
+                const roadmapContent = document.getElementById('teamRoadmapContent');
+            const quarters = Math.ceil(timeline / 3);
+            roadmapContent.innerHTML = '';
+
+            for (let q = 1; q <= quarters; q++) {
+                const quarterCard = document.createElement('div');
+                quarterCard.className = 'p-4 border border-gray-200 rounded-xl';
+                quarterCard.innerHTML = `
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                            Q${q}
+                        </div>
+                        <h5 class="font-bold text-gray-900">Quarter ${q} Milestones</h5>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <div class="font-medium text-gray-700 mb-2">Key Activities:</div>
+                            <ul class="space-y-1 text-gray-600">
+                                <li>• ${getQuarterlyActivity(primaryGoal, q)}</li>
+                                <li>• Regular progress reviews with manager</li>
+                                <li>• Peer feedback and collaboration sessions</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-700 mb-2">Success Metrics:</div>
+                            <ul class="space-y-1 text-gray-600">
+                                <li>• ${Math.floor(Math.random() * 20 + 70)}% skill improvement target</li>
+                                <li>• 360-degree feedback score increase</li>
+                                <li>• Project deliverable completion</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                roadmapContent.appendChild(quarterCard);
+            }
+
+            // Generate Manager Actions
+            const managerActions = document.getElementById('managerActions');
+            managerActions.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-3">
+                        <h5 class="font-medium text-gray-900">Weekly Responsibilities:</h5>
+                        <div class="space-y-2">
+                            <div class="p-3 bg-green-50 border border-green-200 rounded-lg">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="calendar" class="w-4 h-4 text-green-600"></i>
+                                    <span class="font-medium text-green-900">Weekly 1:1 Coaching</span>
+                                </div>
+                                <div class="text-sm text-green-800 mt-1">30-minute focused development discussions</div>
+                            </div>
+                            <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="eye" class="w-4 h-4 text-blue-600"></i>
+                                    <span class="font-medium text-blue-900">Progress Observation</span>
+                                </div>
+                                <div class="text-sm text-blue-800 mt-1">Monitor skill application in daily work</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <h5 class="font-medium text-gray-900">Monthly Responsibilities:</h5>
+                        <div class="space-y-2">
+                            <div class="p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="trending-up" class="w-4 h-4 text-purple-600"></i>
+                                    <span class="font-medium text-purple-900">Formal Progress Review</span>
+                                </div>
+                                <div class="text-sm text-purple-800 mt-1">Document achievements and adjust plan</div>
+                            </div>
+                            <div class="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="users" class="w-4 h-4 text-yellow-600"></i>
+                                    <span class="font-medium text-yellow-900">Stakeholder Feedback</span>
+                                </div>
+                                <div class="text-sm text-yellow-800 mt-1">Collect input from other managers/teams</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+                lucide.createIcons();
+            }
+        }
+
+        function getGoalSpecificAction(goal, phase) {
+            const actions = {
+                leadership: {
+                    immediate: 'Enroll in leadership fundamentals workshop',
+                    medium: 'Lead team initiative or special project'
+                },
+                technical: {
+                    immediate: 'Complete technical skills assessment',
+                    medium: 'Pursue advanced certification in core technology'
+                },
+                communication: {
+                    immediate: 'Join presentation skills training program',
+                    medium: 'Present to senior leadership or external clients'
+                },
+                management: {
+                    immediate: 'Shadow experienced manager for 2 weeks',
+                    medium: 'Take temporary team lead role on project'
+                },
+                strategic: {
+                    immediate: 'Complete strategic thinking assessment',
+                    medium: 'Contribute to department strategic planning session'
+                }
+            };
+            
+            return actions[goal] ? actions[goal][phase] : 'Complete relevant skill development activity';
+        }
+
+        function getQuarterlyActivity(goal, quarter) {
+            const activities = {
+                leadership: ['Leadership workshop completion', 'Team project leadership', 'Mentoring junior member', 'Strategic presentation'],
+                technical: ['Technical certification', 'Advanced project work', 'Knowledge sharing session', 'Innovation project'],
+                communication: ['Presentation training', 'Cross-team collaboration', 'External stakeholder meeting', 'Communication workshop'],
+                management: ['Management shadowing', 'Team lead assignment', 'Performance review training', 'Strategic planning participation'],
+                strategic: ['Strategic analysis project', 'Business case development', 'Market research assignment', 'Strategic presentation']
+            };
+            
+            const goalActivities = activities[goal] || ['Professional development activity', 'Skill application project', 'Progress evaluation', 'Advanced training'];
+            return goalActivities[Math.min(quarter - 1, goalActivities.length - 1)];
+        }
+
+        // Manager-specific action functions
+        function createTeamSuccessionPlan() {
+            showNotification('Creating succession planning analysis for your team...', 'info');
+        }
+
+        function crossTrainingPlan() {
+            showNotification('Generating cross-training matrix for team skills...', 'info');
+        }
+
+        function mentoringProgram() {
+            showNotification('Setting up peer mentoring program within team...', 'info');
+        }
+
+        function performanceBooster() {
+            showNotification('Creating targeted improvement plans for team members...', 'info');
+        }
+
+        function approveAndAssignIDP() {
+            if (!selectedTeamMember) {
+                showNotification('Please select a team member first', 'error');
+                return;
+            }
+
+            // Create comprehensive IDP approval record
+            const approvalRecord = {
+                idpId: `IDP_${selectedTeamMember.id}_${Date.now()}`,
+                employeeName: selectedTeamMember.name,
+                employeeId: selectedTeamMember.id,
+                position: selectedTeamMember.position,
+                department: selectedTeamMember.department,
+                managerName: 'Rajesh Sharma',
+                managerId: 'MGR005',
+                approvalDate: new Date().toISOString(),
+                status: 'Approved & Assigned',
+                primaryGoal: document.getElementById('primaryGoal').value,
+                developmentAreas: [
+                    'Leadership Development',
+                    'Technical Excellence',
+                    'Strategic Thinking',
+                    'Team Collaboration'
+                ],
+                assignedActivities: [
+                    {
+                        activity: 'Complete Advanced Leadership Program',
+                        timeline: '3 months',
+                        priority: 'High',
+                        resources: ['Internal Training', 'External Course'],
+                        deadline: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()
+                    },
+                    {
+                        activity: 'Lead Cross-Functional Project',
+                        timeline: '6 months',
+                        priority: 'High',
+                        resources: ['Project Assignment', 'Mentorship'],
+                        deadline: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString()
+                    },
+                    {
+                        activity: 'Industry Conference Attendance',
+                        timeline: '4 months',
+                        priority: 'Medium',
+                        resources: ['Conference Budget', 'Travel Approval'],
+                        deadline: new Date(Date.now() + 120 * 24 * 60 * 60 * 1000).toISOString()
+                    },
+                    {
+                        activity: 'Mentorship Program Participation',
+                        timeline: '12 months',
+                        priority: 'Medium',
+                        resources: ['Senior Mentor Assignment', 'Monthly Sessions'],
+                        deadline: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+                    }
+                ],
+                reviewSchedule: [
+                    {
+                        type: 'Initial Check-in',
+                        date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+                        status: 'Scheduled'
+                    },
+                    {
+                        type: 'Quarterly Review',
+                        date: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+                        status: 'Scheduled'
+                    },
+                    {
+                        type: 'Mid-Year Assessment',
+                        date: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(),
+                        status: 'Scheduled'
+                    },
+                    {
+                        type: 'Annual Review',
+                        date: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+                        status: 'Scheduled'
+                    }
+                ],
+                approvalComments: 'Excellent development plan aligned with career goals and organizational needs. Approved for immediate implementation.',
+                budgetApproval: {
+                    trainingBudget: 50000,
+                    travelBudget: 25000,
+                    resourceBudget: 15000,
+                    totalApproved: 90000,
+                    currency: 'INR'
+                }
+            };
+
+            // Save approval record
+            const approvedIDPs = JSON.parse(localStorage.getItem('approved_idps') || '[]');
+            approvedIDPs.push(approvalRecord);
+            localStorage.setItem('approved_idps', JSON.stringify(approvedIDPs));
+
+            // Update employee record
+            const employeeRecord = {
+                employeeId: selectedTeamMember.id,
+                idpStatus: 'Active - Approved',
+                approvalDate: approvalRecord.approvalDate,
+                nextReviewDate: approvalRecord.reviewSchedule[0].date,
+                assignedActivities: approvalRecord.assignedActivities.length,
+                completedActivities: 0,
+                progressPercentage: 0
+            };
+            localStorage.setItem(`employee_${selectedTeamMember.id}_idp`, JSON.stringify(employeeRecord));
+
+            // Create notification email for employee
+            const employeeNotification = {
+                to: selectedTeamMember.email,
+                from: 'rajesh.sharma@powergrid.in',
+                subject: 'IDP Approved & Assigned - Action Required',
+                body: `Dear ${selectedTeamMember.name},\n\nYour Individual Development Plan has been reviewed and approved!\n\nApproval Details:\n- IDP ID: ${approvalRecord.idpId}\n- Approved Budget: ₹${approvalRecord.budgetApproval.totalApproved.toLocaleString()}\n- Development Activities: ${approvalRecord.assignedActivities.length}\n- First Review: ${new Date(approvalRecord.reviewSchedule[0].date).toLocaleDateString()}\n\nNext Steps:\n1. Review your approved development plan\n2. Schedule initial activities\n3. Attend kickoff meeting on ${new Date(approvalRecord.reviewSchedule[0].date).toLocaleDateString()}\n\nBest regards,\nRajesh Sharma\nEngineering Manager`,
+                timestamp: new Date().toISOString()
+            };
+
+            // Save notification
+            const notifications = JSON.parse(localStorage.getItem('employee_notifications') || '[]');
+            notifications.push(employeeNotification);
+            localStorage.setItem('employee_notifications', JSON.stringify(notifications));
+
+            // Update dashboard metrics
+            const managerMetrics = JSON.parse(localStorage.getItem('manager_metrics') || '{}');
+            managerMetrics.approvedIDPs = (managerMetrics.approvedIDPs || 0) + 1;
+            managerMetrics.totalBudgetApproved = (managerMetrics.totalBudgetApproved || 0) + approvalRecord.budgetApproval.totalApproved;
+            managerMetrics.activeTeamIDPs = (managerMetrics.activeTeamIDPs || 0) + 1;
+            localStorage.setItem('manager_metrics', JSON.stringify(managerMetrics));
+
+            // Show success notification
+            showEnhancedNotification(
+                '✅ IDP Successfully Approved & Assigned!',
+                `${selectedTeamMember.name}'s IDP has been approved with ₹${approvalRecord.budgetApproval.totalApproved.toLocaleString()} budget. Employee notified. Tracking ID: ${approvalRecord.idpId}`,
+                'success',
+                10000
+            );
+
+            // Update button state
+            const button = document.querySelector('button[onclick="approveAndAssignIDP()"]');
+            button.innerHTML = '<i data-lucide="check-circle" class="w-5 h-5 inline mr-2"></i>✅ IDP Approved & Assigned';
+            button.className = 'px-6 py-3 bg-green-700 text-white rounded-xl cursor-default opacity-75';
+            button.disabled = true;
+
+            // Show additional info
+            setTimeout(() => {
+                showNotification(`📧 ${selectedTeamMember.name} has been notified via email. Next review scheduled for ${new Date(approvalRecord.reviewSchedule[0].date).toLocaleDateString()}`, 'info');
+            }, 3000);
+        }
+
+        function scheduleDiscussion() {
+            if (!selectedTeamMember) {
+                showNotification('Please select a team member first', 'error');
+                return;
+            }
+
+            // Create comprehensive 1:1 meeting schedule
+            const meetingDetails = {
+                meetingId: `MEETING_${selectedTeamMember.id}_${Date.now()}`,
+                type: 'IDP Development Discussion',
+                employeeName: selectedTeamMember.name,
+                employeeId: selectedTeamMember.id,
+                managerName: 'Rajesh Sharma',
+                managerId: 'MGR005',
+                scheduledDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // Next week
+                duration: 60, // minutes
+                location: 'Manager Office / Microsoft Teams',
+                meetingType: 'Hybrid',
+                agenda: [
+                    {
+                        item: 'IDP Goals Review',
+                        duration: 15,
+                        description: 'Discuss career aspirations and development objectives'
+                    },
+                    {
+                        item: 'Skills Assessment',
+                        duration: 15,
+                        description: 'Evaluate current competencies and growth areas'
+                    },
+                    {
+                        item: 'Resource Planning',
+                        duration: 15,
+                        description: 'Identify training needs and budget requirements'
+                    },
+                    {
+                        item: 'Timeline & Milestones',
+                        duration: 10,
+                        description: 'Set realistic deadlines and review checkpoints'
+                    },
+                    {
+                        item: 'Next Steps & Action Items',
+                        duration: 5,
+                        description: 'Define immediate actions and follow-up schedule'
+                    }
+                ],
+                preparationItems: [
+                    'Review current performance metrics',
+                    'Prepare career goal documentation',
+                    'Gather skill assessment results',
+                    'Research training programs and costs',
+                    'Prepare questions about development opportunities'
+                ],
+                expectedOutcomes: [
+                    'Finalized IDP with clear objectives',
+                    'Approved development activities and timeline',
+                    'Resource allocation and budget approval',
+                    'Defined success metrics and review schedule'
+                ],
+                attendees: [
+                    {
+                        name: 'Rajesh Sharma',
+                        email: 'rajesh.sharma@powergrid.in',
+                        role: 'Manager',
+                        required: true
+                    },
+                    {
+                        name: selectedTeamMember.name,
+                        email: selectedTeamMember.email,
+                        role: 'Employee',
+                        required: true
+                    }
+                ],
+                status: 'Scheduled',
+                createdDate: new Date().toISOString()
+            };
+
+            // Save meeting record
+            const scheduledMeetings = JSON.parse(localStorage.getItem('scheduled_meetings') || '[]');
+            scheduledMeetings.push(meetingDetails);
+            localStorage.setItem('scheduled_meetings', JSON.stringify(scheduledMeetings));
+
+            // Create calendar event
+            const calendarEvent = {
+                id: meetingDetails.meetingId,
+                title: `IDP Discussion - ${selectedTeamMember.name}`,
+                description: `1:1 Discussion for Individual Development Plan\n\nAgenda:\n${meetingDetails.agenda.map(item => `• ${item.item} (${item.duration}min)`).join('\n')}\n\nPreparation Required:\n${meetingDetails.preparationItems.map(item => `• ${item}`).join('\n')}`,
+                startDate: new Date(meetingDetails.scheduledDate),
+                endDate: new Date(new Date(meetingDetails.scheduledDate).getTime() + meetingDetails.duration * 60 * 1000),
+                location: meetingDetails.location,
+                attendees: meetingDetails.attendees.map(a => a.email),
+                priority: 'High',
+                category: '1:1 Meeting',
+                reminder: {
+                    enabled: true,
+                    minutes: [1440, 60, 15] // 1 day, 1 hour, 15 minutes before
+                }
+            };
+
+            // Save calendar event
+            const calendarEvents = JSON.parse(localStorage.getItem('manager_calendar_events') || '[]');
+            calendarEvents.push(calendarEvent);
+            localStorage.setItem('manager_calendar_events', JSON.stringify(calendarEvents));
+
+            // Create meeting invitations
+            const meetingInvite = {
+                to: selectedTeamMember.email,
+                cc: 'hr@powergrid.in',
+                from: 'rajesh.sharma@powergrid.in',
+                subject: `IDP Development Discussion - ${new Date(meetingDetails.scheduledDate).toLocaleDateString()}`,
+                body: `Dear ${selectedTeamMember.name},\n\nI have scheduled a 1:1 discussion to review and finalize your Individual Development Plan.\n\nMeeting Details:\n📅 Date: ${new Date(meetingDetails.scheduledDate).toLocaleDateString()}\n🕐 Time: ${new Date(meetingDetails.scheduledDate).toLocaleTimeString()}\n⏱️ Duration: ${meetingDetails.duration} minutes\n📍 Location: ${meetingDetails.location}\n🆔 Meeting ID: ${meetingDetails.meetingId}\n\nAgenda:\n${meetingDetails.agenda.map(item => `${item.duration}min - ${item.item}: ${item.description}`).join('\n')}\n\nPlease prepare:\n${meetingDetails.preparationItems.map(item => `• ${item}`).join('\n')}\n\nExpected Outcomes:\n${meetingDetails.expectedOutcomes.map(item => `• ${item}`).join('\n')}\n\nPlease confirm your attendance. If you need to reschedule, contact me at least 24 hours in advance.\n\nBest regards,\nRajesh Sharma\nEngineering Manager`,
+                timestamp: new Date().toISOString(),
+                meetingId: meetingDetails.meetingId
+            };
+
+            // Save email notification
+            const emailNotifications = JSON.parse(localStorage.getItem('meeting_invitations') || '[]');
+            emailNotifications.push(meetingInvite);
+            localStorage.setItem('meeting_invitations', JSON.stringify(emailNotifications));
+
+            // Generate ICS file for calendar
+            const icsContent = generateMeetingICS(calendarEvent);
+            const element = document.createElement('a');
+            const file = new Blob([icsContent], { type: 'text/calendar' });
+            element.href = URL.createObjectURL(file);
+            element.download = `IDP_Discussion_${selectedTeamMember.name.replace(' ', '_')}_${new Date().toISOString().split('T')[0]}.ics`;
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+
+            // Update manager dashboard metrics
+            const managerMetrics = JSON.parse(localStorage.getItem('manager_metrics') || '{}');
+            managerMetrics.scheduledMeetings = (managerMetrics.scheduledMeetings || 0) + 1;
+            managerMetrics.upcomingIDPReviews = (managerMetrics.upcomingIDPReviews || 0) + 1;
+            localStorage.setItem('manager_metrics', JSON.stringify(managerMetrics));
+
+            // Show success notification
+            showEnhancedNotification(
+                '📅 1:1 Discussion Successfully Scheduled!',
+                `Meeting with ${selectedTeamMember.name} scheduled for ${new Date(meetingDetails.scheduledDate).toLocaleDateString()} at ${new Date(meetingDetails.scheduledDate).toLocaleTimeString()}. Calendar invite sent. Meeting ID: ${meetingDetails.meetingId}`,
+                'success',
+                12000
+            );
+
+            // Update button state
+            const button = document.querySelector('button[onclick="scheduleDiscussion()"]');
+            button.innerHTML = '<i data-lucide="calendar-check" class="w-5 h-5 inline mr-2"></i>📅 Discussion Scheduled';
+            button.className = 'px-6 py-3 bg-blue-700 text-white rounded-xl cursor-default opacity-75';
+            button.disabled = true;
+
+            // Show additional information
+            setTimeout(() => {
+                showNotification(`📧 Meeting invitation sent to ${selectedTeamMember.name}. Calendar file downloaded. Duration: ${meetingDetails.duration} minutes`, 'info');
+            }, 4000);
+        }
+
+        function exportManagerReport() {
+            if (!selectedTeamMember) {
+                showNotification('Please select a team member first', 'error');
+                return;
+            }
+
+            showNotification('📊 Generating comprehensive manager report...', 'info');
+
+            // Generate comprehensive report data
+            const reportData = {
+                reportId: `MGR_RPT_${Date.now()}`,
+                generatedDate: new Date().toISOString(),
+                generatedBy: 'Rajesh Sharma',
+                managerId: 'MGR005',
+                reportType: 'Individual Development Plan - Manager Assessment',
+                employee: {
+                    name: selectedTeamMember.name,
+                    id: selectedTeamMember.id,
+                    position: selectedTeamMember.position,
+                    department: selectedTeamMember.department,
+                    email: selectedTeamMember.email,
+                    hireDate: selectedTeamMember.hireDate || '2022-06-15',
+                    experience: selectedTeamMember.experience || '3.2 years'
+                },
+                idpAnalysis: {
+                    primaryGoal: document.getElementById('primaryGoal').value || 'Leadership Development',
+                    currentPerformanceRating: 'Exceeds Expectations',
+                    potentialRating: 'High',
+                    readinessForPromotion: '12-18 months',
+                    keyStrengths: [
+                        'Strong technical expertise in cloud technologies',
+                        'Excellent problem-solving and analytical skills',
+                        'Proactive communication and collaboration',
+                        'Demonstrates leadership potential in team settings',
+                        'Quick learner with adaptability to new challenges'
+                    ],
+                    developmentAreas: [
+                        'Strategic thinking and business acumen',
+                        'People management and team leadership skills',
+                        'Presentation and public speaking confidence',
+                        'Cross-functional project management experience',
+                        'Industry knowledge and market awareness'
+                    ],
+                    riskFactors: [
+                        'Limited exposure to senior leadership interactions',
+                        'May need guidance on organizational politics navigation',
+                        'Requires support in managing larger project scope'
+                    ]
+                },
+                developmentPlan: {
+                    timeline: '12 months',
+                    totalBudgetRequired: 90000,
+                    approvalStatus: 'Recommended for Approval',
+                    phases: [
+                        {
+                            phase: 'Foundation Building (Months 1-3)',
+                            objectives: ['Complete leadership assessment', 'Begin formal training programs', 'Establish mentorship relationship'],
+                            activities: [
+                                'Leadership Style Assessment (DiSC/Myers-Briggs)',
+                                'Advanced Technical Certification Program',
+                                'Executive Mentorship Program Enrollment',
+                                'Cross-Department Shadowing (Finance, Marketing)'
+                            ],
+                            budget: 25000,
+                            successMetrics: ['Assessment completion', 'Training program enrollment', 'Mentor assignment']
+                        },
+                        {
+                            phase: 'Skill Development (Months 4-6)',
+                            objectives: ['Lead significant project initiative', 'Develop presentation skills', 'Expand network'],
+                            activities: [
+                                'Lead Digital Transformation Project',
+                                'Toastmasters/Public Speaking Program',
+                                'Industry Conference Attendance (2 events)',
+                                'Internal Leadership Workshop Series'
+                            ],
+                            budget: 35000,
+                            successMetrics: ['Project delivery success', 'Presentation evaluations', 'Network expansion']
+                        },
+                        {
+                            phase: 'Application & Growth (Months 7-9)',
+                            objectives: ['Mentor junior staff', 'Lead strategic initiatives', 'Build business acumen'],
+                            activities: [
+                                'Reverse Mentoring Program (mentor 2 juniors)',
+                                'Business Strategy Course (IIM Executive Program)',
+                                'Client Interaction Leadership Role',
+                                'Process Improvement Initiative Leadership'
+                            ],
+                            budget: 20000,
+                            successMetrics: ['Mentee feedback scores', 'Strategic project outcomes', 'Client satisfaction']
+                        },
+                        {
+                            phase: 'Mastery & Transition (Months 10-12)',
+                            objectives: ['Demonstrate readiness for promotion', 'Complete certification', 'Lead organizational change'],
+                            activities: [
+                                'PMP/Advanced Project Management Certification',
+                                'Lead Organization-wide Initiative',
+                                'Prepare and Present to Executive Committee',
+                                'Transition Planning for Current Role'
+                            ],
+                            budget: 10000,
+                            successMetrics: ['Certification achievement', 'Executive presentation success', 'Promotion readiness']
+                        }
+                    ]
+                },
+                managerAssessment: {
+                    overallRecommendation: 'Strongly Recommended',
+                    confidenceLevel: 'High (85%)',
+                    investmentJustification: 'High-potential employee with demonstrated performance and leadership capability. Strong ROI expected through enhanced productivity, team leadership, and retention.',
+                    riskMitigation: [
+                        'Regular monthly check-ins to monitor progress',
+                        'Flexible timeline adjustment based on workload',
+                        'Backup mentor assignment if primary mentor unavailable',
+                        'Budget reallocation flexibility between phases'
+                    ],
+                    expectedOutcomes: [
+                        'Promotion to Senior Engineer/Team Lead within 18 months',
+                        '25% improvement in team productivity metrics',
+                        'Enhanced employee engagement and retention',
+                        'Stronger succession pipeline for management roles'
+                    ]
+                },
+                complianceAndApprovals: {
+                    hrApprovalRequired: true,
+                    budgetApprovalLevel: 'Department Manager',
+                    trainingComplianceChecked: true,
+                    equalOpportunityCompliant: true,
+                    dataPrivacyCompliant: true
+                }
+            };
+
+            // Save report to localStorage
+            const managerReports = JSON.parse(localStorage.getItem('manager_reports') || '[]');
+            managerReports.push(reportData);
+            localStorage.setItem('manager_reports', JSON.stringify(managerReports));
+
+            // Generate and download PDF report
+            setTimeout(() => {
+                generateManagerPDFReport(reportData);
+                
+                // Update metrics
+                const managerMetrics = JSON.parse(localStorage.getItem('manager_metrics') || '{}');
+                managerMetrics.generatedReports = (managerMetrics.generatedReports || 0) + 1;
+                managerMetrics.totalReportBudget = (managerMetrics.totalReportBudget || 0) + reportData.developmentPlan.totalBudgetRequired;
+                localStorage.setItem('manager_metrics', JSON.stringify(managerMetrics));
+
+                // Success notification
+                showEnhancedNotification(
+                    '📊 Manager Report Successfully Generated!',
+                    `Comprehensive IDP report for ${selectedTeamMember.name} exported. Budget: ₹${reportData.developmentPlan.totalBudgetRequired.toLocaleString()}. Recommendation: ${reportData.managerAssessment.overallRecommendation}. Report ID: ${reportData.reportId}`,
+                    'success',
+                    12000
+                );
+
+                // Update button state
+                const button = document.querySelector('button[onclick="exportManagerReport()"]');
+                button.innerHTML = '<i data-lucide="file-check" class="w-5 h-5 inline mr-2"></i>📊 Report Generated';
+                button.className = 'px-6 py-3 bg-purple-700 text-white rounded-xl cursor-default opacity-75';
+                button.disabled = true;
+
+                // Additional info
+                setTimeout(() => {
+                    showNotification(`📈 Report includes 4-phase development plan, budget analysis, and risk assessment. Confidence level: ${reportData.managerAssessment.confidenceLevel}`, 'info');
+                }, 3000);
+            }, 1500);
+        }
+
+        function generateAnother() {
+            document.getElementById('teamIDPResults').classList.add('hidden');
+            selectedTeamMember = null;
+            
+            // Reset selections
+            document.getElementById('primaryGoal').value = '';
+            managerTeam.forEach(member => {
+                const radio = document.getElementById(`member-${member.id}`);
+                if (radio) radio.checked = false;
+            });
+            
+            updateGenerateButton();
+        }
+
+        function showLoadingMessage(message) {
+            const loading = document.createElement('div');
+            loading.id = 'loadingMessage';
+            loading.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            loading.innerHTML = `
+                <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
+                    <div class="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">AI Processing</h3>
+                    <p class="text-gray-600">${message}</p>
+                </div>
+            `;
+            document.body.appendChild(loading);
+        }
+
+        function hideLoadingMessage() {
+            const loading = document.getElementById('loadingMessage');
+            if (loading) {
+                loading.remove();
+            }
+        }
+
+        function showBatchProcessingMessage(memberCount) {
+            const message = `🤖 AI Batch Processing Mode Activated! Creating ${memberCount} personalized IDPs using advanced algorithms...`;
+            showLoadingMessage(message);
+        }
+
+        function createBatchProgressTracker() {
+            // Remove existing tracker if present
+            const existingTracker = document.getElementById('batchProgressTracker');
+            if (existingTracker) existingTracker.remove();
+            
+            const tracker = document.createElement('div');
+            tracker.id = 'batchProgressTracker';
+            tracker.className = 'fixed top-20 right-4 bg-white rounded-xl shadow-2xl border border-gray-200 p-6 z-50 min-w-80';
+            tracker.innerHTML = `
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center animate-pulse">
+                        <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">🔥 Batch AI Generation</h4>
+                        <p class="text-sm text-gray-600">Processing team members...</p>
+                    </div>
+                </div>
+                <div id="progressList" class="space-y-2"></div>
+                <div class="mt-4 bg-gray-200 rounded-full h-2">
+                    <div id="progressBar" class="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <div id="progressText" class="text-xs text-gray-500 mt-2 text-center">Initializing AI engine...</div>
+            `;
+            document.body.appendChild(tracker);
+            lucide.createIcons();
+        }
+
+        function updateBatchProgress(memberName, completed, total) {
+            const progressList = document.getElementById('progressList');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            if (progressList) {
+                const item = document.createElement('div');
+                item.className = 'flex items-center gap-2 text-sm';
+                item.innerHTML = `
+                    <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                    <span class="text-gray-700">✅ ${memberName}</span>
+                    <span class="text-green-600 font-medium ml-auto">${((Date.now() % 1000) / 100 + 0.5).toFixed(1)}s</span>
+                `;
+                progressList.appendChild(item);
+                lucide.createIcons();
+            }
+            
+            if (progressBar) {
+                const percentage = (completed / total) * 100;
+                progressBar.style.width = `${percentage}%`;
+            }
+            
+            if (progressText) {
+                progressText.textContent = `Processing: ${completed}/${total} completed (${Math.round((completed/total)*100)}%)`;
+            }
+        }
+
+        function showBatchCompletionSummary(count, time) {
+            const summary = document.createElement('div');
+            summary.className = 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-8 z-50 max-w-md text-center';
+            summary.innerHTML = `
+                <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="zap" class="w-8 h-8 text-white"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">🚀 Batch Generation Complete!</h3>
+                <div class="space-y-2 text-gray-600 mb-6">
+                    <p><strong>${count} AI-Powered IDPs</strong> generated successfully</p>
+                    <p>Total processing time: <strong>${time}s</strong></p>
+                    <p>Average per IDP: <strong>${(time/count).toFixed(1)}s</strong></p>
+                    <p class="text-sm text-green-600">⚡ 95% faster than manual process!</p>
+                </div>
+                <button onclick="this.parentElement.remove()" class="px-6 py-2 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-lg hover:from-green-600 hover:to-blue-600 transition-colors font-medium">
+                    🎉 Awesome!
+                </button>
+            `;
+            document.body.appendChild(summary);
+            lucide.createIcons();
+            
+            // Auto-remove after 8 seconds
+            setTimeout(() => {
+                if (summary.parentElement) summary.remove();
+            }, 8000);
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 4000);
+        }
+
+        // Update generate button when primary goal changes
+        document.getElementById('primaryGoal').addEventListener('change', updateGenerateButton);
+    </script>
+</body>
+</html>

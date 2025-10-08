@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard - POWERGRID IDP Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        powergrid: {
+                            primary: "#232A7A",
+                            secondary: "#DA251D", 
+                            light: "#F8F9FA",
+                            dark: "#495057",
+                            accent: "#4A90E2"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo and Title -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-green-600 to-green-700 rounded-lg flex items-center justify-center">
+                            <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">Manager Dashboard</h1>
+                            <p class="text-sm text-gray-600">Team Leadership & Development Hub</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="manager-dashboard.html" class="text-green-600 font-medium border-b-2 border-green-600 pb-1">Team Overview</a>
+                    <a href="manager-idp.html" class="text-gray-600 hover:text-green-600 transition-colors">IDP Management</a>
+                    <a href="manager-analytics.html" class="text-gray-600 hover:text-green-600 transition-colors">Team Analytics</a>
+                    <a href="manager-development.html" class="text-gray-600 hover:text-green-600 transition-colors">Development Plans</a>
+                    <a href="manager-idp-generator.html" class="text-gray-600 hover:text-green-600 transition-colors">AI IDP Generator</a>
+                </nav>
+
+                <!-- User Section -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold">RK</span>
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="text-sm font-medium text-gray-900">Rajesh Kumar</div>
+                            <div class="text-xs text-gray-600">Team Manager • Engineering Dept</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Exit/Logout Button -->
+                    <button onclick="exitApplication()" 
+                            class="flex items-center justify-center w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
+                            title="Exit Application">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-6 py-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Welcome Section -->
+            <div class="mb-8">
+                <div class="bg-gradient-to-r from-green-600 to-green-700 rounded-2xl p-8 text-white hover-lift">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-3xl font-bold mb-2">Welcome, Rajesh Kumar! 👋</h2>
+                            <p class="text-green-100 text-lg mb-4">Manage and empower your team's growth</p>
+                            <div class="flex items-center gap-6 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="users" class="w-4 h-4"></i>
+                                    <span>12 Team Members</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="target" class="w-4 h-4"></i>
+                                    <span>8 Pending IDPs</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="trending-up" class="w-4 h-4"></i>
+                                    <span>92% Team Engagement</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center">
+                                <span class="text-3xl font-bold text-white">RK</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">12</h3>
+                            <p class="text-gray-600">Team Members</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="clock" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">8</h3>
+                            <p class="text-gray-600">Pending Reviews</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="trending-up" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">92%</h3>
+                            <p class="text-gray-600">Avg Progress</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="award" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">47</h3>
+                            <p class="text-gray-600">Certificates</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Team Members & IDPs -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Pending IDP Approvals -->
+                    <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                        <div class="p-6 border-b border-gray-100">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-xl font-bold text-gray-900">Pending IDP Approvals</h3>
+                                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">8 Pending</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                                            <span class="text-white font-bold text-sm">AN</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-gray-900">Amit Nayak</h4>
+                                            <p class="text-sm text-gray-600">Senior Developer • Submitted 2 days ago</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button onclick="approveIDP('AN')" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                            <i data-lucide="check" class="w-4 h-4 inline mr-1"></i>Approve
+                                        </button>
+                                        <button onclick="reviewIDP('AN')" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                            <i data-lucide="eye" class="w-4 h-4 inline mr-1"></i>Review
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center">
+                                            <span class="text-white font-bold text-sm">PS</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-gray-900">Priya Singh</h4>
+                                            <p class="text-sm text-gray-600">Business Analyst • Submitted 1 day ago</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button onclick="approveIDP('PS')" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                            <i data-lucide="check" class="w-4 h-4 inline mr-1"></i>Approve
+                                        </button>
+                                        <button onclick="reviewIDP('PS')" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                            <i data-lucide="eye" class="w-4 h-4 inline mr-1"></i>Review
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6">
+                                <a href="manager-idp.html" class="inline-flex items-center gap-2 text-green-600 font-medium hover:text-green-700">
+                                    View All Pending IDPs
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Performance Overview -->
+                    <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                        <div class="p-6 border-b border-gray-100">
+                            <h3 class="text-xl font-bold text-gray-900">Team Learning Progress</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                            <span class="text-green-600 font-bold text-sm">MM</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-gray-900">Madhumitha M</div>
+                                            <div class="text-sm text-gray-600">Software Engineer</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <div class="text-right">
+                                            <div class="text-sm font-medium text-gray-900">85%</div>
+                                            <div class="text-xs text-gray-600">8/12 courses</div>
+                                        </div>
+                                        <div class="w-20 h-2 bg-gray-200 rounded-full">
+                                            <div class="w-4/5 h-2 bg-green-500 rounded-full"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <span class="text-blue-600 font-bold text-sm">AN</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-gray-900">Amit Nayak</div>
+                                            <div class="text-sm text-gray-600">Senior Developer</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <div class="text-right">
+                                            <div class="text-sm font-medium text-gray-900">72%</div>
+                                            <div class="text-xs text-gray-600">6/10 courses</div>
+                                        </div>
+                                        <div class="w-20 h-2 bg-gray-200 rounded-full">
+                                            <div class="w-3/4 h-2 bg-blue-500 rounded-full"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                                            <span class="text-purple-600 font-bold text-sm">PS</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-gray-900">Priya Singh</div>
+                                            <div class="text-sm text-gray-600">Business Analyst</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <div class="text-right">
+                                            <div class="text-sm font-medium text-gray-900">94%</div>
+                                            <div class="text-xs text-gray-600">9/9 courses</div>
+                                        </div>
+                                        <div class="w-20 h-2 bg-gray-200 rounded-full">
+                                            <div class="w-full h-2 bg-green-500 rounded-full"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6">
+                                <a href="manager-analytics.html" class="inline-flex items-center gap-2 text-green-600 font-medium hover:text-green-700">
+                                    View Detailed Analytics
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar -->
+                <div class="space-y-6">
+                    <!-- Quick Actions -->
+                    <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                        <div class="p-6 border-b border-gray-100">
+                            <h3 class="text-xl font-bold text-gray-900">Quick Actions</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-3">
+                                <button onclick="createTeamReport()" class="w-full flex items-center gap-3 p-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all">
+                                    <i data-lucide="file-text" class="w-5 h-5"></i>
+                                    <div class="text-left">
+                                        <div class="font-medium">Generate Report</div>
+                                        <div class="text-blue-200 text-sm">Team performance summary</div>
+                                    </div>
+                                </button>
+
+                                <button onclick="scheduleOneOnOne()" class="w-full flex items-center gap-3 p-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl hover:from-green-700 hover:to-green-800 transition-all">
+                                    <i data-lucide="calendar" class="w-5 h-5"></i>
+                                    <div class="text-left">
+                                        <div class="font-medium">Schedule 1:1</div>
+                                        <div class="text-green-200 text-sm">One-on-one meetings</div>
+                                    </div>
+                                </button>
+
+                                <button onclick="assignLearning()" class="w-full flex items-center gap-3 p-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all">
+                                    <i data-lucide="book-plus" class="w-5 h-5"></i>
+                                    <div class="text-left">
+                                        <div class="font-medium">Assign Learning</div>
+                                        <div class="text-purple-200 text-sm">Recommend courses</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills Gap Analysis -->
+                    <div class="bg-white rounded-2xl border border-gray-100 hover-lift">
+                        <div class="p-6 border-b border-gray-100">
+                            <h3 class="text-xl font-bold text-gray-900">Skills Gap Analysis</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span class="text-gray-600">Cloud Technologies</span>
+                                        <span class="text-red-600 font-medium">High Priority</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-200 rounded-full">
+                                        <div class="w-1/4 h-2 bg-red-500 rounded-full"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-1">25% team proficiency</div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span class="text-gray-600">Data Analytics</span>
+                                        <span class="text-yellow-600 font-medium">Medium Priority</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-200 rounded-full">
+                                        <div class="w-3/5 h-2 bg-yellow-500 rounded-full"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-1">60% team proficiency</div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span class="text-gray-600">Leadership</span>
+                                        <span class="text-green-600 font-medium">Good</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-gray-200 rounded-full">
+                                        <div class="w-4/5 h-2 bg-green-500 rounded-full"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-1">80% team proficiency</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function exitApplication() {
+            // Show confirmation dialog
+            const confirmExit = confirm('Are you sure you want to log out?\n\nYou will be redirected to the login page.');
+            
+            if (confirmExit) {
+                // Clear all stored data
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // Show loading state on exit button
+                const exitBtn = document.querySelector('[onclick="exitApplication()"]');
+                if (exitBtn) {
+                    const originalContent = exitBtn.innerHTML;
+                    exitBtn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i>';
+                    exitBtn.disabled = true;
+                    lucide.createIcons();
+                }
+                
+                // Add fade-out effect and redirect
+                setTimeout(() => {
+                    document.body.style.transition = 'opacity 0.5s ease-out';
+                    document.body.style.opacity = '0.5';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 500);
+                }, 1000);
+            }
+        }
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Check if user has manager role and is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const userRole = localStorage.getItem('userRole');
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            
+            if (!isLoggedIn || userRole !== 'manager') {
+                alert('Please login as Manager to access the Manager dashboard');
+                window.location.href = 'login.html';
+                return;
+            }
+        });
+
+        // Initialize pending approvals data
+        let pendingApprovals = [
+            {
+                id: 'AN001',
+                employeeCode: 'AN',
+                employeeName: 'Amit Nayak',
+                position: 'Senior Developer',
+                department: 'Information Technology',
+                submittedDate: '2025-10-04',
+                submittedDaysAgo: 2,
+                status: 'Pending Review',
+                careerGoal: 'Technical Leadership',
+                timeline: '12 months',
+                priority: 'High',
+                idpData: {
+                    learningStyle: 'Visual',
+                    developmentAreas: ['Leadership Skills', 'System Architecture', 'Team Management'],
+                    currentSkills: ['Java', 'Spring Boot', 'Microservices', 'AWS'],
+                    targetRole: 'Senior Technical Lead',
+                    milestones: [
+                        { phase: 'Q1', goal: 'Complete leadership fundamentals course', status: 'planned' },
+                        { phase: 'Q2', goal: 'Lead architecture design for new project', status: 'planned' },
+                        { phase: 'Q3', goal: 'Mentor 2 junior developers', status: 'planned' },
+                        { phase: 'Q4', goal: 'Present technical vision to leadership', status: 'planned' }
+                    ]
+                }
+            },
+            {
+                id: 'PS001', 
+                employeeCode: 'PS',
+                employeeName: 'Priya Singh',
+                position: 'Business Analyst',
+                department: 'Business Operations',
+                submittedDate: '2025-10-05',
+                submittedDaysAgo: 1,
+                status: 'Pending Review',
+                careerGoal: 'Product Management',
+                timeline: '18 months',
+                priority: 'Medium',
+                idpData: {
+                    learningStyle: 'Reading/Writing',
+                    developmentAreas: ['Product Strategy', 'Market Analysis', 'Stakeholder Management'],
+                    currentSkills: ['Business Analysis', 'Requirements Gathering', 'Process Improvement', 'SQL'],
+                    targetRole: 'Senior Product Manager',
+                    milestones: [
+                        { phase: 'Q1', goal: 'Complete Product Management certification', status: 'planned' },
+                        { phase: 'Q2', goal: 'Lead market research project', status: 'planned' },
+                        { phase: 'Q3', goal: 'Develop product roadmap', status: 'planned' },
+                        { phase: 'Q4', goal: 'Present business case to executives', status: 'planned' }
+                    ]
+                }
+            }
+        ];
+
+        // Manager Dashboard Functions
+        function approveIDP(employeeCode) {
+            const employee = pendingApprovals.find(emp => emp.employeeCode === employeeCode);
+            if (!employee) {
+                showNotification('Employee not found', 'error');
+                return;
+            }
+
+            // Show approval confirmation modal
+            showApprovalModal(employee);
+        }
+
+        function reviewIDP(employeeCode) {
+            const employee = pendingApprovals.find(emp => emp.employeeCode === employeeCode);
+            if (!employee) {
+                showNotification('Employee not found', 'error');
+                return;
+            }
+
+            // Show detailed review modal
+            showDetailedReviewModal(employee);
+        }
+
+        function showApprovalModal(employee) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-bold text-gray-900">📋 IDP Approval Request</h2>
+                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <!-- Employee Info -->
+                        <div class="flex items-center gap-4 mb-6 p-4 bg-blue-50 rounded-xl">
+                            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">${employee.employeeCode}</span>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900">${employee.employeeName}</h3>
+                                <p class="text-gray-600">${employee.position} • ${employee.department}</p>
+                                <p class="text-sm text-blue-600">Submitted ${employee.submittedDaysAgo} day${employee.submittedDaysAgo > 1 ? 's' : ''} ago</p>
+                            </div>
+                        </div>
+
+                        <!-- IDP Summary -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="p-4 bg-green-50 rounded-lg">
+                                <h4 class="font-semibold text-green-900 mb-2">🎯 Career Goal</h4>
+                                <p class="text-green-800">${employee.careerGoal}</p>
+                            </div>
+                            <div class="p-4 bg-purple-50 rounded-lg">
+                                <h4 class="font-semibold text-purple-900 mb-2">⏱️ Timeline</h4>
+                                <p class="text-purple-800">${employee.timeline}</p>
+                            </div>
+                            <div class="p-4 bg-yellow-50 rounded-lg">
+                                <h4 class="font-semibold text-yellow-900 mb-2">🎓 Learning Style</h4>
+                                <p class="text-yellow-800">${employee.idpData.learningStyle}</p>
+                            </div>
+                            <div class="p-4 bg-red-50 rounded-lg">
+                                <h4 class="font-semibold text-red-900 mb-2">⚡ Priority</h4>
+                                <p class="text-red-800">${employee.priority}</p>
+                            </div>
+                        </div>
+
+                        <!-- Development Areas -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-gray-900 mb-3">🚀 Development Areas</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${employee.idpData.developmentAreas.map(area => 
+                                    `<span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">${area}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Manager Comments -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Manager Comments (Optional)</label>
+                            <textarea id="managerComments-${employee.id}" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" rows="3" placeholder="Add any comments or feedback for this IDP..."></textarea>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex gap-3 justify-end">
+                            <button onclick="closeModal()" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                Cancel
+                            </button>
+                            <button onclick="requestRevision('${employee.id}')" class="px-6 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                                <i data-lucide="edit" class="w-4 h-4 inline mr-2"></i>Request Revision
+                            </button>
+                            <button onclick="confirmApproval('${employee.id}')" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                <i data-lucide="check" class="w-4 h-4 inline mr-2"></i>Approve IDP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            lucide.createIcons();
+        }
+
+        function showDetailedReviewModal(employee) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-bold text-gray-900">🔍 Detailed IDP Review</h2>
+                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <!-- Employee Header -->
+                        <div class="flex items-center gap-4 mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+                            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold text-lg">${employee.employeeCode}</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">${employee.employeeName}</h3>
+                                <p class="text-gray-600">${employee.position} • ${employee.department}</p>
+                                <p class="text-sm text-blue-600">Target Role: ${employee.idpData.targetRole}</p>
+                            </div>
+                        </div>
+
+                        <!-- Current Skills -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-gray-900 mb-3">💪 Current Skills</h4>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                ${employee.idpData.currentSkills.map(skill => 
+                                    `<div class="p-2 bg-green-100 text-green-800 rounded-lg text-sm text-center">${skill}</div>`
+                                ).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Development Milestones -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-gray-900 mb-3">🎯 Development Milestones</h4>
+                            <div class="space-y-3">
+                                ${employee.idpData.milestones.map((milestone, index) => `
+                                    <div class="p-4 border border-gray-200 rounded-lg">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                                    ${index + 1}
+                                                </div>
+                                                <div>
+                                                    <h5 class="font-medium text-gray-900">${milestone.phase}</h5>
+                                                    <p class="text-gray-600">${milestone.goal}</p>
+                                                </div>
+                                            </div>
+                                            <span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm capitalize">${milestone.status}</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Manager Assessment -->
+                        <div class="mb-6 p-4 bg-yellow-50 rounded-xl">
+                            <h4 class="font-semibold text-yellow-900 mb-3">📊 Manager Assessment</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Feasibility</label>
+                                    <select class="w-full p-2 border border-gray-300 rounded-lg">
+                                        <option value="high">High - Very Achievable</option>
+                                        <option value="medium">Medium - Requires Support</option>
+                                        <option value="low">Low - Needs Revision</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Resource Requirements</label>
+                                    <select class="w-full p-2 border border-gray-300 rounded-lg">
+                                        <option value="minimal">Minimal Resources</option>
+                                        <option value="moderate">Moderate Resources</option>
+                                        <option value="significant">Significant Resources</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Timeline Realistic</label>
+                                    <select class="w-full p-2 border border-gray-300 rounded-lg">
+                                        <option value="yes">Yes - Appropriate</option>
+                                        <option value="tight">Tight but Possible</option>
+                                        <option value="unrealistic">Unrealistic</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detailed Comments -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Detailed Review Comments</label>
+                            <textarea id="detailedComments-${employee.id}" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" rows="4" placeholder="Provide detailed feedback on the IDP, including suggestions for improvement, resource allocation, and timeline adjustments..."></textarea>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex gap-3 justify-end">
+                            <button onclick="closeModal()" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                Close Review
+                            </button>
+                            <button onclick="saveReviewAndRequestRevision('${employee.id}')" class="px-6 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                                <i data-lucide="edit" class="w-4 h-4 inline mr-2"></i>Save & Request Changes
+                            </button>
+                            <button onclick="saveReviewAndApprove('${employee.id}')" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                <i data-lucide="check-circle" class="w-4 h-4 inline mr-2"></i>Save & Approve
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            lucide.createIcons();
+        }
+
+        function createTeamReport() {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            notification.textContent = 'Generating team performance report...';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function scheduleOneOnOne() {
+            alert('Opening calendar to schedule 1:1 meetings...');
+        }
+
+        function assignLearning() {
+            alert('Opening learning assignment interface...');
+        }
+
+        function confirmApproval(employeeId) {
+            const employee = pendingApprovals.find(emp => emp.id === employeeId);
+            const comments = document.getElementById(`managerComments-${employeeId}`).value;
+            
+            // Update employee status
+            employee.status = 'Approved';
+            employee.approvedDate = new Date().toISOString();
+            employee.managerComments = comments;
+            
+            // Save to localStorage for persistence
+            const approvedIDPs = JSON.parse(localStorage.getItem('approved_idps') || '[]');
+            approvedIDPs.push(employee);
+            localStorage.setItem('approved_idps', JSON.stringify(approvedIDPs));
+            
+            // Remove from pending list
+            pendingApprovals = pendingApprovals.filter(emp => emp.id !== employeeId);
+            
+            // Update UI
+            updatePendingApprovalsUI();
+            closeModal();
+            
+            // Show success notification
+            showEnhancedNotification(
+                '✅ IDP Approved Successfully!',
+                `${employee.employeeName}'s Individual Development Plan has been approved and activated. Employee notification sent.`,
+                'success',
+                6000
+            );
+            
+            // Send notification to employee (simulate)
+            simulateEmployeeNotification(employee, 'approved');
+        }
+
+        function requestRevision(employeeId) {
+            const employee = pendingApprovals.find(emp => emp.id === employeeId);
+            const comments = document.getElementById(`managerComments-${employeeId}`).value;
+            
+            if (!comments.trim()) {
+                showNotification('Please provide comments for revision request', 'error');
+                return;
+            }
+            
+            // Update employee status
+            employee.status = 'Revision Required';
+            employee.revisionDate = new Date().toISOString();
+            employee.managerComments = comments;
+            
+            // Save to localStorage
+            const revisionIDPs = JSON.parse(localStorage.getItem('revision_idps') || '[]');
+            revisionIDPs.push(employee);
+            localStorage.setItem('revision_idps', JSON.stringify(revisionIDPs));
+            
+            // Remove from pending list
+            pendingApprovals = pendingApprovals.filter(emp => emp.id !== employeeId);
+            
+            // Update UI
+            updatePendingApprovalsUI();
+            closeModal();
+            
+            // Show notification
+            showEnhancedNotification(
+                '🔄 Revision Requested',
+                `Revision request sent to ${employee.employeeName}. They will be notified to update their IDP based on your feedback.`,
+                'info',
+                6000
+            );
+            
+            // Send notification to employee (simulate)
+            simulateEmployeeNotification(employee, 'revision');
+        }
+
+        function saveReviewAndApprove(employeeId) {
+            const employee = pendingApprovals.find(emp => emp.id === employeeId);
+            const comments = document.getElementById(`detailedComments-${employeeId}`).value;
+            
+            // Update employee with detailed review
+            employee.status = 'Approved';
+            employee.approvedDate = new Date().toISOString();
+            employee.detailedReview = comments;
+            employee.managerAssessment = {
+                feasibility: 'high',
+                resourceRequirements: 'moderate',
+                timelineRealistic: 'yes'
+            };
+            
+            // Save to localStorage
+            const approvedIDPs = JSON.parse(localStorage.getItem('approved_idps') || '[]');
+            approvedIDPs.push(employee);
+            localStorage.setItem('approved_idps', JSON.stringify(approvedIDPs));
+            
+            // Remove from pending list
+            pendingApprovals = pendingApprovals.filter(emp => emp.id !== employeeId);
+            
+            // Update UI
+            updatePendingApprovalsUI();
+            closeModal();
+            
+            // Show success notification
+            showEnhancedNotification(
+                '🎉 IDP Approved with Review!',
+                `${employee.employeeName}'s IDP approved after detailed review. Comprehensive feedback provided to support their development journey.`,
+                'success',
+                8000
+            );
+            
+            simulateEmployeeNotification(employee, 'approved_detailed');
+        }
+
+        function saveReviewAndRequestRevision(employeeId) {
+            const employee = pendingApprovals.find(emp => emp.id === employeeId);
+            const comments = document.getElementById(`detailedComments-${employeeId}`).value;
+            
+            if (!comments.trim()) {
+                showNotification('Please provide detailed feedback for revision', 'error');
+                return;
+            }
+            
+            employee.status = 'Detailed Revision Required';
+            employee.revisionDate = new Date().toISOString();
+            employee.detailedReview = comments;
+            
+            const revisionIDPs = JSON.parse(localStorage.getItem('revision_idps') || '[]');
+            revisionIDPs.push(employee);
+            localStorage.setItem('revision_idps', JSON.stringify(revisionIDPs));
+            
+            pendingApprovals = pendingApprovals.filter(emp => emp.id !== employeeId);
+            
+            updatePendingApprovalsUI();
+            closeModal();
+            
+            showEnhancedNotification(
+                '📋 Detailed Review Complete',
+                `Comprehensive revision request sent to ${employee.employeeName} with detailed feedback and improvement suggestions.`,
+                'info',
+                8000
+            );
+            
+            simulateEmployeeNotification(employee, 'detailed_revision');
+        }
+
+        function closeModal() {
+            const modals = document.querySelectorAll('.fixed.inset-0');
+            modals.forEach(modal => modal.remove());
+        }
+
+        function updatePendingApprovalsUI() {
+            // Update the pending count badge
+            const badge = document.querySelector('span.bg-yellow-100');
+            if (badge) {
+                badge.textContent = `${pendingApprovals.length} Pending`;
+            }
+            
+            // If no pending approvals, show empty state
+            if (pendingApprovals.length === 0) {
+                const container = document.querySelector('.space-y-4');
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i data-lucide="check-circle" class="w-12 h-12 mx-auto mb-3 text-green-500"></i>
+                        <h4 class="font-medium text-gray-900 mb-2">All IDPs Reviewed!</h4>
+                        <p class="text-sm">Great job! You've processed all pending IDP approvals.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        }
+
+        function simulateEmployeeNotification(employee, type) {
+            // Simulate sending notification to employee
+            const notifications = JSON.parse(localStorage.getItem('employee_notifications') || '[]');
+            
+            let notificationData = {
+                id: Date.now(),
+                employeeId: employee.id,
+                type: type,
+                date: new Date().toISOString(),
+                read: false
+            };
+            
+            switch(type) {
+                case 'approved':
+                    notificationData.title = '🎉 Your IDP has been Approved!';
+                    notificationData.message = `Congratulations! Your Individual Development Plan has been approved by your manager. You can now start working on your development goals.`;
+                    break;
+                case 'approved_detailed':
+                    notificationData.title = '✅ IDP Approved with Detailed Feedback';
+                    notificationData.message = `Your IDP has been approved after detailed review. Check the feedback section for comprehensive guidance on your development journey.`;
+                    break;
+                case 'revision':
+                    notificationData.title = '🔄 IDP Revision Requested';
+                    notificationData.message = `Your manager has requested revisions to your IDP. Please review the feedback and update your plan accordingly.`;
+                    break;
+                case 'detailed_revision':
+                    notificationData.title = '📋 Detailed Revision Required';
+                    notificationData.message = `Your manager has provided detailed feedback for your IDP. Please review the comprehensive suggestions and update your development plan.`;
+                    break;
+            }
+            
+            notifications.push(notificationData);
+            localStorage.setItem('employee_notifications', JSON.stringify(notifications));
+        }
+
+        function showEnhancedNotification(title, message, type = 'info', duration = 6000) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-4 rounded-xl shadow-2xl z-50 max-w-md animate-slideIn ${
+                type === 'success' ? 'bg-green-600 text-white border-l-4 border-green-400' :
+                type === 'error' ? 'bg-red-600 text-white border-l-4 border-red-400' :
+                'bg-blue-600 text-white border-l-4 border-blue-400'
+            }`;
+            
+            notification.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <div class="flex-shrink-0 mt-1">
+                        ${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm mb-1">${title}</h4>
+                        <p class="text-xs opacity-90 leading-relaxed">${message}</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-white hover:bg-white hover:bg-opacity-20 rounded p-1 transition-colors">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.animation = 'slideOut 0.3s ease-in';
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 300);
+                }
+            }, duration);
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

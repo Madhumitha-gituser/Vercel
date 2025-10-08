@@ -1,0 +1,215 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 47.4% 11.2%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+  
+  h1 {
+    @apply text-4xl lg:text-5xl;
+  }
+  
+  h2 {
+    @apply text-3xl lg:text-4xl;
+  }
+  
+  h3 {
+    @apply text-2xl lg:text-3xl;
+  }
+}
+
+@layer components {
+  .powergrid-gradient {
+    background: linear-gradient(135deg, #232A7A 0%, #4A90E2 100%);
+  }
+  
+  .powergrid-card {
+    @apply bg-white rounded-xl shadow-soft border border-gray-100 p-6 transition-all duration-300 hover:shadow-medium;
+  }
+  
+  .powergrid-button-primary {
+    @apply bg-powergrid-primary hover:bg-opacity-90 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 shadow-sm hover:shadow-medium;
+  }
+  
+  .powergrid-button-secondary {
+    @apply bg-white border-2 border-powergrid-primary text-powergrid-primary hover:bg-powergrid-primary hover:text-white font-medium px-6 py-3 rounded-lg transition-all duration-300;
+  }
+  
+  .powergrid-input {
+    @apply w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-powergrid-primary focus:border-transparent transition-all duration-300;
+  }
+  
+  .nav-link {
+    @apply flex items-center px-4 py-2 text-gray-700 hover:text-powergrid-primary hover:bg-powergrid-light rounded-lg transition-all duration-300;
+  }
+  
+  .nav-link.active {
+    @apply text-powergrid-primary bg-powergrid-light border-r-2 border-powergrid-primary;
+  }
+  
+  .skill-progress-bar {
+    @apply w-full bg-gray-200 rounded-full h-2.5 overflow-hidden;
+  }
+  
+  .skill-progress-fill {
+    @apply h-full bg-gradient-to-r from-powergrid-primary to-powergrid-accent transition-all duration-500 ease-out;
+  }
+  
+  .achievement-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-powergrid-primary to-powergrid-accent text-white shadow-sm;
+  }
+  
+  .stats-card {
+    @apply powergrid-card text-center hover:transform hover:scale-105 cursor-pointer;
+  }
+  
+  .wellness-mood-emoji {
+    @apply text-4xl cursor-pointer hover:scale-110 transition-transform duration-300 p-2 rounded-full hover:bg-gray-100;
+  }
+  
+  .course-thumbnail {
+    @apply w-full h-40 object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300;
+  }
+  
+  .priority-high {
+    @apply bg-red-100 text-red-800 border border-red-200;
+  }
+  
+  .priority-medium {
+    @apply bg-yellow-100 text-yellow-800 border border-yellow-200;
+  }
+  
+  .priority-low {
+    @apply bg-green-100 text-green-800 border border-green-200;
+  }
+  
+  .loading-skeleton {
+    @apply animate-pulse bg-gray-200 rounded;
+  }
+  
+  .glassmorphism {
+    backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Custom animations for micro-interactions */
+.pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Game container styles */
+.game-container {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Chart container responsive styles */
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+@media (min-width: 768px) {
+  .chart-container {
+    height: 400px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-full-width {
+    width: 100% !important;
+  }
+}

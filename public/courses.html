@@ -1,0 +1,2690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Library - POWERGRID IDP Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        powergrid: {
+                            primary: "#232A7A",
+                            secondary: "#DA251D", 
+                            light: "#F8F9FA",
+                            dark: "#495057",
+                            accent: "#4A90E2"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-gray-50 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <a href="dashboard.html" class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-powergrid-primary to-powergrid-accent rounded-lg flex items-center justify-center">
+                            <i data-lucide="zap" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">POWERGRID IDP Intelligence</h1>
+                            <p class="text-sm text-gray-600">AI-Powered Development Platform</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-powergrid-primary">Dashboard</a>
+                    <a href="profile.html" class="text-gray-600 hover:text-powergrid-primary">My Profile</a>
+                    <a href="idp.html" class="text-gray-600 hover:text-powergrid-primary">IDP</a>
+                    <a href="courses.html" class="text-powergrid-primary font-medium border-b-2 border-powergrid-primary pb-1">Courses</a>
+                    <a href="analytics.html" class="text-gray-600 hover:text-powergrid-primary">Analytics</a>
+                    <a href="employee-idp-generator.html" class="text-gray-600 hover:text-powergrid-primary">AI IDP Generator</a>
+                    <a href="wellness.html" class="text-gray-600 hover:text-powergrid-primary">Wellness</a>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-powergrid-primary flex items-center justify-center text-white font-medium text-sm">M</div>
+                        <span class="text-sm font-medium hidden sm:block">Madhumitha M</span>
+                    </div>
+                    
+                    <!-- Exit/Logout Button -->
+                    <button onclick="exitApplication()" 
+                            class="flex items-center justify-center w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
+                            title="Exit Application">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="bg-gradient-to-r from-powergrid-primary to-powergrid-accent rounded-2xl p-8 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold mb-2">Course Library</h1>
+                        <p class="text-blue-100 mb-4">Discover courses tailored to your career growth</p>
+                        <div class="flex items-center gap-6">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="book-open" class="w-5 h-5"></i>
+                                <span>25+ Courses</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="clock" class="w-5 h-5"></i>
+                                <span>Self-Paced</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="award" class="w-5 h-5"></i>
+                                <span>Certificates</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden lg:block">
+                        <div class="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center">
+                            <i data-lucide="graduation-cap" class="w-12 h-12 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-8">
+            <div class="flex flex-col lg:flex-row gap-4">
+                <!-- Search Bar -->
+                <div class="flex-1 relative">
+                    <input type="search" id="courseSearch" placeholder="Search courses, skills, topics..." 
+                           class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powergrid-primary focus:border-transparent">
+                    <i data-lucide="search" class="absolute left-3 top-3.5 w-4 h-4 text-gray-400"></i>
+                </div>
+                
+                <!-- Filters -->
+                <div class="flex gap-3">
+                    <select id="categoryFilter" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powergrid-primary focus:border-transparent">
+                        <option value="">All Categories</option>
+                        <option value="leadership">Leadership</option>
+                        <option value="technical">Technical</option>
+                        <option value="safety">Safety</option>
+                        <option value="communication">Communication</option>
+                        <option value="management">Management</option>
+                    </select>
+                    
+                    <select id="difficultyFilter" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powergrid-primary focus:border-transparent">
+                        <option value="">All Levels</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                    </select>
+                    
+                    <select id="progressFilter" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powergrid-primary focus:border-transparent">
+                        <option value="">All Courses</option>
+                        <option value="not-started">Not Started</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center">
+                <div class="text-2xl font-bold text-powergrid-primary mb-1">12</div>
+                <p class="text-gray-600 text-sm">Completed</p>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center">
+                <div class="text-2xl font-bold text-orange-500 mb-1">3</div>
+                <p class="text-gray-600 text-sm">In Progress</p>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center">
+                <div class="text-2xl font-bold text-green-500 mb-1">8</div>
+                <p class="text-gray-600 text-sm">Certificates</p>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center">
+                <div class="text-2xl font-bold text-purple-500 mb-1">42h</div>
+                <p class="text-gray-600 text-sm">Learning Time</p>
+            </div>
+        </div>
+
+        <!-- Featured Courses -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Featured Courses</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="featuredCourses">
+                <!-- Featured courses will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- My Courses -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold text-gray-900">My Courses</h2>
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleView('grid')" id="gridViewBtn" class="p-2 rounded-lg bg-powergrid-primary text-white">
+                        <i data-lucide="grid-3x3" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="toggleView('list')" id="listViewBtn" class="p-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                        <i data-lucide="list" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="myCoursesGrid">
+                <!-- My courses will be populated by JavaScript -->
+            </div>
+            <div class="hidden" id="myCoursesList">
+                <!-- List view will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- All Courses -->
+        <div>
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">All Courses</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="allCoursesGrid">
+                <!-- All courses will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Modal -->
+    <div id="courseModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div id="courseModalContent">
+                <!-- Course details will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Fullscreen Video Player -->
+    <div id="videoModal" class="fixed inset-0 bg-black/95 hidden z-50 overflow-y-auto">
+        <div class="min-h-screen" id="videoPlayerContainer">
+            <!-- Sticky Header -->
+            <div class="sticky top-0 bg-gradient-to-r from-powergrid-primary to-powergrid-accent px-6 py-4 z-10">
+                <div class="flex items-center justify-between max-w-7xl mx-auto">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                            <i data-lucide="play-circle" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 id="videoTitle" class="text-white font-bold text-xl">Course Video</h3>
+                            <div class="text-white/80 text-sm" id="courseSubtitle">Interactive Learning Mode</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="toggleFocusMode()" id="focusBtn" class="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 rounded-lg px-3 py-2 transition-all flex items-center gap-2" title="Focus Mode">
+                            <i data-lucide="eye" class="w-4 h-4"></i>
+                            <span class="text-sm">Focus</span>
+                        </button>
+                        <button onclick="toggleVideoSize()" id="sizeBtn" class="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 rounded-lg px-3 py-2 transition-all flex items-center gap-2" title="Toggle Size">
+                            <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                            <span class="text-sm">Expand</span>
+                        </button>
+                        <button onclick="forceCloseVideo()" class="text-white/80 hover:text-red-300 bg-red-500/20 hover:bg-red-500/40 rounded-lg px-3 py-2 transition-all flex items-center gap-2" title="Close">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                            <span class="text-sm">Exit</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scrollable Content -->
+            <div class="max-w-7xl mx-auto p-6">
+                <!-- Video Section -->
+                <div class="bg-black rounded-2xl overflow-hidden shadow-2xl mb-6" id="videoContainer">
+                    <video id="courseVideo" class="w-full aspect-video" controls controlsList="nodownload">
+                        <source src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <!-- Comprehensive Features Panel -->
+                <div id="featuresPanel" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Left Column: Progress & Controls -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Progress Section -->
+                        <div class="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-6 border border-gray-700">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
+                                    <i data-lucide="activity" class="w-5 h-5 text-green-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold text-lg">Learning Progress</h4>
+                                    <div class="text-gray-400 text-sm">Track your completion status</div>
+                                </div>
+                                <div class="ml-auto">
+                                    <span id="videoProgress" class="text-2xl font-bold text-green-400">0%</span>
+                                </div>
+                            </div>
+                            <div class="bg-gray-700 rounded-full h-4 mb-3 overflow-hidden">
+                                <div id="progressBar" class="bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="text-gray-300">
+                                    <span id="timeWatched">0:00 / 0:00</span>
+                                    <span class="mx-2">•</span>
+                                    <span id="remainingTime">Time remaining: --</span>
+                                </div>
+                                <div class="bg-yellow-500/20 text-yellow-300 px-3 py-1 rounded-full text-xs">
+                                    ⚠️ Watch 95% to unlock certificate
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Speed & Quality Controls -->
+                        <div class="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-6 border border-gray-700">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center">
+                                    <i data-lucide="settings" class="w-5 h-5 text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold text-lg">Playback Controls</h4>
+                                    <div class="text-gray-400 text-sm">Customize your learning experience</div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="text-white font-medium mb-3 block">Playback Speed</label>
+                                    <div class="grid grid-cols-4 gap-2">
+                                        <button onclick="setPlaybackSpeed(0.5)" class="speed-btn px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-all text-sm font-medium" data-speed="0.5">0.5x</button>
+                                        <button onclick="setPlaybackSpeed(1)" class="speed-btn px-3 py-2 bg-blue-600 text-white rounded-lg transition-all text-sm font-medium" data-speed="1">1x</button>
+                                        <button onclick="setPlaybackSpeed(1.5)" class="speed-btn px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-all text-sm font-medium" data-speed="1.5">1.5x</button>
+                                        <button onclick="setPlaybackSpeed(2)" class="speed-btn px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-all text-sm font-medium" data-speed="2">2x</button>
+                                    </div>
+                                    <div class="text-gray-400 text-xs mt-2" id="currentSpeed">Normal Speed (1x)</div>
+                                </div>
+                                <div>
+                                    <label class="text-white font-medium mb-3 block">Video Quality</label>
+                                    <select class="w-full bg-gray-700 text-white rounded-lg px-3 py-2 text-sm border border-gray-600 focus:border-blue-500 focus:outline-none">
+                                        <option value="auto">Auto (Recommended)</option>
+                                        <option value="720p">720p HD</option>
+                                        <option value="480p">480p</option>
+                                        <option value="360p">360p</option>
+                                    </select>
+                                    <div class="text-gray-400 text-xs mt-2">Automatically adjusting</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-6 border border-gray-700">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center">
+                                    <i data-lucide="zap" class="w-5 h-5 text-purple-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold text-lg">Course Actions</h4>
+                                    <div class="text-gray-400 text-sm">Interactive features and assessments</div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <button onclick="openQuickQuiz()" class="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white rounded-xl transition-all transform hover:scale-105 hover:shadow-lg">
+                                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                                        <i data-lucide="brain" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="text-left">
+                                        <div class="font-bold">Take Quiz</div>
+                                        <div class="text-xs text-purple-200">Test your knowledge</div>
+                                    </div>
+                                </button>
+                                <button id="certificateButton" onclick="generateCertificate()" disabled class="flex items-center gap-3 px-6 py-4 bg-gray-700 text-gray-400 rounded-xl cursor-not-allowed transition-all">
+                                    <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                                        <i data-lucide="award" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="text-left">
+                                        <div class="font-bold">Generate Certificate</div>
+                                        <div class="text-xs text-gray-500">Complete course to unlock</div>
+                                    </div>
+                                </button>
+                                <button onclick="saveProgressAndExit()" class="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl transition-all transform hover:scale-105 hover:shadow-lg">
+                                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                                        <i data-lucide="save" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="text-left">
+                                        <div class="font-bold">Save & Exit</div>
+                                        <div class="text-xs text-blue-200">Keep your progress</div>
+                                    </div>
+                                </button>
+                                <button id="completeButton" onclick="attemptMarkComplete()" disabled class="flex items-center gap-3 px-6 py-4 bg-gray-700 text-gray-400 rounded-xl cursor-not-allowed transition-all">
+                                    <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                                        <i data-lucide="lock" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="text-left">
+                                        <div class="font-bold">Complete Course</div>
+                                        <div class="text-xs text-gray-500">Watch more to unlock</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column: Course Info -->
+                    <div class="space-y-6">
+                        <!-- Course Details -->
+                        <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 border border-gray-700">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
+                                    <i data-lucide="book-open" class="w-5 h-5 text-green-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold text-lg">Course Information</h4>
+                                    <div class="text-gray-400 text-sm">Learning details</div>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Instructor:</span>
+                                    <span class="text-white font-medium" id="courseInstructor">POWERGRID IDP</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Duration:</span>
+                                    <span class="text-white font-medium" id="courseDuration">30 seconds</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Difficulty:</span>
+                                    <span class="text-white font-medium" id="courseDifficulty">Beginner</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Rating:</span>
+                                    <div class="flex items-center gap-1">
+                                        <span class="text-yellow-400">★★★★★</span>
+                                        <span class="text-white text-sm">(5.0)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Session Stats -->
+                        <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 border border-gray-700">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center">
+                                    <i data-lucide="clock" class="w-5 h-5 text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold text-lg">Session Info</h4>
+                                    <div class="text-gray-400 text-sm">Current learning session</div>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Started:</span>
+                                    <span class="text-white font-medium" id="sessionStartTime">--:--</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Time Spent:</span>
+                                    <span class="text-white font-medium" id="timeSpent">0:00</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-400">Completion:</span>
+                                    <span class="text-green-400 font-medium" id="completionStatus">In Progress</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skip Warning Modal -->
+    <div id="skipWarningModal" class="fixed inset-0 bg-black/75 hidden items-center justify-center z-60">
+        <div class="bg-white rounded-xl p-6 max-w-md mx-4 text-center">
+            <div class="text-red-500 mb-4">
+                <i data-lucide="alert-circle" class="w-16 h-16 mx-auto"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Video Skipping Detected!</h3>
+            <p class="text-gray-600 mb-4">You cannot skip the video content. To earn your certificate and update your profile, you must watch the complete video.</p>
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                <p class="text-sm text-yellow-800">
+                    <i data-lucide="info" class="w-4 h-4 inline mr-1"></i>
+                    <strong>Requirement:</strong> Watch at least 95% of the video to complete the course.
+                </p>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="closeSkipWarning()" class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">
+                    Continue Watching
+                </button>
+                <button onclick="exitCourse()" class="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                    Exit Course
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Incomplete Warning Modal -->
+    <div id="incompleteWarningModal" class="fixed inset-0 bg-black/75 hidden items-center justify-center z-60">
+        <div class="bg-white rounded-xl p-6 max-w-md mx-4 text-center">
+            <div class="text-orange-500 mb-4">
+                <i data-lucide="clock" class="w-16 h-16 mx-auto"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Course Not Complete</h3>
+            <p class="text-gray-600 mb-4">You need to watch <span id="remainingPercentage" class="font-bold text-orange-600"></span> more of the video to complete this course.</p>
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                <p class="text-sm text-blue-800">
+                    <i data-lucide="graduation-cap" class="w-4 h-4 inline mr-1"></i>
+                    Complete the course to earn your certificate and update your professional profile!
+                </p>
+            </div>
+            <button onclick="closeIncompleteWarning()" class="w-full px-4 py-2 bg-powergrid-primary text-white rounded-lg hover:bg-powergrid-accent transition-colors">
+                Continue Watching
+            </button>
+        </div>
+    </div>
+
+    <!-- Certificate Modal - Full View Optimized -->
+    <div id="certificateModal" class="fixed inset-0 bg-black/75 hidden items-center justify-center z-60 p-1 sm:p-2">
+        <div class="bg-gradient-to-br from-white to-gray-50 rounded-lg w-full max-w-6xl max-h-[98vh] flex flex-col border border-gray-200 shadow-2xl overflow-y-auto">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-powergrid-primary to-powergrid-accent text-white p-4 text-center">
+                <div class="flex items-center justify-center gap-3">
+                    <i data-lucide="award" class="w-8 h-8"></i>
+                    <h2 class="text-2xl font-bold">Certificate of Completion</h2>
+                </div>
+                <p class="text-blue-100 text-sm mt-1">POWERGRID IDP Intelligence Platform</p>
+            </div>
+            
+            <!-- Certificate Content -->
+            <div class="flex-1 p-2 sm:p-4">
+                <div id="certificateContent" class="text-center w-full max-w-4xl mx-auto">
+                    <div class="bg-white border-2 sm:border-4 border-powergrid-primary rounded-lg p-3 sm:p-6 shadow-inner">
+                        <!-- Decorative elements -->
+                        <div class="flex justify-between items-center mb-3 sm:mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                                <i data-lucide="star" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <div class="text-4xl font-bold text-powergrid-primary">🏆</div>
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
+                                <i data-lucide="check-circle" class="w-6 h-6 text-white"></i>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-powergrid-primary mb-2 sm:mb-3">Certificate of Achievement</h3>
+                        
+                        <div class="border-t-2 border-b-2 border-gray-300 py-2 sm:py-4 my-2 sm:my-4">
+                            <p class="text-sm sm:text-lg text-gray-700 mb-1 sm:mb-2">This certifies that</p>
+                            <p class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 my-2 sm:my-3" id="certificateUserName">Employee Name</p>
+                            <p class="text-sm sm:text-lg text-gray-700 mb-1 sm:mb-2">has successfully completed</p>
+                            <p class="text-lg sm:text-xl lg:text-2xl font-semibold text-powergrid-primary my-2 sm:my-3" id="certificateCourseName">Course Name</p>
+                            <p class="text-sm sm:text-base text-gray-600">with excellence and dedication</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600 mb-3 sm:mb-6">
+                            <div>
+                                <p class="font-bold text-powergrid-primary">Completion Date</p>
+                                <p id="certificateDate" class="font-medium"></p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-powergrid-primary">Duration</p>
+                                <p id="certificateWatchTime" class="font-medium"></p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-powergrid-primary">Grade</p>
+                                <p class="font-medium text-green-600">Excellent</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-end mt-2 sm:mt-4">
+                            <div class="text-left">
+                                <div class="border-b border-gray-400 pb-1 mb-1 w-20 sm:w-32"></div>
+                                <p class="text-xs text-gray-500">Authorized Signature</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 rounded-full bg-gradient-to-br from-powergrid-primary to-powergrid-accent flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm sm:text-lg">PG</span>
+                                </div>
+                                <p class="text-xs text-gray-500">Official Seal</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="border-b border-gray-400 pb-1 mb-1 w-20 sm:w-32 ml-auto"></div>
+                                <p class="text-xs text-gray-500">Date of Issue</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="p-2 sm:p-3 bg-gray-50 flex gap-2 sm:gap-3 flex-col sm:flex-row">
+                <button id="pdfDownloadBtn" onclick="downloadCertificatePDF()" class="flex-1 px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-lg transition-all font-medium flex items-center justify-center gap-2 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400">
+                    <i data-lucide="download" class="w-4 h-4"></i>
+                    Download PDF Certificate
+                </button>
+                <button onclick="shareCertificate()" class="px-4 py-2 sm:px-6 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2 text-sm sm:text-base">
+                    <i data-lucide="share-2" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Share</span>
+                </button>
+                <button onclick="closeCertificateModal()" class="px-4 py-2 sm:px-6 sm:py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2 text-sm sm:text-base">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function exitApplication() {
+            // Show confirmation dialog
+            const confirmExit = confirm('Are you sure you want to log out?\n\nYou will be redirected to the login page.');
+            
+            if (confirmExit) {
+                // Clear all stored data
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // Show loading state on exit button
+                const exitBtn = document.querySelector('[onclick="exitApplication()"]');
+                if (exitBtn) {
+                    exitBtn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i>';
+                    exitBtn.disabled = true;
+                    lucide.createIcons();
+                }
+                
+                // Add fade-out effect and redirect
+                setTimeout(() => {
+                    document.body.style.transition = 'opacity 0.5s ease-out';
+                    document.body.style.opacity = '0.5';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 500);
+                }, 1000);
+            }
+        }
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Check for certificate display from focus mode
+        document.addEventListener('DOMContentLoaded', function() {
+            const showCertificate = localStorage.getItem('showCertificate');
+            if (showCertificate) {
+                localStorage.removeItem('showCertificate');
+                const courseId = parseInt(showCertificate);
+                const course = courses.find(c => c.id === courseId);
+                if (course) {
+                    setTimeout(() => {
+                        displayCertificateForCourse(course);
+                    }, 1000);
+                }
+            }
+        });
+        
+        function displayCertificateForCourse(course) {
+            const certData = generateEnhancedCertificate(course);
+            
+            // Update certificate content
+            document.getElementById('certificateUserName').textContent = certData.userName;
+            document.getElementById('certificateCourseName').textContent = certData.courseName;
+            document.getElementById('certificateDate').textContent = certData.completionDate;
+            document.getElementById('certificateWatchTime').textContent = `${certData.watchTime} minute${certData.watchTime !== 1 ? 's' : ''}`;
+            
+            // Show certificate modal
+            const modal = document.getElementById('certificateModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            showNotification('🏆 Certificate generated from focus mode completion!', 'success');
+            lucide.createIcons();
+        }
+
+        // Sample course data
+        const courses = [
+            {
+                id: 0,
+                title: '🧪 Professional Work Excellence - 20 Second Demo',
+                description: 'Essential professional workplace skills training with interactive features and certification',
+                thumbnail: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=250&fit=crop',
+                category: 'professional-development',
+                difficulty: 'beginner',
+                duration: '20 seconds',
+                rating: 5.0,
+                enrolled: 1,
+                progress: 0,
+                instructor: 'POWERGRID IDP System',
+                modules: 1,
+                featured: true,
+                skills: ['Professional Communication', 'Workplace Etiquette', 'Time Management', 'Team Collaboration', 'Professional Presentation'],
+                description_long: 'Master essential professional workplace skills in this focused 20-second training video. Learn key communication protocols, professional etiquette, time management strategies, and effective collaboration techniques that will elevate your career performance.',
+                learningOutcomes: [
+                    'Master professional communication techniques',
+                    'Understand workplace etiquette and protocols',
+                    'Learn effective time management strategies',
+                    'Develop collaborative teamwork skills',
+                    'Practice professional presentation methods'
+                ],
+                videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
+                quiz: {
+                    questions: [
+                        {
+                            question: 'What is the key to effective professional communication?',
+                            options: ['Speaking loudly', 'Clear and respectful dialogue', 'Using technical jargon', 'Avoiding eye contact'],
+                            correct: 1
+                        },
+                        {
+                            question: 'Which skill is most important for workplace success?',
+                            options: ['Time management', 'Professional etiquette', 'Team collaboration', 'All of the above'],
+                            correct: 3
+                        }
+                    ]
+                }
+            },
+            {
+                id: 1,
+                title: 'Advanced Leadership Strategies',
+                description: 'Master the art of leading high-performance teams in the modern workplace',
+                thumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=250&fit=crop',
+                category: 'leadership',
+                difficulty: 'advanced',
+                duration: '6 weeks',
+                rating: 4.8,
+                enrolled: 234,
+                progress: 45,
+                instructor: 'Dr. Sarah Johnson',
+                modules: 8,
+                featured: false,
+                skills: ['Team Leadership', 'Strategic Thinking', 'Decision Making'],
+                description_long: 'This comprehensive course covers advanced leadership principles, strategic planning, team dynamics, and change management in complex organizational environments.',
+                learningOutcomes: [
+                    'Develop advanced leadership competencies',
+                    'Master strategic decision-making processes',
+                    'Learn effective team management techniques',
+                    'Understand change leadership principles'
+                ]
+            },
+            {
+                id: 2,
+                title: 'Power Grid Safety Protocols',
+                description: 'Essential safety procedures and protocols for power grid operations',
+                thumbnail: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=250&fit=crop',
+                category: 'safety',
+                difficulty: 'intermediate',
+                duration: '4 weeks',
+                rating: 4.9,
+                enrolled: 567,
+                progress: 0,
+                instructor: 'Eng. Rajesh Patel',
+                modules: 6,
+                featured: false,
+                skills: ['Safety Management', 'Risk Assessment', 'Emergency Response'],
+                description_long: 'Comprehensive training on power grid safety protocols, emergency procedures, and risk management strategies.',
+                learningOutcomes: [
+                    'Master safety protocols and procedures',
+                    'Understand risk assessment methodologies',
+                    'Learn emergency response strategies',
+                    'Develop safety leadership skills'
+                ],
+                videoUrl: 'https://commonddatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4'
+            },
+            {
+                id: 3,
+                title: 'Effective Communication Skills',
+                description: 'Enhance your verbal and written communication abilities',
+                thumbnail: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&h=250&fit=crop',
+                category: 'communication',
+                difficulty: 'beginner',
+                duration: '3 weeks',
+                rating: 4.7,
+                enrolled: 423,
+                progress: 100,
+                instructor: 'Ms. Priya Sharma',
+                modules: 5,
+                featured: false,
+                skills: ['Verbal Communication', 'Written Skills', 'Presentation'],
+                description_long: 'Develop essential communication skills for professional success including verbal, written, and presentation abilities.',
+                learningOutcomes: [
+                    'Enhance verbal communication effectiveness',
+                    'Improve written communication clarity',
+                    'Master presentation techniques',
+                    'Build confidence in public speaking'
+                ],
+                videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
+            },
+            {
+                id: 4,
+                title: 'Project Management Excellence',
+                description: 'Master project management methodologies and best practices',
+                thumbnail: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=250&fit=crop',
+                category: 'management',
+                difficulty: 'advanced',
+                duration: '8 weeks',
+                rating: 4.6,
+                enrolled: 189,
+                progress: 20,
+                instructor: 'Mr. Amit Singh',
+                modules: 10,
+                featured: true,
+                skills: ['Project Planning', 'Risk Management', 'Team Coordination'],
+                description_long: 'Comprehensive project management course covering planning, execution, monitoring, and closure phases with real-world case studies.',
+                learningOutcomes: [
+                    'Master project management frameworks',
+                    'Learn effective planning techniques',
+                    'Develop risk management skills',
+                    'Understand team coordination strategies'
+                ]
+            },
+            {
+                id: 5,
+                title: 'Digital Transformation in Power Sector',
+                description: 'Understanding digital technologies transforming the power industry',
+                thumbnail: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=250&fit=crop',
+                category: 'technical',
+                difficulty: 'intermediate',
+                duration: '5 weeks',
+                rating: 4.5,
+                enrolled: 156,
+                progress: 0,
+                instructor: 'Dr. Arun Kumar',
+                modules: 7,
+                featured: false,
+                skills: ['Digital Systems', 'IoT', 'Smart Grids'],
+                description_long: 'Explore how digital technologies are revolutionizing the power sector including IoT, AI, and smart grid technologies.',
+                learningOutcomes: [
+                    'Understand digital transformation trends',
+                    'Learn about IoT applications in power',
+                    'Explore AI in grid management',
+                    'Master smart grid concepts'
+                ]
+            },
+            {
+                id: 6,
+                title: 'Financial Management for Engineers',
+                description: 'Essential financial concepts for technical professionals',
+                thumbnail: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop',
+                category: 'management',
+                difficulty: 'beginner',
+                duration: '4 weeks',
+                rating: 4.4,
+                enrolled: 298,
+                progress: 75,
+                instructor: 'CA Sunita Verma',
+                modules: 6,
+                featured: false,
+                skills: ['Budgeting', 'Cost Analysis', 'Financial Planning'],
+                description_long: 'Learn essential financial management skills including budgeting, cost analysis, and project economics for technical professionals.',
+                learningOutcomes: [
+                    'Understand basic financial principles',
+                    'Learn budgeting and cost control',
+                    'Master project economics',
+                    'Develop financial analysis skills'
+                ]
+            },
+            {
+                id: 7,
+                title: 'Renewable Energy Integration',
+                description: 'Strategies for integrating renewable energy into power grids',
+                thumbnail: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=400&h=250&fit=crop',
+                category: 'technical',
+                difficulty: 'advanced',
+                duration: '6 weeks',
+                rating: 4.7,
+                enrolled: 145,
+                progress: 0,
+                instructor: 'Dr. Kavya Nair',
+                modules: 8,
+                featured: true,
+                skills: ['Solar Systems', 'Wind Power', 'Grid Integration'],
+                description_long: 'Advanced course on renewable energy technologies and their integration into existing power grid infrastructure.',
+                learningOutcomes: [
+                    'Master renewable energy technologies',
+                    'Understand grid integration challenges',
+                    'Learn storage system design',
+                    'Develop sustainability strategies'
+                ]
+            },
+            {
+                id: 8,
+                title: 'Stress Management & Wellbeing',
+                description: 'Techniques for managing workplace stress and improving wellbeing',
+                thumbnail: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=250&fit=crop',
+                category: 'wellness',
+                difficulty: 'beginner',
+                duration: '2 weeks',
+                rating: 4.6,
+                enrolled: 387,
+                progress: 100,
+                instructor: 'Dr. Meera Gupta',
+                modules: 4,
+                featured: false,
+                skills: ['Stress Management', 'Work-Life Balance', 'Mindfulness'],
+                description_long: 'Learn effective stress management techniques, mindfulness practices, and strategies for maintaining work-life balance.',
+                learningOutcomes: [
+                    'Identify stress triggers and responses',
+                    'Learn mindfulness and relaxation techniques',
+                    'Develop work-life balance strategies',
+                    'Create personal wellness plans'
+                ]
+            }
+        ];
+
+        let currentView = 'grid';
+        let filteredCourses = courses;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing courses page');
+            console.log('Total courses:', courses.length);
+            
+            try {
+                populateFeaturedCourses();
+                populateMyCourses();
+                populateAllCourses();
+                setupEventListeners();
+                console.log('Courses page initialized successfully');
+            } catch (error) {
+                console.error('Error initializing courses page:', error);
+            }
+        });
+
+        function populateFeaturedCourses() {
+            const container = document.getElementById('featuredCourses');
+            const featured = courses.filter(course => course.featured);
+            
+            container.innerHTML = featured.map(course => createCourseCard(course, true)).join('');
+            lucide.createIcons();
+        }
+
+        function populateMyCourses() {
+            const container = document.getElementById('myCoursesGrid');
+            const myCourses = courses.filter(course => course.progress > 0);
+            
+            container.innerHTML = myCourses.map(course => createCourseCard(course, false)).join('');
+            lucide.createIcons();
+        }
+
+        function populateAllCourses() {
+            const container = document.getElementById('allCoursesGrid');
+            container.innerHTML = filteredCourses.map(course => createCourseCard(course, false)).join('');
+            lucide.createIcons();
+        }
+
+        function createCourseCard(course, isFeatured = false) {
+            const progressColor = course.progress === 100 ? 'bg-green-500' : course.progress > 0 ? 'bg-blue-500' : 'bg-gray-300';
+            const statusText = course.progress === 100 ? 'Completed' : course.progress > 0 ? 'Continue' : 'Start Course';
+            
+            return `
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all duration-300 group cursor-pointer" onclick="openCourseModal(${course.id})">
+                    <div class="relative">
+                        <img src="${course.thumbnail}" alt="${course.title}" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-medium capitalize">
+                            ${course.category}
+                        </div>
+                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                            <i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i>
+                            ${course.rating}
+                        </div>
+                        ${course.progress > 0 ? `
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
+                                <div class="bg-white/20 rounded-full h-1 overflow-hidden mb-2">
+                                    <div class="${progressColor} h-full transition-all duration-500" style="width: ${course.progress}%"></div>
+                                </div>
+                                <p class="text-white text-xs">${course.progress}% complete</p>
+                            </div>
+                        ` : ''}
+                        ${isFeatured ? '<div class="absolute top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs px-2 py-1 rounded-full font-medium">Featured</div>' : ''}
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2">${course.title}</h3>
+                        <p class="text-gray-600 text-sm mb-3 line-clamp-2">${course.description}</p>
+                        <div class="flex items-center justify-between text-sm text-gray-600 mb-3">
+                            <span class="flex items-center gap-1">
+                                <i data-lucide="clock" class="w-3 h-3"></i>
+                                ${course.duration}
+                            </span>
+                            <span class="px-2 py-1 bg-gray-100 rounded-full text-xs capitalize">
+                                ${course.difficulty}
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-sm text-gray-600">${course.enrolled} enrolled</span>
+                            <span class="text-sm text-gray-600">${course.modules} modules</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500">By ${course.instructor}</span>
+                            <button onclick="event.stopPropagation(); startCourse(${course.id})" class="flex items-center gap-1 text-powergrid-primary hover:text-powergrid-accent font-medium text-sm">
+                                ${statusText}
+                                <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function setupEventListeners() {
+            document.getElementById('courseSearch').addEventListener('input', filterCourses);
+            document.getElementById('categoryFilter').addEventListener('change', filterCourses);
+            document.getElementById('difficultyFilter').addEventListener('change', filterCourses);
+            document.getElementById('progressFilter').addEventListener('change', filterCourses);
+        }
+
+        function filterCourses() {
+            const searchTerm = document.getElementById('courseSearch').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            const difficulty = document.getElementById('difficultyFilter').value;
+            const progress = document.getElementById('progressFilter').value;
+
+            filteredCourses = courses.filter(course => {
+                const matchesSearch = course.title.toLowerCase().includes(searchTerm) || 
+                                    course.description.toLowerCase().includes(searchTerm) ||
+                                    course.skills.some(skill => skill.toLowerCase().includes(searchTerm));
+                const matchesCategory = !category || course.category === category;
+                const matchesDifficulty = !difficulty || course.difficulty === difficulty;
+                const matchesProgress = !progress || 
+                    (progress === 'not-started' && course.progress === 0) ||
+                    (progress === 'in-progress' && course.progress > 0 && course.progress < 100) ||
+                    (progress === 'completed' && course.progress === 100);
+
+                return matchesSearch && matchesCategory && matchesDifficulty && matchesProgress;
+            });
+
+            populateAllCourses();
+        }
+
+        function toggleView(view) {
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+            const gridContainer = document.getElementById('myCoursesGrid');
+            const listContainer = document.getElementById('myCoursesList');
+
+            if (view === 'grid') {
+                gridBtn.classList.add('bg-powergrid-primary', 'text-white');
+                gridBtn.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                listBtn.classList.add('text-gray-600', 'hover:bg-gray-100');
+                listBtn.classList.remove('bg-powergrid-primary', 'text-white');
+                
+                gridContainer.classList.remove('hidden');
+                listContainer.classList.add('hidden');
+            } else {
+                listBtn.classList.add('bg-powergrid-primary', 'text-white');
+                listBtn.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                gridBtn.classList.add('text-gray-600', 'hover:bg-gray-100');
+                gridBtn.classList.remove('bg-powergrid-primary', 'text-white');
+                
+                gridContainer.classList.add('hidden');
+                listContainer.classList.remove('hidden');
+                
+                // Populate list view
+                populateListView();
+            }
+            currentView = view;
+        }
+
+        function populateListView() {
+            const container = document.getElementById('myCoursesList');
+            const myCourses = courses.filter(course => course.progress > 0);
+            
+            container.innerHTML = `
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    ${myCourses.map(course => `
+                        <div class="flex items-center p-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 cursor-pointer" onclick="openCourseModal(${course.id})">
+                            <img src="${course.thumbnail}" alt="${course.title}" class="w-16 h-12 object-cover rounded-lg mr-4">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-900 mb-1">${course.title}</h3>
+                                <p class="text-gray-600 text-sm">${course.instructor} • ${course.duration}</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="text-center">
+                                    <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center relative">
+                                        <svg class="w-8 h-8 transform -rotate-90">
+                                            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2" fill="none" class="text-gray-300"/>
+                                            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2" fill="none" 
+                                                    stroke-dasharray="87.96" stroke-dashoffset="${87.96 - (87.96 * course.progress / 100)}"
+                                                    class="text-powergrid-primary"/>
+                                        </svg>
+                                        <span class="absolute text-xs font-semibold">${course.progress}%</span>
+                                    </div>
+                                </div>
+                                <button onclick="event.stopPropagation(); startCourse(${course.id})" class="px-4 py-2 bg-powergrid-primary text-white rounded-lg hover:bg-powergrid-accent transition-colors">
+                                    ${course.progress === 100 ? 'Review' : 'Continue'}
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function openCourseModal(courseId) {
+            console.log('🎯 openCourseModal called with courseId:', courseId);
+            console.log('📚 Available courses:', courses);
+            
+            const course = courses.find(c => c.id === courseId);
+            console.log('🔍 Found course:', course);
+            
+            const modal = document.getElementById('courseModal');
+            const content = document.getElementById('courseModalContent');
+            
+            console.log('🎭 Modal element:', modal);
+            console.log('📝 Content element:', content);
+            
+            if (!course) {
+                console.error('❌ Course not found with ID:', courseId);
+                return;
+            }
+            
+            if (!modal || !content) {
+                console.error('❌ Modal elements not found. Modal:', modal, 'Content:', content);
+                return;
+            }
+            
+            content.innerHTML = `
+                <div class="relative">
+                    <button onclick="closeCourseModal()" class="absolute top-4 right-4 z-10 p-2 bg-white/80 rounded-full hover:bg-white transition-colors">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    <img src="${course.thumbnail}" alt="${course.title}" class="w-full h-64 object-cover">
+                    <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium capitalize">
+                        ${course.category}
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex-1">
+                            <h1 class="text-2xl font-bold text-gray-900 mb-2">${course.title}</h1>
+                            <p class="text-gray-600 mb-4">${course.description_long}</p>
+                            <div class="flex items-center gap-4 text-sm text-gray-600 mb-4">
+                                <span class="flex items-center gap-1">
+                                    <i data-lucide="user" class="w-4 h-4"></i>
+                                    ${course.instructor}
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <i data-lucide="clock" class="w-4 h-4"></i>
+                                    ${course.duration}
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                                    ${course.modules} modules
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <i data-lucide="star" class="w-4 h-4 fill-yellow-400 text-yellow-400"></i>
+                                    ${course.rating}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-center ml-6">
+                            <div class="text-3xl font-bold text-powergrid-primary">${course.progress}%</div>
+                            <div class="text-sm text-gray-500">Complete</div>
+                        </div>
+                    </div>
+                    
+                    ${course.progress > 0 ? `
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium">Course Progress</span>
+                                <span class="text-sm text-gray-500">${course.progress}%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="h-2 bg-gradient-to-r from-powergrid-primary to-powergrid-accent rounded-full transition-all duration-500" style="width: ${course.progress}%"></div>
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h3 class="font-semibold text-gray-900 mb-3">Skills You'll Learn</h3>
+                            <div class="flex flex-wrap gap-2">
+                                ${course.skills.map(skill => `
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">${skill}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold text-gray-900 mb-3">Learning Outcomes</h3>
+                            <ul class="space-y-1">
+                                ${course.learningOutcomes.map(outcome => `
+                                    <li class="flex items-start gap-2 text-sm text-gray-600">
+                                        <i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i>
+                                        ${outcome}
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <button onclick="startCourse(${course.id})" class="flex-1 py-3 bg-powergrid-primary text-white rounded-lg hover:bg-powergrid-accent transition-colors font-medium">
+                            ${course.progress === 100 ? 'Review Course' : course.progress > 0 ? 'Continue Learning' : 'Start Course'}
+                        </button>
+                        <button onclick="addToWishlist(${course.id})" class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            <i data-lucide="bookmark" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="shareCourse(${course.id})" class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            <i data-lucide="share" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            console.log('🎬 Opening modal...');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            console.log('✅ Modal opened successfully');
+            lucide.createIcons();
+        }
+
+        function closeCourseModal() {
+            document.getElementById('courseModal').classList.add('hidden');
+            document.getElementById('courseModal').classList.remove('flex');
+        }
+
+        // Video Validation System
+        let videoWatchData = {
+            totalDuration: 0,
+            watchedTime: 0,
+            currentProgress: 0,
+            lastValidTime: 0,
+            skipAttempts: 0,
+            isValidWatch: true,
+            requiredPercentage: 95,
+            courseCompleted: false
+        };
+
+        function startCourse(courseId) {
+            console.log('Starting course with ID:', courseId);
+            
+            const course = courses.find(c => c.id === courseId);
+            if (!course) {
+                console.error('Course not found for ID:', courseId);
+                showNotification('Course not found!', 'error');
+                return;
+            }
+            
+            console.log('Found course:', course.title);
+            
+            // Initialize validation data and check for saved progress
+            videoWatchData = {
+                totalDuration: 0,
+                watchedTime: 0,
+                currentProgress: 0,
+                lastValidTime: 0,
+                skipAttempts: 0,
+                isValidWatch: true,
+                requiredPercentage: 95,
+                courseCompleted: false
+            };
+            
+            // Check for saved progress
+            const savedProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
+            if (savedProgress[courseId]) {
+                const saved = savedProgress[courseId];
+                showNotification(`📖 Resuming from ${Math.round(saved.progress)}% progress`, 'info');
+            }
+            
+            // Reset certificate button to disabled state when starting a new course
+            const certificateBtn = document.getElementById('certificateButton');
+            if (certificateBtn) {
+                certificateBtn.disabled = true;
+                certificateBtn.className = 'flex items-center gap-3 px-6 py-4 bg-gray-700 text-gray-400 rounded-xl cursor-not-allowed transition-all';
+                certificateBtn.innerHTML = '<i data-lucide="award" class="w-4 h-4"></i><div><div class="font-bold">Generate Certificate</div><div class="text-xs text-gray-500">Complete the course first</div></div>';
+                lucide.createIcons();
+            }
+            
+            const videoModal = document.getElementById('videoModal');
+            const video = document.getElementById('courseVideo');
+            const title = document.getElementById('videoTitle');
+            
+            console.log('Video modal elements:', { videoModal: !!videoModal, video: !!video, title: !!title });
+            
+            if (!videoModal || !video || !title) {
+                console.error('Video player elements missing');
+                showNotification('Video player not found!', 'error');
+                return;
+            }
+            
+            title.textContent = `${course.title} - Introduction`;
+            
+            // Use course's video URL or fallback to default
+            const videoUrl = course.videoUrl || 'https://www.w3schools.com/html/mov_bbb.mp4';
+            
+            // Clear any existing video content
+            video.pause();
+            video.currentTime = 0;
+            video.src = '';
+            
+            // Set new video source with error handling
+            video.src = videoUrl;
+            video.dataset.courseId = courseId; // Store courseId for certificate generation
+            
+            // Force load and handle loading states
+            video.load();
+            
+            // Add loading timeout to prevent infinite loading
+            const loadingTimeout = setTimeout(() => {
+                if (video.readyState < 2) { // If not loaded after 10 seconds
+                    console.warn('Video loading timeout, trying fallback');
+                    video.src = 'https://www.w3schools.com/html/mov_bbb.mp4';
+                    video.load();
+                    showNotification('📹 Loading backup video...', 'info');
+                }
+            }, 10000);
+            
+            // Clear timeout when video loads
+            video.addEventListener('loadeddata', () => {
+                clearTimeout(loadingTimeout);
+                showNotification('✅ Video ready to play!', 'success');
+            });
+            
+            // Simple certificate enabler - when video ends
+            video.addEventListener('ended', () => {
+                console.log('🏁 Video ended! Enabling certificate button...');
+                
+                // Enable certificate button
+                const certificateBtn = document.getElementById('certificateButton');
+                if (certificateBtn) {
+                    certificateBtn.disabled = false;
+                    certificateBtn.className = 'flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl transition-all transform hover:scale-105 hover:shadow-lg cursor-pointer';
+                    certificateBtn.innerHTML = '<i data-lucide="award" class="w-4 h-4"></i><div><div class="font-bold">Generate Certificate</div><div class="text-xs text-green-200">Course completed!</div></div>';
+                    lucide.createIcons();
+                    showNotification('🏆 Course completed! Click Generate Certificate.', 'success');
+                    console.log('✅ Certificate button enabled successfully');
+                } else {
+                    console.error('❌ Certificate button not found!');
+                }
+                
+                // Set completion data for certificate generation
+                videoWatchData.currentProgress = 100;
+                videoWatchData.courseCompleted = true;
+                console.log('📊 Course completion data updated:', videoWatchData);
+                
+                // Enable PDF download button in certificate modal
+                const pdfDownloadBtn = document.getElementById('pdfDownloadBtn');
+                if (pdfDownloadBtn) {
+                    pdfDownloadBtn.disabled = false;
+                    pdfDownloadBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
+                    pdfDownloadBtn.classList.add('bg-gradient-to-r', 'from-green-600', 'to-green-700', 'hover:from-green-700', 'hover:to-green-800');
+                }
+            });
+            
+            console.log('🎥 Video source set:', videoUrl);
+            
+            // Add error handling for video loading
+            video.onerror = function() {
+                console.error('Video failed to load:', videoUrl);
+                showNotification('⚠️ Video loading failed. Please try refreshing the page.', 'error');
+                // Try fallback video
+                if (videoUrl !== 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4') {
+                    video.src = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+                }
+            };
+            
+            video.onloadstart = function() {
+                console.log('Video started loading:', videoUrl);
+                showNotification('📹 Loading professional work video...', 'info');
+            };
+            
+            video.oncanplay = function() {
+                console.log('Video ready to play:', videoUrl);
+                showNotification('✅ Video loaded successfully!', 'success');
+            };
+            
+            console.log('Video URL set to:', videoUrl);
+            
+            // Reset speed to normal
+            video.playbackRate = 1;
+            updateSpeedButtons(1);
+            
+            console.log('Video source set, initializing validation');
+            
+            // Initialize validation system after a short delay to ensure DOM is ready
+            setTimeout(() => {
+                try {
+                    initializeVideoValidation();
+                    console.log('Video validation initialized');
+                } catch (error) {
+                    console.error('Error initializing video validation:', error);
+                }
+            }, 100);
+            
+            videoModal.classList.remove('hidden');
+            videoModal.classList.add('flex');
+            
+            // Update session information
+            updateSessionInfo();
+            
+            // Update course information in the UI
+            updateCourseInfo(course);
+            
+            console.log('Video modal should now be visible');
+            
+            // Show initial notification with enhanced features info
+            showNotification('� Enhanced course started! Try Quiz, Certificate Preview, and detailed progress tracking!', 'success');
+            
+            // Close course details modal if it exists
+            const courseModal = document.getElementById('courseModal');
+            if (courseModal) {
+                courseModal.classList.add('hidden');
+                courseModal.classList.remove('flex');
+            }
+        };
+
+        function initializeVideoValidation() {
+            const video = document.getElementById('courseVideo');
+            
+            video.addEventListener('loadedmetadata', function() {
+                videoWatchData.totalDuration = video.duration;
+                updateVideoProgress();
+            });
+
+            video.addEventListener('timeupdate', function() {
+                const currentTime = video.currentTime;
+                const progress = (currentTime / videoWatchData.totalDuration) * 100;
+                
+                // Detect if user skipped forward significantly
+                if (currentTime > videoWatchData.lastValidTime + 10) {
+                    videoWatchData.skipAttempts++;
+                    showSkipWarning();
+                    video.currentTime = videoWatchData.lastValidTime;
+                    return;
+                }
+                
+                // Update watch progress only for continuous watching
+                if (currentTime >= videoWatchData.lastValidTime) {
+                    videoWatchData.lastValidTime = currentTime;
+                    videoWatchData.currentProgress = progress;
+                    updateVideoProgress();
+                }
+            });
+
+            video.addEventListener('seeking', function() {
+                // Prevent seeking beyond current valid position
+                if (video.currentTime > videoWatchData.lastValidTime + 5) {
+                    video.currentTime = videoWatchData.lastValidTime;
+                    showSkipWarning();
+                }
+            });
+
+            video.addEventListener('ended', function() {
+                if (videoWatchData.currentProgress >= videoWatchData.requiredPercentage) {
+                    enableCompletion();
+                }
+            });
+        }
+
+        function updateVideoProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('videoProgress');
+            const timeWatched = document.getElementById('timeWatched');
+            const remainingTime = document.getElementById('remainingTime');
+            const timeSpent = document.getElementById('timeSpent');
+            const completionStatus = document.getElementById('completionStatus');
+            
+            const progress = Math.min(videoWatchData.currentProgress, 100);
+            const currentTimeStr = formatTime(videoWatchData.lastValidTime);
+            const totalTimeStr = formatTime(videoWatchData.totalDuration);
+            const remainingTimeStr = formatTime(videoWatchData.totalDuration - videoWatchData.lastValidTime);
+            
+            if (progressBar) progressBar.style.width = progress + '%';
+            if (progressText) progressText.textContent = Math.floor(progress) + '%';
+            if (timeWatched) timeWatched.textContent = `${currentTimeStr} / ${totalTimeStr}`;
+            if (remainingTime) remainingTime.textContent = `Time remaining: ${remainingTimeStr}`;
+            if (timeSpent) timeSpent.textContent = currentTimeStr;
+            
+            // Update completion status
+            if (completionStatus) {
+                if (progress >= 95) {
+                    completionStatus.textContent = 'Ready to Complete';
+                    completionStatus.className = 'text-green-400 font-medium';
+                } else if (progress >= 50) {
+                    completionStatus.textContent = 'In Progress';
+                    completionStatus.className = 'text-blue-400 font-medium';
+                } else {
+                    completionStatus.textContent = 'Just Started';
+                    completionStatus.className = 'text-yellow-400 font-medium';
+                }
+            }
+            
+            // Enable completion button if watched enough
+            if (progress >= videoWatchData.requiredPercentage) {
+                enableCompletion();
+            }
+        }
+        
+        function updateSessionStats() {
+            // Simplified - no session stats panel in the clean design
+            return;
+        }
+
+        function enableCompletion() {
+            const completeButton = document.getElementById('completeButton');
+            const lockIcon = completeButton.querySelector('i');
+            const buttonText = completeButton.querySelector('.font-bold');
+            const buttonSubtext = completeButton.querySelector('.text-xs');
+            const iconContainer = completeButton.querySelector('.w-8');
+            
+            completeButton.disabled = false;
+            completeButton.className = 'flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl transition-all transform hover:scale-105 hover:shadow-lg cursor-pointer';
+            lockIcon.setAttribute('data-lucide', 'check-circle');
+            iconContainer.className = 'w-8 h-8 bg-white/20 rounded-full flex items-center justify-center';
+            if (buttonText) buttonText.textContent = 'Generate Certificate';
+            if (buttonSubtext) {
+                buttonSubtext.textContent = 'Course completed!';
+                buttonSubtext.className = 'text-xs text-green-200';
+            }
+            completeButton.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4 inline mr-1"></i>Complete Course';
+            lucide.createIcons();
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function showSkipWarning() {
+            const modal = document.getElementById('skipWarningModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Pause the video
+            const video = document.getElementById('courseVideo');
+            video.pause();
+        }
+
+        function closeSkipWarning() {
+            const modal = document.getElementById('skipWarningModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            
+            // Resume from valid position
+            const video = document.getElementById('courseVideo');
+            video.currentTime = videoWatchData.lastValidTime;
+            video.play();
+        }
+
+        function showIncompleteWarning() {
+            const modal = document.getElementById('incompleteWarningModal');
+            const remainingSpan = document.getElementById('remainingPercentage');
+            
+            const remaining = videoWatchData.requiredPercentage - videoWatchData.currentProgress;
+            remainingSpan.textContent = Math.ceil(remaining) + '%';
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeIncompleteWarning() {
+            const modal = document.getElementById('incompleteWarningModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function attemptCloseVideo() {
+            if (videoWatchData.currentProgress < videoWatchData.requiredPercentage) {
+                showIncompleteWarning();
+            } else {
+                closeVideoModal();
+            }
+        }
+
+        function attemptMarkComplete() {
+            const completeButton = document.getElementById('completeButton');
+            if (completeButton.disabled) {
+                showIncompleteWarning();
+                return;
+            }
+            
+            if (videoWatchData.currentProgress >= videoWatchData.requiredPercentage) {
+                markVideoComplete();
+            } else {
+                showIncompleteWarning();
+            }
+        }
+
+        function markVideoComplete() {
+            // Show certificate modal first
+            showCertificateModal();
+            
+            // Save completion to localStorage (in real app, this would be sent to backend)
+            const completedCourses = JSON.parse(localStorage.getItem('completedCourses') || '[]');
+            const courseTitle = document.getElementById('videoTitle').textContent;
+            
+            if (!completedCourses.includes(courseTitle)) {
+                completedCourses.push(courseTitle);
+                localStorage.setItem('completedCourses', JSON.stringify(completedCourses));
+            }
+            
+            // Update course progress to 100%
+            const currentCourseId = parseInt(document.getElementById('courseVideo').dataset.courseId || '0');
+            const course = courses.find(c => c.id === currentCourseId);
+            if (course) {
+                course.progress = 100;
+            }
+            
+            closeVideoModal();
+        }
+
+        function initializeVideoValidation() {
+            const video = document.getElementById('courseVideo');
+            
+            video.addEventListener('loadedmetadata', function() {
+                videoWatchData.totalDuration = video.duration;
+                updateVideoProgress();
+            });
+
+            video.addEventListener('timeupdate', function() {
+                const currentTime = video.currentTime;
+                const progress = (currentTime / videoWatchData.totalDuration) * 100;
+                
+                // Detect if user skipped forward significantly
+                if (currentTime > videoWatchData.lastValidTime + 10) {
+                    videoWatchData.skipAttempts++;
+                    showSkipWarning();
+                    video.currentTime = videoWatchData.lastValidTime;
+                    return;
+                }
+                
+                // Update watch progress only for continuous watching
+                if (currentTime >= videoWatchData.lastValidTime) {
+                    videoWatchData.lastValidTime = currentTime;
+                    videoWatchData.currentProgress = progress;
+                    updateVideoProgress();
+                }
+            });
+
+            video.addEventListener('seeking', function() {
+                // Prevent seeking beyond current valid position
+                if (video.currentTime > videoWatchData.lastValidTime + 5) {
+                    video.currentTime = videoWatchData.lastValidTime;
+                    showSkipWarning();
+                }
+            });
+
+            video.addEventListener('ended', function() {
+                if (videoWatchData.currentProgress >= videoWatchData.requiredPercentage) {
+                    enableCompletion();
+                }
+            });
+        }
+
+        function updateVideoProgress() {
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('videoProgress');
+            const timeWatched = document.getElementById('timeWatched');
+            
+            if (!progressBar || !progressText || !timeWatched) return;
+            
+            const progress = Math.min(videoWatchData.currentProgress, 100);
+            const currentTimeStr = formatTime(videoWatchData.lastValidTime);
+            const totalTimeStr = formatTime(videoWatchData.totalDuration);
+            
+            progressBar.style.width = progress + '%';
+            progressText.textContent = Math.floor(progress) + '%';
+            timeWatched.textContent = `${currentTimeStr} / ${totalTimeStr}`;
+            
+            // Enable completion button if watched enough
+            if (progress >= videoWatchData.requiredPercentage) {
+                enableCompletion();
+            }
+        }
+
+        function enableCompletion() {
+            const completeButton = document.getElementById('completeButton');
+            if (!completeButton) return;
+            
+            completeButton.disabled = false;
+            completeButton.className = 'px-4 py-2 bg-green-600 rounded-lg hover:bg-green-700 transition-colors';
+            completeButton.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4 inline mr-1"></i>Complete Course';
+            lucide.createIcons();
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function showSkipWarning() {
+            const modal = document.getElementById('skipWarningModal');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Pause the video
+            const video = document.getElementById('courseVideo');
+            video.pause();
+        }
+
+        function closeSkipWarning() {
+            const modal = document.getElementById('skipWarningModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            
+            // Resume from valid position
+            const video = document.getElementById('courseVideo');
+            video.currentTime = videoWatchData.lastValidTime;
+        }
+
+        function showIncompleteWarning() {
+            const modal = document.getElementById('incompleteWarningModal');
+            const remainingSpan = document.getElementById('remainingPercentage');
+            
+            if (!modal || !remainingSpan) return;
+            
+            const remaining = videoWatchData.requiredPercentage - videoWatchData.currentProgress;
+            remainingSpan.textContent = Math.ceil(remaining) + '%';
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeIncompleteWarning() {
+            const modal = document.getElementById('incompleteWarningModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function attemptCloseVideo() {
+            if (videoWatchData.currentProgress < videoWatchData.requiredPercentage) {
+                showIncompleteWarning();
+            } else {
+                closeVideoModal();
+            }
+        }
+
+        function attemptMarkComplete() {
+            const completeButton = document.getElementById('completeButton');
+            if (!completeButton || completeButton.disabled) {
+                showIncompleteWarning();
+                return;
+            }
+            
+            if (videoWatchData.currentProgress >= videoWatchData.requiredPercentage) {
+                markVideoComplete();
+            } else {
+                showIncompleteWarning();
+            }
+        }
+
+        function exitCourse() {
+            const modal = document.getElementById('skipWarningModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            closeVideoModal();
+        }
+
+        // Speed control functionality
+        function setPlaybackSpeed(speed) {
+            const video = document.getElementById('courseVideo');
+            const currentSpeed = document.getElementById('currentSpeed');
+            
+            if (video) {
+                video.playbackRate = speed;
+                updateSpeedButtons(speed);
+                
+                // Update speed display
+                if (currentSpeed) {
+                    currentSpeed.textContent = `${speed}x Speed`;
+                }
+                
+                console.log(`🎛️ Playback speed set to: ${speed}x`);
+                showNotification(`⚡ Speed: ${speed}x ${speed > 1 ? '(Fast)' : speed < 1 ? '(Slow)' : '(Normal)'}`, 'info');
+            }
+        }
+
+        function updateSpeedButtons(activeSpeed) {
+            const speedButtons = document.querySelectorAll('.speed-btn');
+            speedButtons.forEach(btn => {
+                const speed = parseFloat(btn.dataset.speed);
+                if (speed === activeSpeed) {
+                    btn.classList.remove('bg-gray-700');
+                    btn.classList.add('bg-powergrid-accent', 'text-white');
+                } else {
+                    btn.classList.remove('bg-powergrid-accent', 'text-white');
+                    btn.classList.add('bg-gray-700');
+                }
+            });
+        }
+
+        function forceCloseVideo() {
+            // Force close without any validation - immediate exit
+            const videoModal = document.getElementById('videoModal');
+            const video = document.getElementById('courseVideo');
+            
+            video.pause();
+            video.currentTime = 0;
+            videoModal.classList.add('hidden');
+            videoModal.classList.remove('flex');
+            
+            // Save current progress to localStorage for resume later
+            const currentCourseId = parseInt(video.dataset.courseId || '0');
+            if (currentCourseId && videoWatchData.currentProgress > 0) {
+                const savedProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
+                savedProgress[currentCourseId] = {
+                    progress: videoWatchData.currentProgress,
+                    lastPosition: videoWatchData.lastValidTime,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('courseProgress', JSON.stringify(savedProgress));
+                showNotification('📚 Progress saved! You can resume this course later.', 'info');
+            }
+            
+            resetVideoData();
+        }
+        
+        function closeVideoModal() {
+            const videoModal = document.getElementById('videoModal');
+            const video = document.getElementById('courseVideo');
+            
+            video.pause();
+            video.currentTime = 0;
+            videoModal.classList.add('hidden');
+            videoModal.classList.remove('flex');
+            
+            resetVideoData();
+        }
+        
+        function resetVideoData() {
+            // Reset video watch data
+            videoWatchData = {
+                totalDuration: 0,
+                watchedTime: 0,
+                currentProgress: 0,
+                lastValidTime: 0,
+                skipAttempts: 0,
+                isValidWatch: true,
+                requiredPercentage: 95
+            };
+            
+            // Reset UI
+            const completeButton = document.getElementById('completeButton');
+            if (completeButton) {
+                completeButton.disabled = true;
+                completeButton.className = 'px-4 py-2 bg-gray-600 rounded-lg cursor-not-allowed transition-colors';
+                completeButton.innerHTML = '<i data-lucide="lock" class="w-4 h-4 inline mr-1"></i>Complete Course';
+            }
+            
+            // Reset progress display
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('videoProgress');
+            if (progressBar) progressBar.style.width = '0%';
+            if (progressText) progressText.textContent = '0%';
+            lucide.createIcons();
+        }
+
+        function addToWishlist(courseId) {
+            showNotification('Course added to wishlist!', 'success');
+        }
+
+        function shareCourse(courseId) {
+            showNotification('Course link copied to clipboard!', 'info');
+        }
+
+        // Certificate Modal Functions
+        function showCertificateModal() {
+            const modal = document.getElementById('certificateModal');
+            const currentCourseId = parseInt(document.getElementById('courseVideo').dataset.courseId || '0');
+            const course = courses.find(c => c.id === currentCourseId);
+            
+            if (!course) {
+                showNotification('❌ Course not found for certificate generation', 'error');
+                return;
+            }
+            
+            // Generate enhanced certificate data
+            const certData = generateEnhancedCertificate(course);
+            
+            // Update certificate content with enhanced data
+            document.getElementById('certificateUserName').textContent = certData.userName;
+            document.getElementById('certificateCourseName').textContent = certData.courseName;
+            document.getElementById('certificateDate').textContent = certData.completionDate;
+            document.getElementById('certificateWatchTime').textContent = `${certData.watchTime} minute${certData.watchTime !== 1 ? 's' : ''}`;
+            
+            // Store certificate data for download
+            modal.dataset.certificateData = JSON.stringify(certData);
+            
+            // Check course completion and enable/disable PDF download button
+            const pdfDownloadBtn = document.getElementById('pdfDownloadBtn');
+            if (pdfDownloadBtn) {
+                if (!videoWatchData.courseCompleted || videoWatchData.currentProgress < videoWatchData.requiredPercentage) {
+                    pdfDownloadBtn.disabled = true;
+                    pdfDownloadBtn.className = 'flex-1 px-4 py-2 sm:px-6 sm:py-3 bg-gray-400 text-gray-600 rounded-lg font-medium flex items-center justify-center gap-2 text-sm sm:text-base opacity-50 cursor-not-allowed';
+                    pdfDownloadBtn.innerHTML = '<i data-lucide="lock" class="w-4 h-4"></i>Complete Course to Download PDF';
+                } else {
+                    pdfDownloadBtn.disabled = false;
+                    pdfDownloadBtn.className = 'flex-1 px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-lg transition-all font-medium flex items-center justify-center gap-2 text-sm sm:text-base';
+                    pdfDownloadBtn.innerHTML = '<i data-lucide="download" class="w-4 h-4"></i>Download PDF Certificate';
+                }
+            }
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Show success notification with skills earned
+            const skillsText = certData.skills.length > 0 ? ` Skills: ${certData.skills.join(', ')}` : '';
+            showNotification(`🎉 Certificate generated!${skillsText}`, 'success');
+            
+            lucide.createIcons();
+        }
+
+        function closeCertificateModal() {
+            const modal = document.getElementById('certificateModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function downloadCertificate() {
+            const modal = document.getElementById('certificateModal');
+            const certDataString = modal.dataset.certificateData;
+            
+            if (!certDataString) {
+                showNotification('❌ Certificate data not available', 'error');
+                return;
+            }
+            
+            const certData = JSON.parse(certDataString);
+            
+            // Create enhanced certificate content for download
+            const certificateContent = `
+═══════════════════════════════════════════════════════════════
+                    POWERGRID IDP INTELLIGENCE PLATFORM
+                         CERTIFICATE OF COMPLETION
+═══════════════════════════════════════════════════════════════
+
+This is to certify that
+
+                            ${certData.userName}
+                        ${certData.designation}
+                       ${certData.department}
+
+has successfully completed the course
+
+                        "${certData.courseName}"
+
+with dedication and has demonstrated proficiency in:
+${certData.skills.map(skill => `  ✓ ${skill}`).join('\n')}
+
+Course Details:
+  • Completion Date: ${certData.completionDate}
+  • Total Duration: ${certData.watchTime} minutes
+  • Certificate ID: ${certData.certificateId}
+
+This certificate validates the completion of professional development
+training as part of the Individual Development Plan (IDP) program.
+
+═══════════════════════════════════════════════════════════════
+Issued by: POWERGRID IDP Intelligence Platform
+Date of Issue: ${certData.completionDate}
+Digital Certificate - Verified and Authenticated
+═══════════════════════════════════════════════════════════════
+            `;
+            
+            // Create downloadable file with better naming
+            const blob = new Blob([certificateContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const fileName = `${certData.courseName.replace(/[^a-zA-Z0-9]/g, '_')}_Certificate_${certData.userName.replace(/\s/g, '_')}.txt`;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('📄 Certificate downloaded successfully!', 'success');
+        }
+
+        // PDF Certificate Download Function
+        function downloadCertificatePDF() {
+            // Check if course is completed before allowing download
+            if (!videoWatchData.courseCompleted || videoWatchData.currentProgress < videoWatchData.requiredPercentage) {
+                showNotification('⚠️ Please complete the entire course before downloading the certificate!', 'error');
+                return;
+            }
+            
+            const modal = document.getElementById('certificateModal');
+            const certDataString = modal.dataset.certificateData;
+            
+            if (!certDataString) {
+                showNotification('❌ Certificate data not available. Please complete the course first.', 'error');
+                return;
+            }
+            
+            const certData = JSON.parse(certDataString);
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
+            
+            // Set up colors and fonts
+            doc.setFont('helvetica');
+            
+            // Background gradient effect (simulate with rectangles)
+            doc.setFillColor(240, 248, 255); // Light blue background
+            doc.rect(0, 0, 297, 210, 'F');
+            
+            // Border
+            doc.setDrawColor(35, 42, 122); // PowerGrid primary color
+            doc.setLineWidth(3);
+            doc.rect(10, 10, 277, 190);
+            
+            // Inner border
+            doc.setLineWidth(1);
+            doc.rect(15, 15, 267, 180);
+            
+            // Header
+            doc.setFontSize(24);
+            doc.setTextColor(35, 42, 122);
+            doc.text('POWERGRID IDP INTELLIGENCE PLATFORM', 148.5, 35, { align: 'center' });
+            
+            doc.setFontSize(28);
+            doc.text('CERTIFICATE OF COMPLETION', 148.5, 50, { align: 'center' });
+            
+            // Award icon (using text)
+            doc.setFontSize(40);
+            doc.text('🏆', 148.5, 70, { align: 'center' });
+            
+            // Main certificate text
+            doc.setFontSize(16);
+            doc.setTextColor(80, 80, 80);
+            doc.text('This certifies that', 148.5, 90, { align: 'center' });
+            
+            doc.setFontSize(22);
+            doc.setTextColor(0, 0, 0);
+            doc.setFont('helvetica', 'bold');
+            doc.text(certData.userName || 'Employee Name', 148.5, 105, { align: 'center' });
+            
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(80, 80, 80);
+            doc.text('has successfully completed', 148.5, 120, { align: 'center' });
+            
+            doc.setFontSize(18);
+            doc.setTextColor(35, 42, 122);
+            doc.setFont('helvetica', 'bold');
+            doc.text(certData.courseName || 'Professional Work Excellence', 148.5, 135, { align: 'center' });
+            
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(80, 80, 80);
+            doc.text('with excellence and dedication', 148.5, 150, { align: 'center' });
+            
+            // Details section
+            doc.setFontSize(12);
+            doc.text('Completion Date:', 50, 175);
+            doc.text(certData.completionDate || new Date().toLocaleDateString(), 50, 185);
+            
+            doc.text('Duration:', 148.5, 175, { align: 'center' });
+            doc.text(certData.watchTime || '20 seconds', 148.5, 185, { align: 'center' });
+            
+            doc.text('Grade:', 247, 175, { align: 'center' });
+            doc.text('Excellent', 247, 185, { align: 'center' });
+            
+            // Signature lines
+            doc.setLineWidth(0.5);
+            doc.line(40, 195, 80, 195);
+            doc.text('Authorized Signature', 60, 200, { align: 'center' });
+            
+            doc.line(217, 195, 257, 195);
+            doc.text('Date of Issue', 237, 200, { align: 'center' });
+            
+            // Official seal (circle with text)
+            doc.setDrawColor(35, 42, 122);
+            doc.setLineWidth(2);
+            doc.circle(148.5, 190, 8);
+            doc.setFontSize(10);
+            doc.setTextColor(35, 42, 122);
+            doc.text('PG', 148.5, 192, { align: 'center' });
+            doc.setFontSize(8);
+            doc.text('Official Seal', 148.5, 205, { align: 'center' });
+            
+            // Generate filename with timestamp
+            const timestamp = new Date().toISOString().slice(0, 10);
+            const filename = `POWERGRID_Certificate_${certData.userName?.replace(/\s+/g, '_') || 'Employee'}_${timestamp}.pdf`;
+            
+            // Save the PDF
+            doc.save(filename);
+            
+            showNotification('📄 PDF Certificate downloaded successfully!', 'success');
+        }
+
+        // Share Certificate Function
+        function shareCertificate() {
+            const modal = document.getElementById('certificateModal');
+            const certDataString = modal.dataset.certificateData;
+            
+            if (!certDataString) {
+                showNotification('❌ Certificate data not available', 'error');
+                return;
+            }
+            
+            const certData = JSON.parse(certDataString);
+            const shareText = `🎉 I've successfully completed "${certData.courseName}" at POWERGRID IDP Intelligence Platform! 🏆 #Learning #Professional Development #POWERGRID`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Course Completion Certificate',
+                    text: shareText,
+                    url: window.location.href
+                }).then(() => {
+                    showNotification('📤 Certificate shared successfully!', 'success');
+                }).catch(() => {
+                    fallbackShare(shareText);
+                });
+            } else {
+                fallbackShare(shareText);
+            }
+        }
+        
+        function fallbackShare(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('📋 Share text copied to clipboard!', 'success');
+            }).catch(() => {
+                showNotification('📝 Please copy: ' + text, 'info');
+            });
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg text-white max-w-sm transform transition-all duration-300 translate-x-full opacity-0`;
+            
+            switch (type) {
+                case 'success':
+                    notification.classList.add('bg-green-500');
+                    break;
+                case 'error':
+                    notification.classList.add('bg-red-500');
+                    break;
+                case 'warning':
+                    notification.classList.add('bg-yellow-500');
+                    break;
+                default:
+                    notification.classList.add('bg-blue-500');
+            }
+            
+            notification.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="text-sm">${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-auto">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            lucide.createIcons();
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full', 'opacity-0');
+            }, 100);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 5000);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('courseModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCourseModal();
+            }
+        });
+
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideoModal();
+            }
+        });
+
+        // Quiz and Preview Functions
+        function openQuickQuiz() {
+            const currentCourseId = parseInt(document.getElementById('courseVideo').dataset.courseId || '0');
+            const course = courses.find(c => c.id === currentCourseId);
+            
+            if (!course || !course.quiz) {
+                showNotification('📝 No quiz available for this course', 'info');
+                return;
+            }
+            
+            const quiz = course.quiz;
+            let currentQuestion = 0;
+            let score = 0;
+            
+            function showQuestion(questionIndex) {
+                if (questionIndex >= quiz.questions.length) {
+                    showQuizResults();
+                    return;
+                }
+                
+                const question = quiz.questions[questionIndex];
+                const quizHtml = `
+                    <div class="fixed inset-0 bg-black/80 flex items-center justify-center z-70">
+                        <div class="bg-white rounded-xl p-6 max-w-md mx-4">
+                            <div class="text-center mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">Quick Quiz</h3>
+                                <p class="text-sm text-gray-600">Question ${questionIndex + 1} of ${quiz.questions.length}</p>
+                            </div>
+                            <div class="mb-4">
+                                <p class="font-medium mb-3">${question.question}</p>
+                                ${question.options.map((option, i) => `
+                                    <button onclick="selectAnswer(${i})" class="quiz-option w-full text-left p-3 border border-gray-300 rounded-lg hover:bg-gray-50 mb-2 transition-colors">
+                                        ${option}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.insertAdjacentHTML('beforeend', quizHtml);
+                
+                window.selectAnswer = function(selectedIndex) {
+                    if (selectedIndex === question.correct) {
+                        score++;
+                        showNotification('✅ Correct!', 'success');
+                    } else {
+                        showNotification('❌ Incorrect. The answer is: ' + question.options[question.correct], 'error');
+                    }
+                    
+                    document.querySelector('.fixed.inset-0.bg-black\\/80').remove();
+                    currentQuestion++;
+                    setTimeout(() => showQuestion(currentQuestion), 1000);
+                };
+            }
+            
+            function showQuizResults() {
+                const percentage = Math.round((score / quiz.questions.length) * 100);
+                const passed = percentage >= 70;
+                
+                showNotification(`🎯 Quiz Complete! Score: ${score}/${quiz.questions.length} (${percentage}%) ${passed ? '✅ Passed' : '❌ Failed'}`, passed ? 'success' : 'error');
+                
+                if (passed) {
+                    // Bonus progress for passing quiz
+                    videoWatchData.currentProgress = Math.min(videoWatchData.currentProgress + 5, 100);
+                    updateVideoProgress();
+                }
+            }
+            
+            showQuestion(0);
+        }
+        
+        function generateCertificate() {
+            console.log('🎓 Attempting to generate certificate...');
+            console.log('Current videoWatchData:', videoWatchData);
+            
+            const certificateButton = document.getElementById('certificateButton');
+            if (certificateButton && certificateButton.disabled) {
+                console.log('❌ Certificate button is disabled - course not completed');
+                showNotification(`❌ Complete ${videoWatchData.requiredPercentage}% of the course first to generate certificate`, 'error');
+                return;
+            }
+            
+            if (videoWatchData.currentProgress < videoWatchData.requiredPercentage) {
+                showNotification('❌ Course not completed yet. Keep watching!', 'error');
+                return;
+            }
+            
+            const currentCourseId = parseInt(document.getElementById('courseVideo').dataset.courseId || '0');
+            const course = courses.find(c => c.id === currentCourseId);
+            
+            if (!course) {
+                showNotification('❌ Course not found for certificate generation', 'error');
+                return;
+            }
+            
+            const certData = generateEnhancedCertificate(course);
+            const previewHtml = `
+                <div class="fixed inset-0 bg-black/80 flex items-center justify-center z-70 p-4">
+                    <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">Certificate Preview</h3>
+                                <button onclick="closeCertificatePreview()" class="text-gray-500 hover:text-gray-700">
+                                    <i data-lucide="x" class="w-6 h-6"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-powergrid-primary rounded-lg p-8 text-center">
+                                <div class="mb-4">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-powergrid-primary to-powergrid-accent rounded-full mx-auto flex items-center justify-center mb-4">
+                                        <i data-lucide="award" class="w-8 h-8 text-white"></i>
+                                    </div>
+                                    <h4 class="text-2xl font-bold text-powergrid-primary">Certificate of Completion</h4>
+                                    <p class="text-sm text-gray-600 mt-2">POWERGRID IDP Intelligence Platform</p>
+                                </div>
+                                
+                                <div class="border-t border-b border-gray-300 py-6 my-6">
+                                    <p class="text-lg">This certifies that</p>
+                                    <p class="text-3xl font-bold text-gray-900 my-3">${certData.userName}</p>
+                                    <p class="text-sm text-gray-600">${certData.designation}, ${certData.department}</p>
+                                    <p class="text-lg mt-4">has successfully completed</p>
+                                    <p class="text-xl font-semibold text-powergrid-primary my-3">${certData.courseName}</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-6 text-sm">
+                                    <div>
+                                        <p class="font-medium text-gray-700">Completion Date</p>
+                                        <p class="text-gray-900">${certData.completionDate}</p>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-700">Course Duration</p>
+                                        <p class="text-gray-900">${certData.watchTime} minutes</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6">
+                                    <p class="font-medium text-gray-700 mb-2">Skills Acquired:</p>
+                                    <div class="flex flex-wrap gap-2 justify-center">
+                                        ${certData.skills.map(skill => `
+                                            <span class="bg-powergrid-primary text-white px-3 py-1 rounded-full text-xs">${skill}</span>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                
+                                <p class="text-xs text-gray-500 mt-6">Certificate ID: ${certData.certificateId}</p>
+                            </div>
+                            
+                            <div class="flex gap-3 mt-6">
+                                <button onclick="closeCertificatePreview()" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                                    Close Preview
+                                </button>
+                                <button onclick="generateFullCertificate()" class="flex-1 px-4 py-2 bg-powergrid-primary text-white rounded-lg hover:bg-powergrid-accent">
+                                    Complete Course to Generate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', previewHtml);
+            lucide.createIcons();
+            
+            showNotification('👀 Certificate preview shown! Complete course to generate actual certificate.', 'info');
+        }
+        
+        function closeCertificatePreview() {
+            const preview = document.querySelector('.fixed.inset-0.bg-black\\/80');
+            if (preview) preview.remove();
+        }
+        
+        function generateFullCertificate() {
+            closeCertificatePreview();
+            if (videoWatchData.currentProgress >= videoWatchData.requiredPercentage) {
+                markVideoComplete();
+            } else {
+                showNotification(`⏱️ Watch ${videoWatchData.requiredPercentage - videoWatchData.currentProgress}% more to generate certificate`, 'warning');
+            }
+        }
+        
+        function updateSessionInfo() {
+            const sessionTime = document.getElementById('sessionTime');
+            const currentSpeed = document.getElementById('currentSpeed');
+            
+            if (sessionTime) {
+                const startTime = new Date().toLocaleTimeString();
+                sessionTime.textContent = `Started: ${startTime}`;
+            }
+            
+            if (currentSpeed) {
+                const video = document.getElementById('courseVideo');
+                const speed = video ? video.playbackRate : 1;
+                currentSpeed.textContent = `${speed}x Speed`;
+            }
+        }
+        
+        // Enhanced Video Player Functions
+        let isVideoExpanded = false;
+        let isFocusMode = false;
+        
+        function toggleVideoSize() {
+            const container = document.getElementById('videoContainer');
+            const btn = document.getElementById('sizeBtn');
+            const btnIcon = btn.querySelector('i');
+            const btnText = btn.querySelector('span');
+            
+            if (!isVideoExpanded) {
+                // Expand video to fullscreen within modal
+                container.classList.add('fixed', 'inset-4', 'z-50');
+                container.style.maxHeight = 'calc(100vh - 2rem)';
+                isVideoExpanded = true;
+                btnIcon.setAttribute('data-lucide', 'minimize-2');
+                btnText.textContent = 'Shrink';
+                showNotification('📺 Video expanded! Click again to restore.', 'success');
+            } else {
+                // Restore normal size
+                container.classList.remove('fixed', 'inset-4', 'z-50');
+                container.style.maxHeight = 'none';
+                isVideoExpanded = false;
+                btnIcon.setAttribute('data-lucide', 'maximize-2');
+                btnText.textContent = 'Expand';
+                showNotification('📱 Video restored to normal size.', 'info');
+            }
+            lucide.createIcons();
+        }
+        
+        function toggleFocusMode() {
+            // Save current video state to localStorage for focus mode
+            const video = document.getElementById('courseVideo');
+            const currentCourseId = video.dataset.courseId;
+            
+            if (currentCourseId && video.src) {
+                const focusData = {
+                    courseId: currentCourseId,
+                    videoUrl: video.src,
+                    currentTime: video.currentTime,
+                    progress: videoWatchData.currentProgress,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('focusModeData', JSON.stringify(focusData));
+                
+                // Redirect to dedicated focus page
+                window.location.href = 'focus.html';
+            } else {
+                showNotification('❌ Please start a video first before entering focus mode.', 'error');
+            }
+        }
+        
+        function updateCourseInfo(course) {
+            if (!course) return;
+            
+            // Update course title and details
+            const titleElement = document.getElementById('videoTitle');
+            if (titleElement && course.title) {
+                titleElement.textContent = course.title;
+            }
+            
+            // Update course information panel
+            const elements = {
+                courseInstructor: course.instructor || 'POWERGRID IDP',
+                courseDuration: course.duration || '30 seconds',
+                courseDifficulty: course.difficulty || 'Beginner'
+            };
+            
+            Object.entries(elements).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) element.textContent = value;
+            });
+            
+            // Update session start time
+            const sessionStart = document.getElementById('sessionStartTime');
+            if (sessionStart && !sessionStart.textContent.includes(':')) {
+                sessionStart.textContent = new Date().toLocaleTimeString();
+            }
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            const video = document.getElementById('courseVideo');
+            if (!document.getElementById('videoModal').classList.contains('hidden')) {
+                switch(e.key) {
+                    case 'Escape':
+                        if (isVideoExpanded) {
+                            toggleVideoSize();
+                        } else if (isFocusMode) {
+                            toggleFocusMode();
+                        } else {
+                            forceCloseVideo();
+                        }
+                        break;
+                    case ' ':
+                        e.preventDefault();
+                        if (video.paused) {
+                            video.play();
+                        } else {
+                            video.pause();
+                        }
+                        break;
+                    case 'f':
+                    case 'F':
+                        e.preventDefault();
+                        toggleFocusMode();
+                        break;
+                }
+            }
+        });
+        
+        // Enhanced video player functions
+        function saveProgressAndExit() {
+            const video = document.getElementById('courseVideo');
+            const currentCourseId = parseInt(video.dataset.courseId || '0');
+            
+            if (currentCourseId && videoWatchData.currentProgress > 0) {
+                const savedProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
+                savedProgress[currentCourseId] = {
+                    progress: videoWatchData.currentProgress,
+                    lastPosition: videoWatchData.lastValidTime,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('courseProgress', JSON.stringify(savedProgress));
+                showNotification(`📚 Progress saved! ${Math.round(videoWatchData.currentProgress)}% complete`, 'success');
+            }
+            
+            forceCloseVideo();
+        }
+
+        // Load saved progress when starting a course
+        function loadSavedProgress(courseId) {
+            const savedProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
+            if (savedProgress[courseId]) {
+                const saved = savedProgress[courseId];
+                const daysAgo = Math.floor((Date.now() - saved.timestamp) / (1000 * 60 * 60 * 24));
+                showNotification(`📖 Resuming from ${Math.round(saved.progress)}% (${daysAgo} days ago)`, 'info');
+                return saved;
+            }
+            return null;
+        }
+
+        // Enhanced certificate generation with better user data
+        function generateEnhancedCertificate(course) {
+            const certificateData = {
+                userName: 'Madhumitha M',
+                courseName: course.title,
+                completionDate: new Date().toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                }),
+                watchTime: Math.ceil(videoWatchData.totalDuration / 60),
+                certificateId: `PGIDP-${Date.now()}-${course.id}`,
+                skills: course.skills || [],
+                department: 'Engineering Department',
+                designation: 'Senior Engineer'
+            };
+            
+            return certificateData;
+        }
+        
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            const videoModal = document.getElementById('videoModal');
+            if (!videoModal.classList.contains('hidden')) {
+                switch(e.key) {
+                    case 'Escape':
+                        attemptCloseVideo();
+                        break;
+                    case 'q':
+                    case 'Q':
+                        if (e.ctrlKey) openQuickQuiz();
+                        break;
+                    case 'p':
+                    case 'P':
+                        if (e.ctrlKey) previewCertificate();
+                        break;
+                    case 's':
+                    case 'S':
+                        if (e.ctrlKey) {
+                            e.preventDefault();
+                            saveProgressAndExit();
+                        }
+                        break;
+                }
+            }
+        });
+        
+        // Add a global test function for debugging
+        window.testCourseClick = function() {
+            console.log('🧪 Testing course click functionality...');
+            console.log('📚 Courses available:', courses.length);
+            if (courses.length > 0) {
+                console.log('🎯 Testing with first course:', courses[0]);
+                openCourseModal(courses[0].id);
+            } else {
+                console.error('❌ No courses available to test with');
+            }
+        };
+        
+        console.log('🎮 Test function added. You can call window.testCourseClick() in the browser console to test.');
+        
+        // Professional Video Animation Function
+        function createProfessionalVideoAnimation(videoElement) {
+            // Create a canvas for professional animation
+            const canvas = document.createElement('canvas');
+            canvas.width = 640;
+            canvas.height = 360;
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.objectFit = 'cover';
+            
+            const ctx = canvas.getContext('2d');
+            let animationFrame = 0;
+            let animationId;
+            
+            // Replace video element with canvas
+            videoElement.style.display = 'none';
+            videoElement.parentElement.appendChild(canvas);
+            
+            // Professional workplace animation
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Background gradient (office environment)
+                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, '#f8f9fa');
+                gradient.addColorStop(1, '#e9ecef');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Professional text content
+                ctx.fillStyle = '#495057';
+                ctx.font = 'bold 32px Arial, sans-serif';
+                ctx.textAlign = 'center';
+                
+                const time = animationFrame / 60; // 60fps
+                const progress = (time % 20) / 20; // 20 second loop
+                
+                if (progress < 0.25) {
+                    ctx.fillText('🏢 Professional Workplace Excellence', canvas.width/2, canvas.height/2 - 40);
+                    ctx.font = '18px Arial, sans-serif';
+                    ctx.fillText('Master Essential Professional Skills', canvas.width/2, canvas.height/2 + 20);
+                } else if (progress < 0.5) {
+                    ctx.fillText('💼 Communication & Etiquette', canvas.width/2, canvas.height/2 - 40);
+                    ctx.font = '18px Arial, sans-serif';
+                    ctx.fillText('Build Strong Professional Relationships', canvas.width/2, canvas.height/2 + 20);
+                } else if (progress < 0.75) {
+                    ctx.fillText('⏰ Time Management Skills', canvas.width/2, canvas.height/2 - 40);
+                    ctx.font = '18px Arial, sans-serif';
+                    ctx.fillText('Maximize Productivity & Efficiency', canvas.width/2, canvas.height/2 + 20);
+                } else {
+                    ctx.fillText('🤝 Team Collaboration', canvas.width/2, canvas.height/2 - 40);
+                    ctx.font = '18px Arial, sans-serif';
+                    ctx.fillText('Excel in Collaborative Environments', canvas.width/2, canvas.height/2 + 20);
+                }
+                
+                // Progress indicator
+                const progressBarWidth = canvas.width * 0.8;
+                const progressBarHeight = 6;
+                const progressBarX = (canvas.width - progressBarWidth) / 2;
+                const progressBarY = canvas.height - 40;
+                
+                ctx.fillStyle = '#dee2e6';
+                ctx.fillRect(progressBarX, progressBarY, progressBarWidth, progressBarHeight);
+                ctx.fillStyle = '#007bff';
+                ctx.fillRect(progressBarX, progressBarY, progressBarWidth * progress, progressBarHeight);
+                
+                // Timer
+                ctx.fillStyle = '#6c757d';
+                ctx.font = '14px Arial, sans-serif';
+                ctx.fillText(`${Math.floor(time)}s / 20s`, canvas.width/2, progressBarY - 10);
+                
+                animationFrame++;
+                
+                // Continue animation for 20 seconds
+                if (time < 20) {
+                    animationId = requestAnimationFrame(animate);
+                } else {
+                    // Animation complete - show completion message
+                    ctx.fillStyle = '#28a745';
+                    ctx.font = 'bold 24px Arial, sans-serif';
+                    ctx.fillText('✅ Professional Training Complete!', canvas.width/2, canvas.height/2);
+                    ctx.font = '16px Arial, sans-serif';
+                    ctx.fillText('Certificate Ready for Generation', canvas.width/2, canvas.height/2 + 40);
+                    
+                    // Mark video as completed (only once)
+                    if (!videoElement.completed) {
+                        videoElement.completed = true;
+                        Object.defineProperty(videoElement, 'currentTime', { value: 20, writable: true, configurable: true });
+                        Object.defineProperty(videoElement, 'ended', { value: true, writable: true, configurable: true });
+                        
+                        // Single completion event
+                        const endEvent = new Event('ended');
+                        videoElement.dispatchEvent(endEvent);
+                        
+                        showNotification('🏆 Training completed! Certificate ready for generation.', 'success');
+                    }
+                }
+            }
+            
+            // Start animation
+            animate();
+            
+            // Add play controls simulation
+            canvas.onclick = function() {
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                    ctx.fillStyle = '#007bff';
+                    ctx.font = '48px Arial, sans-serif';
+                    ctx.fillText('⏸️', canvas.width/2, canvas.height/2);
+                } else {
+                    animate();
+                }
+            };
+            
+            // Set video properties for certificate generation
+            Object.defineProperty(videoElement, 'duration', { value: 20, writable: true, configurable: true });
+            Object.defineProperty(videoElement, 'currentTime', { value: 0, writable: true, configurable: true });
+            Object.defineProperty(videoElement, 'paused', { value: false, writable: true, configurable: true });
+            Object.defineProperty(videoElement, 'ended', { value: false, writable: true, configurable: true });
+            
+            // Additional properties for validation
+            videoElement.played = {
+                length: 1,
+                start: () => 0,
+                end: () => 20
+            };
+            
+            // Trigger initial events
+            setTimeout(() => {
+                const events = ['loadeddata', 'canplay', 'playing'];
+                events.forEach(eventType => {
+                    const event = new Event(eventType);
+                    videoElement.dispatchEvent(event);
+                });
+            }, 500);
+            
+            showNotification('🎬 Professional workplace training ready!', 'success');
+        }
+    </script>
+</body>
+</html>

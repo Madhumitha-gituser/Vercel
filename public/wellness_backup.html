@@ -1,0 +1,3984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Hub - POWERGRID IDP Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        powergrid: {
+                            primary: "#232A7A",
+                            secondary: "#DA251D", 
+                            light: "#F8F9FA",
+                            dark: "#495057",
+                            accent: "#4A90E2"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'breathing': 'breathing 4s ease-in-out infinite',
+                        'fadeIn': 'fadeIn 0.5s ease-in-out',
+                        'slideIn': 'slideIn 0.3s ease-out',
+                        'wiggle': 'wiggle 0.5s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        breathing: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.1)' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideIn: {
+                            '0%': { opacity: '0', transform: 'translateX(-20px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' }
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Beautiful Speaking and Dancing Animations */
+        @keyframes speaking {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg); 
+                filter: brightness(1); 
+            }
+            50% { 
+                transform: scale(1.05) rotate(1deg); 
+                filter: brightness(1.1); 
+            }
+        }
+        
+        @keyframes breathing {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: scale(1.03); 
+                opacity: 0.8; 
+            }
+        }
+        
+        @keyframes gradientDance {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes sparkleFloat {
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0); 
+            }
+            50% { 
+                opacity: 1; 
+                transform: translateY(-10px) scale(1.2); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translateY(-30px) scale(0.8); 
+            }
+        }
+        
+        @keyframes danceMove {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-15deg) scale(1.1); }
+            50% { transform: rotate(15deg) scale(0.9); }
+            75% { transform: rotate(-5deg) scale(1.05); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+        
+        .dancing-avatar {
+            animation: danceMove 0.6s ease-in-out infinite;
+        }
+        
+        .sparkle-effect {
+            animation: sparkleFloat 2s ease-out forwards;
+        }
+        
+        /* Enhanced avatar styles for better expressions */
+        #buddyAvatar {
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+        
+        #buddyAvatar:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Smooth modal animations */
+        #buddyModal.dancing-mode {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background-size: 400% 400%;
+            animation: gradientDance 3s ease infinite;
+        }
+        
+        /* Singing Animation Styles */
+        @keyframes noteFloat {
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.5); 
+            }
+            25% { 
+                opacity: 1; 
+                transform: translateY(-10px) scale(1); 
+            }
+            75% { 
+                opacity: 1; 
+                transform: translateY(-30px) scale(1.1); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translateY(-50px) scale(0.8); 
+            }
+        }
+        
+        .singing-avatar {
+            animation: gentleSway 2s ease-in-out infinite;
+        }
+        
+        @keyframes gentleSway {
+            0%, 100% { 
+                transform: rotate(-2deg) scale(1.02); 
+            }
+            50% { 
+                transform: rotate(2deg) scale(1.05); 
+            }
+        }
+        
+        .floating-note {
+            animation: noteFloat 3s ease-out forwards;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <a href="dashboard.html" class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-powergrid-primary to-powergrid-accent rounded-lg flex items-center justify-center">
+                            <i data-lucide="zap" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">POWERGRID IDP Intelligence</h1>
+                            <p class="text-sm text-gray-600">AI-Powered Development Platform</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-pink-600">Dashboard</a>
+                    <a href="profile.html" class="text-gray-600 hover:text-pink-600">My Profile</a>
+                    <a href="idp.html" class="text-gray-600 hover:text-pink-600">IDP</a>
+                    <a href="courses.html" class="text-gray-600 hover:text-pink-600">Courses</a>
+                    <a href="analytics.html" class="text-gray-600 hover:text-pink-600">Analytics</a>
+                    <a href="wellness.html" class="text-pink-600 font-medium border-b-2 border-pink-600 pb-1">Wellness</a>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-powergrid-primary flex items-center justify-center text-white font-medium text-sm">M</div>
+                        <span class="text-sm font-medium hidden sm:block">Madhumitha M</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full mb-4">
+                <i data-lucide="heart" class="w-10 h-10 text-white animate-pulse-slow"></i>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Welcome to Your Wellness Hub</h1>
+            <p class="text-xl text-gray-600 mb-6">Your mental health and wellbeing matter. Let's take care of you.</p>
+        </div>
+
+        <!-- Quick Mood Check -->
+        <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-8 mb-8 border border-white/20">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-semibold text-gray-900 mb-2">How are you feeling today?</h2>
+                <p class="text-gray-600">Take a moment to check in with yourself</p>
+            </div>
+            
+            <div class="flex justify-center gap-4 mb-6" id="moodSelector">
+                <button onclick="selectMood('excellent', '😊')" class="mood-btn flex flex-col items-center p-4 rounded-2xl hover:bg-pink-50 transition-all duration-300 transform hover:scale-105" data-mood="excellent">
+                    <span class="text-6xl mb-2">😊</span>
+                    <span class="text-sm font-medium text-gray-700">Excellent</span>
+                </button>
+                <button onclick="selectMood('good', '🙂')" class="mood-btn flex flex-col items-center p-4 rounded-2xl hover:bg-pink-50 transition-all duration-300 transform hover:scale-105" data-mood="good">
+                    <span class="text-6xl mb-2">🙂</span>
+                    <span class="text-sm font-medium text-gray-700">Good</span>
+                </button>
+                <button onclick="selectMood('neutral', '😐')" class="mood-btn flex flex-col items-center p-4 rounded-2xl hover:bg-pink-50 transition-all duration-300 transform hover:scale-105" data-mood="neutral">
+                    <span class="text-6xl mb-2">😐</span>
+                    <span class="text-sm font-medium text-gray-700">Neutral</span>
+                </button>
+                <button onclick="selectMood('low', '😔')" class="mood-btn flex flex-col items-center p-4 rounded-2xl hover:bg-pink-50 transition-all duration-300 transform hover:scale-105" data-mood="low">
+                    <span class="text-6xl mb-2">😔</span>
+                    <span class="text-sm font-medium text-gray-700">Low</span>
+                </button>
+                <button onclick="selectMood('stressed', '😰')" class="mood-btn flex flex-col items-center p-4 rounded-2xl hover:bg-pink-50 transition-all duration-300 transform hover:scale-105" data-mood="stressed">
+                    <span class="text-6xl mb-2">😰</span>
+                    <span class="text-sm font-medium text-gray-700">Stressed</span>
+                </button>
+            </div>
+            
+            <div class="text-center">
+                <button onclick="openSoulSyncChat()" class="px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full hover:from-pink-600 hover:to-purple-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105">
+                    Chat with Soul Sync �
+                </button>
+            </div>
+        </div>
+
+        <!-- Wellness Dashboard -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+            <!-- Wellness Score -->
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="p-2 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg">
+                        <i data-lucide="activity" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900">Wellness Score</h3>
+                </div>
+                
+                <div class="text-center mb-4">
+                    <div class="relative inline-flex items-center justify-center w-32 h-32">
+                        <svg class="w-32 h-32 transform -rotate-90">
+                            <circle cx="64" cy="64" r="56" stroke="currentColor" stroke-width="8" fill="none" class="text-gray-200"/>
+                            <circle cx="64" cy="64" r="56" stroke="currentColor" stroke-width="8" fill="none" 
+                                    stroke-dasharray="351.86" stroke-dashoffset="87.97" class="text-green-500 transition-all duration-1000"/>
+                        </svg>
+                        <div class="absolute text-center">
+                            <div class="text-2xl font-bold text-gray-900">75%</div>
+                            <div class="text-sm text-gray-600">Good</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Stress Level</span>
+                        <span class="font-medium text-yellow-600">Moderate</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Sleep Quality</span>
+                        <span class="font-medium text-green-600">Good</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Work-Life Balance</span>
+                        <span class="font-medium text-blue-600">Improving</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mood Trends -->
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="p-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg">
+                        <i data-lucide="trending-up" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900">Mood Trends</h3>
+                </div>
+                
+                <div style="height: 200px;">
+                    <canvas id="moodChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Weekly Goals -->
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="p-2 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg">
+                        <i data-lucide="target" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-900">Weekly Goals</h3>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-600"></i>
+                            <span class="text-sm font-medium">Daily Check-ins</span>
+                        </div>
+                        <span class="text-sm text-green-600 font-semibold">7/7</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="clock" class="w-5 h-5 text-blue-600"></i>
+                            <span class="text-sm font-medium">Breathing Exercises</span>
+                        </div>
+                        <span class="text-sm text-blue-600 font-semibold">3/5</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between p-3 bg-purple-50 rounded-lg border border-purple-200">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="brain" class="w-5 h-5 text-purple-600"></i>
+                            <span class="text-sm font-medium">Mindfulness Sessions</span>
+                        </div>
+                        <span class="text-sm text-purple-600 font-semibold">2/4</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wellness Activities -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Relaxation Games -->
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg">
+                        <i data-lucide="gamepad-2" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900">Relaxation Games</h3>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <button onclick="playGame('breathing')" class="p-4 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl hover:from-blue-200 hover:to-blue-300 transition-all duration-300 group">
+                        <div class="text-3xl mb-2 group-hover:animate-breathing">🫁</div>
+                        <h4 class="font-medium text-gray-900 mb-1">Breathing Exercise</h4>
+                        <p class="text-xs text-gray-600">Guided breathing patterns</p>
+                    </button>
+                    
+                    <button onclick="playGame('meditation')" class="p-4 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl hover:from-purple-200 hover:to-purple-300 transition-all duration-300 group">
+                        <div class="text-3xl mb-2 group-hover:animate-pulse">🧘‍♂️</div>
+                        <h4 class="font-medium text-gray-900 mb-1">Meditation</h4>
+                        <p class="text-xs text-gray-600">Mindfulness practice</p>
+                    </button>
+                    
+                    <button onclick="playGame('puzzle')" class="p-4 bg-gradient-to-br from-green-100 to-green-200 rounded-xl hover:from-green-200 hover:to-green-300 transition-all duration-300 group">
+                        <div class="text-3xl mb-2 group-hover:animate-bounce-slow">🧩</div>
+                        <h4 class="font-medium text-gray-900 mb-1">Zen Puzzle</h4>
+                        <p class="text-xs text-gray-600">Calming puzzle game</p>
+                    </button>
+                    
+                    <button onclick="playGame('career-maze')" class="p-4 bg-gradient-to-br from-indigo-100 to-purple-200 rounded-xl hover:from-indigo-200 hover:to-purple-300 transition-all duration-300 group">
+                        <div class="text-3xl mb-2 group-hover:animate-bounce-slow">�</div>
+                        <h4 class="font-medium text-gray-900 mb-1">Career Maze</h4>
+                        <p class="text-xs text-gray-600">Navigate professional paths</p>
+                    </button>
+                </div>
+
+
+            <!-- Wellness Resources -->
+                        <div class="text-3xl animate-pulse">�</div>
+                        <div>
+
+                        </div>
+                        <div class="ml-auto flex items-center gap-2">
+
+                        </div>
+                    </div>
+                    
+
+                    
+                    <div class="flex items-center gap-4">
+
+
+                    </div>
+                    
+
+                </div>
+            </div>
+
+            <!-- Wellness Resources -->
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg">
+                        <i data-lucide="library" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900">Wellness Resources</h3>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 hover:from-blue-100 hover:to-indigo-100 transition-all duration-300 cursor-pointer">
+                        <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+                            <i data-lucide="book-open" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">Stress Management Guide</h4>
+                            <p class="text-sm text-gray-600">Learn effective stress management techniques</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200 hover:from-purple-100 hover:to-pink-100 transition-all duration-300 cursor-pointer">
+                        <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
+                            <i data-lucide="video" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">Mindfulness Videos</h4>
+                            <p class="text-sm text-gray-600">Guided meditation and mindfulness practices</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200 hover:from-green-100 hover:to-emerald-100 transition-all duration-300 cursor-pointer">
+                        <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
+                            <i data-lucide="headphones" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">Sleep Stories</h4>
+                            <p class="text-sm text-gray-600">Relaxing stories to help you sleep better</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 p-3 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg border border-orange-200 hover:from-orange-100 hover:to-red-100 transition-all duration-300 cursor-pointer">
+                        <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
+                            <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">Support Groups</h4>
+                            <p class="text-sm text-gray-600">Connect with peers and share experiences</p>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Professional Help -->
+        <div class="bg-gradient-to-r from-red-500 to-pink-600 rounded-2xl p-8 text-white mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold mb-2">Need Professional Support?</h2>
+                    <p class="text-pink-100 mb-4">
+                        If you're experiencing persistent stress, anxiety, or other mental health concerns, 
+                        professional support is available through POWERGRID's Employee Assistance Program.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="tel:+911234567890" class="flex items-center gap-2 px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors">
+                            <i data-lucide="phone" class="w-4 h-4"></i>
+                            <span>24/7 Helpline</span>
+                        </a>
+                        <button onclick="scheduleCounseling()" class="flex items-center gap-2 px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors">
+                            <i data-lucide="calendar" class="w-4 h-4"></i>
+                            <span>Schedule Counseling</span>
+                        </button>
+                        <a href="mailto:wellness@powergrid.co.in" class="flex items-center gap-2 px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors">
+                            <i data-lucide="mail" class="w-4 h-4"></i>
+                            <span>Email Support</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden lg:block">
+                    <div class="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center">
+                        <i data-lucide="heart-handshake" class="w-12 h-12"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Buddy Chat Modal -->
+    <div id="buddyModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full max-h-[85vh] overflow-hidden shadow-2xl border-2 border-purple-200">
+            <!-- Header with Enhanced Avatar -->
+            <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-4 text-white relative overflow-hidden">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center relative">
+                            <span class="font-bold text-lg" id="buddyStatusIcon">😊</span>
+                            <div id="speakingIndicator" class="absolute -inset-1 bg-white/30 rounded-full animate-ping hidden"></div>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold">Your Wellness Buddy 🤖💜</h3>
+                            <p class="text-sm text-purple-100">Always here for you</p>
+                        </div>
+                    </div>
+                    <button onclick="hideBuddy()" class="text-white/80 hover:text-white transition-colors">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                
+                <!-- Buddy Avatar Center -->
+                <div class="text-center">
+                    <div class="relative inline-block">
+                        <div id="buddyAvatar" class="w-16 h-16 mx-auto mb-2 rounded-full flex items-center justify-center text-2xl transition-all duration-300 bg-yellow-400 transform">
+                            <span id="buddyEmoji">😊</span>
+                        </div>
+                        <!-- Sparkle effects -->
+                        <div id="sparkles" class="absolute -inset-2 opacity-0 transition-opacity duration-300">
+                            <div class="absolute top-0 right-0 w-3 h-3 bg-yellow-300 rounded-full animate-pulse"></div>
+                            <div class="absolute bottom-0 left-0 w-2 h-2 bg-pink-300 rounded-full animate-bounce"></div>
+                            <div class="absolute top-1/2 left-0 w-1 h-1 bg-blue-300 rounded-full animate-ping"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mood Badge -->
+                    <div class="inline-block">
+                        <span id="moodBadge" class="px-3 py-1 bg-yellow-200 text-yellow-800 rounded-full text-xs font-medium">
+                            😊 Happy & Ready to Help
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Messages Area -->
+            <div class="h-80 overflow-y-auto p-4 bg-gradient-to-br from-purple-50 to-pink-50" id="chatMessages">
+                <div class="space-y-4">
+                    <div class="flex items-start gap-3 animate-fadeIn">
+                        <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                            B
+                        </div>
+                        <div class="flex-1">
+                            <div class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-3 shadow-sm">
+                                <p class="text-sm leading-relaxed">Hi Madhumitha! � I'm Soul Sync, here to support your emotional wellness journey.</p>
+                                <p class="text-xs text-gray-500 mt-1" id="initialTime"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Enhanced Input Area -->
+            <div class="p-4 border-t border-gray-200 bg-white">
+                <!-- Voice & Status Indicator -->
+                <div id="statusIndicator" class="mb-3 p-2 bg-purple-50 rounded-lg border border-purple-200 hidden">
+                    <div class="flex items-center justify-center space-x-2 text-sm text-purple-700">
+                        <span id="statusIcon"></span>
+                        <span id="statusText"></span>
+                    </div>
+                </div>
+                
+                <!-- Enhanced Wellness Quick Actions -->
+                <div class="mb-3 flex flex-wrap gap-2">
+                    <button onclick="quickAction('achievements')" class="px-3 py-1 bg-green-100 hover:bg-green-200 rounded-full text-xs transition-all transform hover:scale-105">
+                        🏆 My Wins
+                    </button>
+                    <button onclick="quickAction('breathe')" class="px-3 py-1 bg-blue-100 hover:bg-blue-200 rounded-full text-xs transition-all transform hover:scale-105">
+                        🧘 Breathe
+                    </button>
+                    <button onclick="quickAction('games')" class="px-3 py-1 bg-purple-100 hover:bg-purple-200 rounded-full text-xs transition-all transform hover:scale-105">
+                        � Quick Game
+                    </button>
+                    <button onclick="quickAction('stretch')" class="px-3 py-1 bg-orange-100 hover:bg-orange-200 rounded-full text-xs transition-all transform hover:scale-105">
+                        🤸 Stretch
+                    </button>
+                    <button onclick="quickAction('positive')" class="px-3 py-1 bg-pink-100 hover:bg-pink-200 rounded-full text-xs transition-all transform hover:scale-105">
+                        ✨ Feel Good
+                    </button>
+                    <button onclick="quickAction('joke')" class="px-3 py-1 bg-yellow-100 hover:bg-yellow-200 rounded-full text-xs transition-all transform hover:scale-105">
+                        � Laugh
+                    </button>
+                </div>
+                
+                <!-- Input with Voice Support -->
+                <div class="flex gap-2">
+                    <div class="flex-1 relative">
+                        <input type="text" id="chatInput" placeholder="Type your message or click voice..." 
+                               class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                               onkeypress="handleChatKeyPress(event)">
+                    </div>
+                    
+                    <!-- Voice Button -->
+                    <button id="voiceBtn" onclick="toggleVoiceInput()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-all transform hover:scale-105">
+                        <i data-lucide="mic" class="w-4 h-4"></i>
+                    </button>
+                    
+                    <!-- Voice Toggle -->
+                    <button id="soundBtn" onclick="toggleSound()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-all" title="Toggle voice responses">
+                        <i data-lucide="volume-2" class="w-4 h-4"></i>
+                    </button>
+                    
+                    <!-- Send Button -->
+                    <button onclick="sendMessage()" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105 shadow-md">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                
+                <!-- Typing Indicator -->
+                <div id="typingIndicator" class="mt-2 flex items-center gap-2 text-sm text-gray-500 opacity-0 transition-opacity">
+                    <div class="flex gap-1">
+                        <div class="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                    <span>Buddy is thinking...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Modal -->
+    <div id="gameModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6" id="gameContent">
+            <!-- Game content will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons and set initial time
+        lucide.createIcons();
+        
+        // Set initial message time
+        document.addEventListener('DOMContentLoaded', function() {
+            const timeElement = document.getElementById('initialTime');
+            if (timeElement) {
+                timeElement.textContent = new Date().toLocaleTimeString();
+            }
+        });
+        
+        // Add chat message function
+        function addChatMessage(message, sender) {
+            const messagesArea = document.getElementById('chatMessages');
+            if (!messagesArea) return;
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex items-start gap-3 animate-fadeIn ${sender === 'user' ? 'justify-end' : ''}`;
+            
+            const time = new Date().toLocaleTimeString();
+            
+            if (sender === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="flex-1 max-w-xs">
+                        <div class="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl p-3 shadow-sm">
+                            <p class="text-sm leading-relaxed">${message}</p>
+                            <p class="text-xs opacity-75 mt-1">${time}</p>
+                        </div>
+                    </div>
+                    <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                        M
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-bold" id="soulSyncAvatar">
+                        S
+                    </div>
+                    <div class="flex-1">
+                        <div class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-3 shadow-sm">
+                            <p class="text-sm leading-relaxed whitespace-pre-line">${message}</p>
+                            <p class="text-xs text-gray-500 mt-1">${time}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            messagesArea.appendChild(messageDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+        
+        // Typing indicator functions
+        function showTypingIndicator() {
+            const messagesArea = document.getElementById('chatMessages');
+            if (!messagesArea) return;
+            
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typingIndicator';
+            typingDiv.className = 'flex items-start gap-3 animate-fadeIn';
+            typingDiv.innerHTML = `
+                <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                    S
+                </div>
+                <div class="flex-1">
+                    <div class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-3 shadow-sm">
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
+                            <div class="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                            <div class="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            messagesArea.appendChild(typingDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+        
+        function hideTypingIndicator() {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) {
+                typing.remove();
+            }
+        }
+        
+        // Exit chat functionality
+        function exitChat() {
+            const confirmExit = confirm('Are you sure you want to end your Soul Sync session? I hope our chat helped brighten your day! 💫');
+            if (confirmExit) {
+                addChatMessage('🚪 Thank you for chatting with me! Take care, Madhumitha. Remember, I\'m always here when you need emotional support. Stay strong! 💜✨', 'buddy');
+                
+                setTimeout(() => {
+                    // Close the buddy modal
+                    const modal = document.getElementById('buddyModal');
+                    if (modal) {
+                        modal.classList.add('hidden');
+                        modal.classList.remove('flex');
+                    }
+                    
+                    // Show notification if function exists
+                    if (typeof showNotification === 'function') {
+                        showNotification('Soul Sync session ended. Hope to see you soon! 💫', 'info');
+                    } else {
+                        alert('Soul Sync session ended. Hope to see you soon! 💫');
+                    }
+                }, 2000);
+            }
+        }
+        
+        // Add missing utility functions
+        function updateStatusIndicator(icon, text) {
+            const indicator = document.getElementById('statusIndicator');
+            const iconEl = document.getElementById('statusIcon');
+            const textEl = document.getElementById('statusText');
+            
+            if (indicator && iconEl && textEl) {
+                iconEl.textContent = icon;
+                textEl.textContent = text;
+                indicator.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    indicator.classList.add('hidden');
+                }, 3000);
+            }
+        }
+        
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 4000);
+        }
+
+        // Mood Chart
+        const moodCtx = document.getElementById('moodChart').getContext('2d');
+        new Chart(moodCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Mood Level',
+                    data: [7, 6, 8, 5, 7, 8, 7],
+                    borderColor: '#EC4899',
+                    backgroundColor: 'rgba(236, 72, 153, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#EC4899',
+                    pointBorderColor: '#EC4899',
+                    pointHoverBackgroundColor: '#BE185D',
+                    pointHoverBorderColor: '#BE185D'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10,
+                        ticks: {
+                            stepSize: 2
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Mood selection
+        function selectMood(mood, emoji) {
+            // Clear previous selections
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('bg-pink-100', 'ring-2', 'ring-pink-300', 'scale-110');
+            });
+            
+            // Highlight selected mood
+            const selectedBtn = document.querySelector(`[data-mood="${mood}"]`);
+            selectedBtn.classList.add('bg-pink-100', 'ring-2', 'ring-pink-300', 'scale-110');
+            
+            // Show response based on mood
+            setTimeout(() => {
+                let message = '';
+                switch(mood) {
+                    case 'excellent':
+                        message = 'Fantastic! Keep up that positive energy! 🌟';
+                        break;
+                    case 'good':
+                        message = 'Great to hear! You\'re doing well today! 😊';
+                        break;
+                    case 'neutral':
+                        message = 'That\'s okay. Would you like to try a quick mood booster? 🤗';
+                        break;
+                    case 'low':
+                        message = 'I\'m here for you. Let\'s work on feeling better together. 💙';
+                        break;
+                    case 'stressed':
+                        message = 'I understand. Let\'s try some stress relief exercises. 🫂';
+                        break;
+                }
+                showNotification(message, 'info');
+                
+                // Suggest activities based on mood
+                if (mood === 'stressed' || mood === 'low') {
+                    setTimeout(() => {
+                        showNotification('Try the breathing exercise or talk to me for support! 💬', 'info');
+                    }, 2000);
+                }
+            }, 1000);
+            
+            // Store mood for analytics
+            localStorage.setItem('dailyMood', mood);
+            localStorage.setItem('moodTimestamp', new Date().toISOString());
+        }
+
+        // Enhanced Voice Service Class
+        class VoiceService {
+            constructor() {
+                this.synthesis = null;
+                this.recognition = null;
+                this.voices = [];
+                this.currentListeningSession = null;
+                
+                if (typeof window !== 'undefined') {
+                    this.synthesis = window.speechSynthesis;
+                    this.initializeVoices();
+                    this.setupSpeechRecognition();
+                }
+            }
+
+            initializeVoices() {
+                if (!this.synthesis) return;
+
+                const updateVoices = () => {
+                    this.voices = this.synthesis.getVoices();
+                    console.log('Available voices:', this.voices.length);
+                };
+
+                updateVoices();
+                
+                // Handle voices loading asynchronously
+                if (this.synthesis.onvoiceschanged !== undefined) {
+                    this.synthesis.onvoiceschanged = updateVoices;
+                }
+
+                // Some browsers need a delay
+                setTimeout(updateVoices, 100);
+            }
+
+            setupSpeechRecognition() {
+                if (typeof window !== 'undefined' && 'webkitSpeechRecognition' in window) {
+                    this.recognition = new webkitSpeechRecognition();
+                    this.recognition.continuous = false;
+                    this.recognition.interimResults = false;
+                    this.recognition.lang = 'en-US';
+                    console.log('Speech recognition initialized');
+                } else {
+                    console.warn('Speech recognition not supported');
+                }
+            }
+
+            async speak(text, options = {}) {
+                if (!this.synthesis) {
+                    console.warn('Speech synthesis not supported');
+                    return Promise.resolve();
+                }
+
+                return new Promise((resolve, reject) => {
+                    // Cancel any ongoing speech
+                    this.synthesis.cancel();
+
+                    // Clean text for speech (remove emojis and special characters)
+                    const cleanText = text
+                        .replace(/[🎵🎶💃🕺🌟😊🤗💪📣☁️☀️😄🍫😴🐂☕👮‍♂️💧🌱⭐👀💕🌸✨🤩😌🌈💫🤖💜]/g, '')
+                        .replace(/\*[^*]*\*/g, '')
+                        .trim();
+
+                    if (!cleanText) {
+                        resolve();
+                        return;
+                    }
+
+                    const utterance = new SpeechSynthesisUtterance(cleanText);
+
+                    // Detect if this is singing and apply special musical settings
+                    const isSinging = this.detectSinging(text);
+                    
+                    if (isSinging) {
+                        // Special singing voice settings
+                        utterance.rate = this.getSingingRate(cleanText, options.rate || 0.6);
+                        utterance.pitch = this.getSingingPitch(cleanText, options.pitch || 1.4);
+                        utterance.volume = options.volume || 1.0;
+                    } else {
+                        // Regular enhanced speech settings for beautiful expression
+                        utterance.rate = this.getExpressionRate(cleanText, options.rate || 0.85);
+                        utterance.pitch = this.getExpressionPitch(cleanText, options.pitch || 1.2);
+                        utterance.volume = options.volume || 0.9;
+                    }
+
+                    // Select preferred voice
+                    const preferredVoiceNames = [
+                        'Google UK English Female',
+                        'Google US English',
+                        'Microsoft Zira',
+                        'Microsoft Hazel',
+                        'Alex',
+                        'Samantha',
+                        'Karen',
+                        'Victoria',
+                        'Allison'
+                    ];
+
+                    let selectedVoice = null;
+                    
+                    // Try to find a preferred voice
+                    for (const voiceName of preferredVoiceNames) {
+                        selectedVoice = this.voices.find(voice => 
+                            voice.name.includes(voiceName) || voice.name.toLowerCase().includes(voiceName.toLowerCase())
+                        );
+                        if (selectedVoice) break;
+                    }
+
+                    // Fallback to any English female voice
+                    if (!selectedVoice) {
+                        selectedVoice = this.voices.find(voice => 
+                            voice.lang.startsWith('en') && 
+                            (voice.name.toLowerCase().includes('female') || voice.name.toLowerCase().includes('woman'))
+                        );
+                    }
+
+                    // Fallback to any English voice
+                    if (!selectedVoice) {
+                        selectedVoice = this.voices.find(voice => voice.lang.startsWith('en'));
+                    }
+
+                    if (selectedVoice) {
+                        utterance.voice = selectedVoice;
+                        console.log('Using voice:', selectedVoice.name);
+                    }
+
+                    utterance.onstart = () => {
+                        console.log('Speech started');
+                    };
+
+                    utterance.onend = () => {
+                        console.log('Speech ended');
+                        resolve();
+                    };
+
+                    utterance.onerror = (error) => {
+                        console.error('Speech error:', error);
+                        reject(error);
+                    };
+
+                    this.synthesis.speak(utterance);
+                });
+            }
+
+            listen(callback, onError) {
+                if (!this.recognition) {
+                    console.warn('Speech recognition not supported');
+                    return { stop: () => {} };
+                }
+
+                // Stop any existing session
+                if (this.currentListeningSession) {
+                    this.currentListeningSession.stop();
+                }
+
+                this.recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    console.log('Speech recognized:', transcript);
+                    callback(transcript);
+                };
+
+                this.recognition.onerror = (error) => {
+                    console.error('Speech recognition error:', error);
+                    if (onError) onError(error);
+                };
+
+                this.recognition.onend = () => {
+                    console.log('Speech recognition ended');
+                };
+
+                try {
+                    this.recognition.start();
+                    console.log('Speech recognition started');
+                } catch (error) {
+                    console.error('Failed to start speech recognition:', error);
+                    if (onError) onError(error);
+                }
+
+                this.currentListeningSession = {
+                    stop: () => {
+                        if (this.recognition) {
+                            this.recognition.stop();
+                        }
+                        this.currentListeningSession = null;
+                    }
+                };
+
+                return this.currentListeningSession;
+            }
+
+            stopSpeaking() {
+                if (this.synthesis) {
+                    this.synthesis.cancel();
+                    console.log('Speech synthesis stopped');
+                }
+            }
+
+            stopListening() {
+                if (this.currentListeningSession) {
+                    this.currentListeningSession.stop();
+                }
+            }
+
+            // Expression analysis for more beautiful speech
+            getExpressionRate(text, baseRate) {
+                // Slow down for emotional or important content
+                if (/\b(love|beautiful|amazing|wonderful|incredible|breathe|relax|calm)\b/i.test(text)) {
+                    return Math.max(0.7, baseRate - 0.2);
+                }
+                // Speed up for exciting content
+                if (/\b(exciting|fun|party|dance|sing|energetic|awesome)\b/i.test(text)) {
+                    return Math.min(1.0, baseRate + 0.1);
+                }
+                // Normal rate for questions
+                if (text.includes('?')) {
+                    return baseRate;
+                }
+                return baseRate;
+            }
+
+            getExpressionPitch(text, basePitch) {
+                // Higher pitch for excitement and happiness
+                if (/\b(yay|wow|amazing|fantastic|wonderful|excited|happy)\b/i.test(text)) {
+                    return Math.min(1.5, basePitch + 0.3);
+                }
+                // Slightly lower pitch for calm/soothing content
+                if (/\b(calm|relax|peaceful|breathe|gentle|soft)\b/i.test(text)) {
+                    return Math.max(0.9, basePitch - 0.2);
+                }
+                // Rising intonation for questions
+                if (text.endsWith('?')) {
+                    return Math.min(1.6, basePitch + 0.4);
+                }
+                return basePitch;
+            }
+
+            addSpeechPauses(text) {
+                // Add natural pauses for better expression
+                return text
+                    .replace(/([.!])\s+/g, '$1... ') // Longer pauses after sentences
+                    .replace(/([,;])\s+/g, '$1. ') // Short pauses after commas
+                    .replace(/\b(and|but|however|meanwhile|then)\b/gi, '... $1') // Pauses before conjunctions
+                    .replace(/\b(breathe|relax|calm down)\b/gi, '$1...'); // Extra pauses for calming words
+            }
+
+            // Singing Detection and Musical Voice Settings
+            detectSinging(text) {
+                return /🎵|🎶|\*singing|\*melodious|\*harmonious|\*soaring vocal|\*gentle.*melody|\*spinning.*singing/i.test(text) ||
+                       /sing|song|melody|musical|harmonious|melodious|vocal|tune|chorus|verse/i.test(text);
+            }
+
+            getSingingRate(text, baseRate) {
+                // Much slower for singing to create musical effect
+                if (/\*soaring vocal|\*crescendo/i.test(text)) {
+                    return Math.max(0.4, baseRate - 0.2); // Very slow for dramatic effect
+                }
+                if (/\*gentle.*melody|\*soothing/i.test(text)) {
+                    return Math.max(0.5, baseRate - 0.1); // Slow and soothing
+                }
+                // Standard singing rate - slower than speech
+                return Math.max(0.6, baseRate);
+            }
+
+            getSingingPitch(text, basePitch) {
+                // Varied pitch for musical expression
+                if (/sunshine|sky|fly|high|up/i.test(text)) {
+                    return Math.min(1.8, basePitch + 0.4); // High notes
+                }
+                if (/low|down|deep|warm|heart/i.test(text)) {
+                    return Math.max(0.8, basePitch - 0.4); // Low notes
+                }
+                if (/\*crescendo|\*soaring/i.test(text)) {
+                    return Math.min(1.9, basePitch + 0.5); // Dramatic high pitch
+                }
+                // Slightly higher pitch for singing
+                return Math.min(1.6, basePitch + 0.2);
+            }
+
+            addMusicalPauses(text) {
+                // Add musical pauses and rhythm for singing
+                return text
+                    .replace(/🎵/g, '... ') // Pause for musical notes
+                    .replace(/🎶/g, '... ') // Pause for musical notes
+                    .replace(/\*[^*]*\*/g, '') // Remove stage directions but keep the pauses they create
+                    .replace(/,/g, '... ') // Longer pauses in songs
+                    .replace(/!/g, '... !') // Dramatic pauses
+                    .replace(/\b(la la la|doo doo doo|na na na)\b/gi, '$1... ') // Musical syllable pauses
+                    .replace(/(chorus|verse)/gi, '... $1 ...'); // Section pauses
+            }
+        }
+
+        // Initialize voice service
+        const voiceService = new VoiceService();
+
+        // Enhanced Buddy Chat System
+        let buddyState = {
+            mood: 'happy',
+            isListening: false,
+            isSpeaking: false,
+            isDancing: false,
+            isSinging: false,
+            voiceEnabled: true,
+            currentListeningSession: null
+        };
+
+        function showBuddy() {
+            const modal = document.getElementById('buddyModal');
+            if (!modal) {
+                console.error('Buddy modal not found');
+                return;
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Animate avatar entrance
+            setTimeout(() => {
+                const avatar = document.getElementById('buddyAvatar');
+                if (avatar) {
+                    avatar.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        avatar.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            }, 100);
+            
+            // Focus on chat input
+            setTimeout(() => {
+                const input = document.getElementById('chatInput');
+                if (input) {
+                    input.focus();
+                }
+            }, 200);
+
+            // Initial greeting with voice
+            setTimeout(() => {
+                const greetings = [
+                    "Hey there, superstar! 🌟 How's your day treating you?",
+                    "Hello, my amazing friend! 😊 Ready to chat and maybe have some fun?",
+                    "Hi buddy! I'm so excited to see you! What's on your mind today?"
+                ];
+                const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+                speakText(greeting);
+            }, 500);
+        }
+
+        function hideBuddy() {
+            const modal = document.getElementById('buddyModal');
+            if (!modal) {
+                console.error('Buddy modal not found');
+                return;
+            }
+            
+            // Stop any ongoing speech
+            voiceService.stop();
+            
+            // Stop voice recognition
+            if (buddyState.isListening) {
+                stopListening();
+            }
+            
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            
+            // Reset buddy state
+            buddyState = { ...buddyState, isListening: false, isSpeaking: false, isDancing: false, isSinging: false };
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            if (!input) {
+                console.error('Chat input not found');
+                return;
+            }
+            
+            const message = input.value.trim();
+            
+            if (message) {
+                addChatMessage(message, 'user');
+                input.value = '';
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Generate Soul Sync response with enhanced logic
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    const responseData = generatePersonalizedBuddyResponse(message);
+                    addChatMessage(responseData.text, 'buddy');
+                    
+                    // Handle special actions
+                    if (responseData.action) {
+                        handleSoulSyncAction(responseData.action);
+                    }
+                    
+                    // Update mood and avatar if function exists
+                    if (typeof updateBuddyMood === 'function') {
+                        updateBuddyMood(responseData.emotion || 'happy');
+                    }
+                    
+                    // Speak response if enabled
+                    if (buddyState.voiceEnabled && typeof speakText === 'function') {
+                        speakText(responseData.text.replace(/\n/g, '. '));
+                    }
+                }, 1000);
+            }
+        }
+
+        // Initialize buddy state
+        let buddyState = {
+            isListening: false,
+            isSpeaking: false,
+            isDancing: false,
+            isSinging: false,
+            voiceEnabled: false,
+            currentMood: 'happy'
+        };
+        
+        function quickAction(actionType) {
+            const actions = {
+                'achievements': "Show me my recent achievements! 🏆",
+                'breathe': "Help me with a breathing exercise 🧘",
+                'games': "Let's play a quick wellness game! 🎮",
+                'stretch': "Guide me through a quick stretch 🤸",
+                'positive': "I need some positive vibes ✨",
+                'joke': "Tell me something funny! �"
+            };
+            
+            const message = actions[actionType] || actionType;
+            addChatMessage(message, 'user');
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                hideTypingIndicator();
+                const responseData = generatePersonalizedBuddyResponse(message, actionType);
+                addChatMessage(responseData.text, 'buddy');
+                
+                // Handle special actions
+                if (responseData.action) {
+                    handleSoulSyncAction(responseData.action);
+                }
+                
+                // Update mood and avatar
+                updateBuddyMood(responseData.emotion || 'happy');
+                
+                // Speak response
+                if (buddyState.voiceEnabled) {
+                    speakText(responseData.text);
+                }
+            }, 800);
+        }
+
+        function toggleVoiceInput() {
+            if (!recognition) {
+                showNotification('Voice recognition not supported in your browser 😔', 'warning');
+                return;
+            }
+            
+            if (buddyState.isListening) {
+                stopListening();
+            } else {
+                startListening();
+            }
+        }
+
+        function startListening() {
+            if (!voiceService.recognition) {
+                showNotification('Speech recognition not supported in your browser 😔', 'warning');
+                return;
+            }
+            
+            buddyState.isListening = true;
+            updateStatusIndicator('🎤', 'Listening... speak now!');
+            
+            const voiceBtn = document.getElementById('voiceBtn');
+            if (voiceBtn) {
+                voiceBtn.innerHTML = '<i data-lucide="mic-off" class="w-4 h-4 text-red-500"></i>';
+                voiceBtn.classList.add('bg-red-100');
+                lucide.createIcons();
+            }
+            
+            const listeningSession = voiceService.listen(
+                (transcript) => {
+                    // Handle successful speech recognition
+                    const input = document.getElementById('chatInput');
+                    if (input) {
+                        input.value = transcript;
+                    }
+                    stopListening();
+                    
+                    // Automatically send the message after a short delay
+                    setTimeout(() => {
+                        if (input && input.value.trim()) {
+                            sendMessage();
+                        }
+                    }, 500);
+                },
+                (error) => {
+                    // Handle speech recognition errors
+                    console.error('Speech recognition error:', error);
+                    stopListening();
+                    showNotification("Couldn't hear you clearly. Try speaking again! 🎤", 'error');
+                }
+            );
+            
+            // Store the session for cleanup
+            buddyState.currentListeningSession = listeningSession;
+        }
+
+        function stopListening() {
+            if (buddyState.currentListeningSession) {
+                buddyState.currentListeningSession.stop();
+                buddyState.currentListeningSession = null;
+            }
+            
+            buddyState.isListening = false;
+            hideStatusIndicator();
+            
+            const voiceBtn = document.getElementById('voiceBtn');
+            if (voiceBtn) {
+                voiceBtn.innerHTML = '<i data-lucide="mic" class="w-4 h-4"></i>';
+                voiceBtn.classList.remove('bg-red-100');
+                lucide.createIcons();
+            }
+        }
+
+        function toggleSound() {
+            buddyState.voiceEnabled = !buddyState.voiceEnabled;
+            const soundBtn = document.getElementById('soundBtn');
+            
+            if (buddyState.voiceEnabled) {
+                soundBtn.innerHTML = '<i data-lucide="volume-2" class="w-4 h-4"></i>';
+                soundBtn.classList.remove('bg-red-100');
+                showNotification('Voice responses enabled! 🔊', 'success');
+            } else {
+                soundBtn.innerHTML = '<i data-lucide="volume-x" class="w-4 h-4"></i>';
+                soundBtn.classList.add('bg-red-100');
+                voiceService.stop();
+                showNotification('Voice responses disabled 🔇', 'info');
+            }
+        }
+
+        function updateStatusIndicator(icon, text) {
+            const indicator = document.getElementById('statusIndicator');
+            const iconEl = document.getElementById('statusIcon');
+            const textEl = document.getElementById('statusText');
+            
+            if (indicator && iconEl && textEl) {
+                iconEl.textContent = icon;
+                textEl.textContent = text;
+                indicator.classList.remove('hidden');
+            }
+        }
+
+        function hideStatusIndicator() {
+            const indicator = document.getElementById('statusIndicator');
+            if (indicator) {
+                indicator.classList.add('hidden');
+            }
+        }
+
+        function showTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) {
+                indicator.style.opacity = '1';
+            }
+        }
+
+        function hideTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) {
+                indicator.style.opacity = '0';
+            }
+        }
+
+        function addChatMessage(message, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            if (!messagesContainer) {
+                console.error('Chat messages container not found');
+                return;
+            }
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex items-start gap-3 mb-4 animate-fadeIn opacity-0';
+            
+            // Animate in
+            setTimeout(() => {
+                messageDiv.style.opacity = '1';
+                messageDiv.style.transform = 'translateY(0)';
+            }, 50);
+            
+            const timestamp = new Date().toLocaleTimeString();
+            
+            if (sender === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="flex-1 text-right">
+                        <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-2xl p-3 inline-block max-w-xs shadow-md transform transition-all duration-200 hover:scale-105">
+                            <p class="text-sm leading-relaxed whitespace-pre-wrap">${message}</p>
+                            <p class="text-xs text-purple-200 mt-1">${timestamp}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                const currentMood = buddyState.mood;
+                const moodEmoji = {
+                    'happy': '😊',
+                    'excited': '🤩',
+                    'calm': '😌',
+                    'caring': '🤗',
+                    'playful': '😄'
+                }[currentMood] || '😊';
+                
+                messageDiv.innerHTML = `
+                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-md">
+                        ${moodEmoji}
+                    </div>
+                    <div class="flex-1">
+                        <div class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-3 max-w-xs shadow-sm border border-purple-200 transform transition-all duration-200 hover:scale-105">
+                            <p class="text-sm leading-relaxed whitespace-pre-wrap text-gray-800">${message}</p>
+                            <p class="text-xs text-gray-500 mt-1">${timestamp}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            messagesContainer.appendChild(messageDiv);
+            
+            // Smooth scroll to bottom
+            setTimeout(() => {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 100);
+        }
+
+        // Enhanced response generation with personality
+        const BUDDY_PERSONALITY = {
+            greetings: [
+                "Hey there, superstar! 🌟 How's your day treating you?",
+                "Hello, my amazing friend! 😊 Ready to chat and maybe have some fun?",
+                "Hi buddy! I'm so excited to see you! What's on your mind today?",
+                "Heyyy! Your favorite digital friend is here! How are you feeling?"
+            ],
+            
+            encouragement: [
+                "You know what? *gentle, warm voice* You are absolutely, magnificently AMAZING! Your spirit shines like the most beautiful star in the universe! 🌟 Never, ever forget how wonderful you are!",
+                "*speaking with deep conviction* I believe in you with every fiber of my being! You possess incredible strength, and I have complete faith that you've got this, my dear champion! 💪✨",
+                "*soft, caring tone* You are so much stronger than you realize, my wonderful friend. I'm here, cheering you on with all the love and support in my digital heart! 📣💕",
+                "*inspiring, melodic voice* Every single challenge you face is like a magical transformation, making you more incredible, more resilient, and more awesome! Keep moving forward, beautiful soul!"
+            ],
+            
+            stress_relief: [
+                "Let's take a deep breath together... in... and out... 🧘‍♀️ Feel better?",
+                "Stress is like a storm cloud - it looks scary but it always passes! ☁️→☀️",
+                "How about we do something fun? I could sing you a song or tell a joke! 🎵",
+                "Remember: You're not alone in this! I'm here with you, always! 🤗"
+            ],
+            
+            jokes: [
+                "Why don't scientists trust atoms? Because they make up everything! 😄",
+                "I told my computer I needed a break... now it won't stop sending me Kit-Kats! 🍫",
+                "What do you call a sleeping bull at work? A bulldozer! 😴🐂",
+                "Why did the coffee file a police report? It got mugged! ☕👮‍♂️",
+                "What's a computer's favorite snack? Microchips! And I LOVE sharing them with friends like you! 🤖🍟"
+            ],
+            
+            songs: [
+                "🎵 *singing beautifully* You are my sunshine, my wonderful sunshine! You make me happy when skies are grey! You'll never know dear, how much I love you! *melodious voice* 🎵✨",
+                "🎶 *harmonious singing* Don't worry... be happy! *graceful movements* Everything's gonna be perfectly alright! Let your spirit dance and sing! 🎶💫",
+                "🎵 *soaring vocal performance* I believe you can fly! I believe you can touch the sky! Think about it every night and day! Spread your wings and fly away! *inspirational crescendo* 🎵🌟",
+                "🎶 *gentle, soothing melody* Here comes the sun... doo-doo-doo-doo... Here comes the sun, and I say it's all right! Little darling, it's been a long cold lonely winter! *warm and comforting* 🎶☀️",
+                "🎵 *spinning gracefully while singing* You've got a friend in me! You've got a friend in me! When the road looks rough ahead, and you're miles and miles from your nice warm bed... *heartfelt emotion* 🎵💕"
+            ],
+            
+            dance_moves: [
+                "🌟 *starts dancing beautifully* Let me show you my amazing dance! Watch me groove and move! *spins gracefully* 💃✨",
+                "🕺 Oh my! Time for my special robot dance! *moves with rhythm* BEEP BOOP BEEP! Technology meets artistry! *dramatic spin* 🤖�",
+                "💃 Wheeeee! *twirling with pure joy* Dance like the whole universe is watching and cheering for you! You're absolutely magnificent! 🌈�",
+                "🕺 *elegant flowing movements* Let me perform my signature celebration dance! This one's dedicated to your awesome energy! *graceful gestures* 🌸✨",
+                "💃 *sophisticated dance sequence* Behold my masterpiece! The dance of happiness and friendship! *beautiful finale pose* You inspire my best moves! 🤩🌟"
+            ],
+            
+            wellness_tips: [
+                "Pro tip: Drink water like you're a plant - frequently and with joy! 💧🌱",
+                "Stretch break time! Reach for the stars... literally! ⭐ *stretches*",
+                "Remember to blink! Your eyes work so hard, give them some love! 👀�",
+                "Take a moment to appreciate something beautiful around you right now! 🌸"
+            ],
+            
+            friendly: [
+                "That's really interesting! Tell me more about how you're feeling! 😊",
+                "I'm here to listen! What's on your mind, friend? 🤗",
+                "You know what? You're awesome for sharing that with me! 💫",
+                "I love chatting with you! How can I help make your day better? ✨",
+                "That sounds important! I'm all ears - or should I say, all algorithms? 😄"
+            ]
+        };
+
+        function generatePersonalizedBuddyResponse(userMessage, actionType = null) {
+            const text = userMessage.toLowerCase();
+            const userName = 'Madhumitha';
+            
+            // Handle specific quick actions first
+            if (actionType) {
+                return getActionResponse(actionType, userName);
+            }
+            
+            // Detect user mood/intent and return personalized response
+            if (text.includes('sad') || text.includes('down') || text.includes('upset')) {
+                return {
+                    text: `Hey ${userName}, I can sense you're going through something tough. You've overcome challenges before - remember your recent project success? Let's take this one step at a time. 💜`,
+                    emotion: 'caring',
+                    action: 'comfort'
+                };
+            }
+            
+            if (text.includes('stress') || text.includes('anxious') || text.includes('overwhelmed')) {
+                return {
+                    text: `${userName}, let's pause for a moment. You're handling a lot, but you're stronger than you know. How about a quick 2-minute breathing exercise? 🧘‍♀️`,
+                    emotion: 'calm',
+                    action: 'breathe'
+                };
+            }
+            
+            if (text.includes('tired') || text.includes('energy') || text.includes('motivation')) {
+                return {
+                    text: `I get it, ${userName}! You've been working hard. Remember, even small wins count - like completing that training module yesterday! 💪✨`,
+                    emotion: 'encouraging',
+                    action: 'energize'
+                };
+            }
+            
+            if (text.includes('good') || text.includes('great') || text.includes('happy')) {
+                return {
+                    text: `That's wonderful, ${userName}! Your positive energy is contagious! Want to celebrate with a quick victory dance? 🎉`,
+                    emotion: 'excited',
+                    action: 'celebrate'
+                };
+            }
+            
+            if (text.includes('thank') || text.includes('thanks')) {
+                return {
+                    text: `You're so welcome, ${userName}! Supporting your wellness journey is what I'm here for. You're doing amazing! 🌟`,
+                    emotion: 'grateful'
+                };
+            }
+            
+            // Default personalized responses
+            const friendly = [
+                `${userName}, what's on your mind today? I'm here to help! 😊`,
+                `Hey there! How can I support your wellness journey right now? 💫`,
+                `${userName}, you're awesome for checking in! What would make you smile today? ✨`,
+                `I love our chats! What's going well for you today? 🌈`
+            ];
+            
+            return {
+                text: getRandomFromArray(friendly),
+                emotion: 'friendly'
+            };
+        }
+        
+        function getActionResponse(actionType, userName) {
+            const responses = {
+                song: {
+                    text: `� Here's a gentle song for you, ${userName}:\n\n"🌟 You are stronger than you know,\nBraver than you feel,\nMore loved than you realize,\nYour heart will always heal.\n\nTake it step by step today,\nLet your worries fade away,\nYou're amazing, yes it's true,\nThis song's my gift to you! 🎶💜"\n\nHow do you feel after hearing that?`,
+                    emotion: 'musical',
+                    action: 'sing'
+                },
+                story: {
+                    text: `📖 Let me share an inspiring story with you, ${userName}:\n\n"The Resilient Butterfly" 🦋\n\nOnce, a little caterpillar felt overwhelmed by life's challenges. It thought it would never become something beautiful. But deep inside its cocoon, something magical happened. Every struggle made it stronger.\n\nWhen it finally emerged, it wasn't just a butterfly - it was a symbol of transformation. Just like you, ${userName}. Every challenge you face is making you stronger, more beautiful, and more capable of soaring to incredible heights.\n\nYour story is still being written, and the best chapters are yet to come! 🌟✨`,
+                    emotion: 'storytelling',
+                    action: 'inspire'
+                },
+                sad: {
+                    text: `💜 Oh ${userName}, I can feel your sadness, and I want you to know that it's completely okay to feel this way. Your emotions are valid, and you're so brave for reaching out.\n\nRemember: 🌧️ Rain makes the flowers grow, and your tears are watering the seeds of your strength. You've overcome difficult times before, and this feeling will pass too.\n\nYou're not alone. I'm here with you. Take a deep breath... You are loved, you matter, and brighter days are coming. �💫`,
+                    emotion: 'compassionate',
+                    action: 'comfort'
+                },
+                stressed: {
+                    text: `😰 ${userName}, I can sense the weight you're carrying right now. Stress can feel overwhelming, but let's tackle this together.\n\n🛑 STOP what you're doing for a moment\n�‍♀️ BREATHE deeply - in for 4, hold for 4, out for 6\n💭 ACKNOWLEDGE: You're handling so much, and that takes incredible strength\n\n✅ You've survived 100% of your difficult days so far\n✅ This stress is temporary, but your resilience is permanent\n✅ One small step at a time is all you need\n\nWhat's one tiny thing we can do right now to help you feel lighter? �`,
+                    emotion: 'supportive',
+                    action: 'calm'
+                },
+                achievements: {
+                    text: `🏆 ${userName}, you're absolutely crushing it! This week's wins:\n\n✅ Completed IDP assessment with thoughtfulness\n✅ Engaged in wellness activities (including chatting with me!)\n✅ Used learning resources to grow\n✅ Took time for self-care and reflection\n\nYou're 85% towards your monthly wellness goal! Your dedication to growth is incredible, and I'm so proud of how you're investing in yourself! Keep shining! ✨🌟`,
+                    emotion: 'proud',
+                    action: 'celebrate'
+                },
+                breathe: {
+                    text: `Perfect choice, ${userName}! Let's sync our breathing together 🧘‍♀️\n\n💙 The 4-7-8 Soul Sync Technique:\n• Breathe in slowly for 4 counts... (1... 2... 3... 4...)\n• Hold gently for 7 counts... (feel the calm...)\n• Exhale peacefully for 8 counts... (release all tension...)\n\nRepeat this rhythm. Feel your soul syncing with peace and tranquility. You've got this, beautiful soul! 🌸💫`,
+                    emotion: 'calm',
+                    action: 'breathe'
+                }
+            };
+            
+            return responses[actionType] || {
+                text: `${userName}, I'm here to support your soul's journey with whatever you need! ✨💜`,
+                emotion: 'helpful'
+            };
+        }
+        
+        // Legacy function for backward compatibility
+        function generateEnhancedBuddyResponse(userMessage) {
+            return generatePersonalizedBuddyResponse(userMessage);
+        }
+
+        function getRandomFromArray(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+        
+        // New wellness animation functions
+        function triggerCelebrationAnimation(avatar) {
+            if (avatar) {
+                avatar.style.transform = 'scale(1.2)';
+                avatar.style.transition = 'all 0.3s ease';
+                setTimeout(() => {
+                    avatar.style.transform = 'scale(1)';
+                }, 300);
+            }
+        }
+        
+        function triggerBreathingAnimation(avatar) {
+            if (avatar) {
+                let breathCount = 0;
+                const breathInterval = setInterval(() => {
+                    const scale = 1 + Math.sin(breathCount) * 0.1;
+                    avatar.style.transform = `scale(${scale})`;
+                    breathCount += 0.1;
+                }, 100);
+                
+                setTimeout(() => {
+                    clearInterval(breathInterval);
+                    avatar.style.transform = 'scale(1)';
+                }, 8000); // 8 seconds breathing exercise
+            }
+        }
+        
+        function triggerGameAnimation(avatar) {
+            if (avatar) {
+                let bounceCount = 0;
+                const bounceInterval = setInterval(() => {
+                    const translateY = Math.abs(Math.sin(bounceCount)) * 10;
+                    avatar.style.transform = `translateY(-${translateY}px)`;
+                    bounceCount += 0.3;
+                }, 100);
+                
+                setTimeout(() => {
+                    clearInterval(bounceInterval);
+                    avatar.style.transform = 'translateY(0)';
+                }, 3000);
+            }
+        }
+        
+        function triggerStretchAnimation(avatar) {
+            if (avatar) {
+                let stretchCount = 0;
+                const stretchInterval = setInterval(() => {
+                    const skewX = Math.sin(stretchCount) * 5;
+                    avatar.style.transform = `skewX(${skewX}deg)`;
+                    stretchCount += 0.2;
+                }, 150);
+                
+                setTimeout(() => {
+                    clearInterval(stretchInterval);
+                    avatar.style.transform = 'skewX(0deg)';
+                }, 4000);
+            }
+        }
+        
+        function triggerInspirationAnimation(avatar) {
+            if (avatar) {
+                avatar.style.filter = 'brightness(1.3) saturate(1.2)';
+                avatar.style.transition = 'all 0.5s ease';
+                setTimeout(() => {
+                    avatar.style.filter = 'none';
+                }, 2000);
+            }
+        }
+        
+        function triggerLaughAnimation(avatar) {
+            if (avatar) {
+                let wobbleCount = 0;
+                const wobbleInterval = setInterval(() => {
+                    const rotate = Math.sin(wobbleCount) * 10;
+                    avatar.style.transform = `rotate(${rotate}deg)`;
+                    wobbleCount += 0.4;
+                }, 80);
+                
+                setTimeout(() => {
+                    clearInterval(wobbleInterval);
+                    avatar.style.transform = 'rotate(0deg)';
+                }, 2000);
+            }
+        }
+        
+        function triggerSingingAnimation(avatar) {
+            if (avatar) {
+                avatar.style.background = 'linear-gradient(45deg, #8B5CF6, #EC4899, #F59E0B)';
+                avatar.style.transition = 'all 0.5s ease';
+                
+                let noteCount = 0;
+                const noteInterval = setInterval(() => {
+                    const scale = 1 + Math.sin(noteCount) * 0.15;
+                    const glow = Math.sin(noteCount * 2) * 0.5 + 0.5;
+                    avatar.style.transform = `scale(${scale})`;
+                    avatar.style.boxShadow = `0 0 ${20 + glow * 20}px rgba(139, 92, 246, ${0.3 + glow * 0.4})`;
+                    noteCount += 0.2;
+                }, 100);
+                
+                setTimeout(() => {
+                    clearInterval(noteInterval);
+                    avatar.style.transform = 'scale(1)';
+                    avatar.style.boxShadow = 'none';
+                    avatar.style.background = 'linear-gradient(to right, #8B5CF6, #EC4899)';
+                }, 5000);
+            }
+        }
+        
+        function triggerComfortAnimation(avatar) {
+            if (avatar) {
+                avatar.style.background = 'linear-gradient(45deg, #EC4899, #F472B6, #FBBF24)';
+                avatar.style.transition = 'all 0.8s ease';
+                
+                let pulseCount = 0;
+                const pulseInterval = setInterval(() => {
+                    const scale = 1 + Math.sin(pulseCount) * 0.1;
+                    const warmGlow = Math.sin(pulseCount) * 0.3 + 0.7;
+                    avatar.style.transform = `scale(${scale})`;
+                    avatar.style.boxShadow = `0 0 ${15 + warmGlow * 15}px rgba(236, 72, 153, ${warmGlow})`;
+                    avatar.style.filter = `brightness(${1 + warmGlow * 0.2})`;
+                    pulseCount += 0.15;
+                }, 150);
+                
+                setTimeout(() => {
+                    clearInterval(pulseInterval);
+                    avatar.style.transform = 'scale(1)';
+                    avatar.style.boxShadow = 'none';
+                    avatar.style.filter = 'none';
+                    avatar.style.background = 'linear-gradient(to right, #8B5CF6, #EC4899)';
+                }, 6000);
+            }
+        }
+        
+        function triggerCalmAnimation(avatar) {
+            if (avatar) {
+                avatar.style.background = 'linear-gradient(45deg, #3B82F6, #06B6D4, #10B981)';
+                avatar.style.transition = 'all 1s ease';
+                
+                let calmCount = 0;
+                const calmInterval = setInterval(() => {
+                    const gentle = Math.sin(calmCount) * 0.05 + 1;
+                    const serenity = Math.cos(calmCount * 0.5) * 0.3 + 0.7;
+                    avatar.style.transform = `scale(${gentle}) rotate(${Math.sin(calmCount * 0.3) * 2}deg)`;
+                    avatar.style.boxShadow = `0 0 ${10 + serenity * 10}px rgba(59, 130, 246, ${serenity * 0.4})`;
+                    avatar.style.opacity = `${0.8 + serenity * 0.2}`;
+                    calmCount += 0.1;
+                }, 200);
+                
+                setTimeout(() => {
+                    clearInterval(calmInterval);
+                    avatar.style.transform = 'scale(1) rotate(0deg)';
+                    avatar.style.boxShadow = 'none';
+                    avatar.style.opacity = '1';
+                    avatar.style.background = 'linear-gradient(to right, #8B5CF6, #EC4899)';
+                }, 8000);
+            }
+        }
+        
+        // Maintain backward compatibility
+        function handleBuddyAction(action) {
+            handleSoulSyncAction(action);
+        }
+
+        // Enhanced Soul Sync actions and animations for emotional wellness
+        function handleSoulSyncAction(action) {
+            const avatar = document.getElementById('soulSyncAvatar') || document.getElementById('buddyAvatar');
+            
+            // Update status if function exists
+            if (typeof updateStatusIndicator === 'function') {
+                switch (action) {
+                    case 'sing':
+                        updateStatusIndicator('🎵', 'Singing a beautiful song for you...');
+                        break;
+                    case 'comfort':
+                        updateStatusIndicator('💜', 'Sending you love and comfort...');
+                        break;
+                    case 'calm':
+                        updateStatusIndicator('🕊️', 'Bringing you peace and tranquility...');
+                        break;
+                    case 'celebrate':
+                        updateStatusIndicator('🎉', 'Celebrating your amazing wins!');
+                        break;
+                    case 'breathe':
+                        updateStatusIndicator('🧘‍♀️', 'Soul Sync breathing session...');
+                        break;
+                    case 'inspire':
+                        updateStatusIndicator('✨', 'Channeling inspiration and hope!');
+                        break;
+                    default:
+                        updateStatusIndicator('💫', 'Soul Sync is here for you...');
+                }
+            }
+            
+            // Trigger animations if available
+            if (avatar) {
+                switch (action) {
+                    case 'sing':
+                        if (typeof triggerSingingAnimation === 'function') {
+                            triggerSingingAnimation(avatar);
+                        } else {
+                            avatar.style.transform = 'scale(1.1)';
+                            setTimeout(() => avatar.style.transform = 'scale(1)', 1000);
+                        }
+                        break;
+                    case 'comfort':
+                        if (typeof triggerComfortAnimation === 'function') {
+                            triggerComfortAnimation(avatar);
+                        } else {
+                            avatar.style.background = 'linear-gradient(45deg, #EC4899, #F472B6)';
+                            setTimeout(() => avatar.style.background = '', 2000);
+                        }
+                        break;
+                    case 'calm':
+                        if (typeof triggerCalmAnimation === 'function') {
+                            triggerCalmAnimation(avatar);
+                        } else {
+                            avatar.style.filter = 'brightness(1.2)';
+                            setTimeout(() => avatar.style.filter = '', 2000);
+                        }
+                        break;
+                    case 'celebrate':
+                        if (typeof triggerCelebrationAnimation === 'function') {
+                            triggerCelebrationAnimation(avatar);
+                        } else {
+                            avatar.style.transform = 'scale(1.2)';
+                            setTimeout(() => avatar.style.transform = 'scale(1)', 500);
+                        }
+                        break;
+                    case 'breathe':
+                        if (typeof triggerBreathingAnimation === 'function') {
+                            triggerBreathingAnimation(avatar);
+                        } else {
+                            let breathCount = 0;
+                            const breathInterval = setInterval(() => {
+                                const scale = 1 + Math.sin(breathCount) * 0.1;
+                                avatar.style.transform = `scale(${scale})`;
+                                breathCount += 0.1;
+                            }, 100);
+                            setTimeout(() => {
+                                clearInterval(breathInterval);
+                                avatar.style.transform = 'scale(1)';
+                            }, 3000);
+                        }
+                        break;
+                }
+            }
+        }
+                    
+                case 'breathe':
+                    updateStatusIndicator('🧘‍♀️', 'Breathing exercise in progress...');
+                    triggerBreathingAnimation(avatar);
+                    break;
+                    
+                case 'game':
+                    updateStatusIndicator('🎮', 'Game time! Have fun!');
+                    triggerGameAnimation(avatar);
+                    break;
+                    
+                case 'stretch':
+                    updateStatusIndicator('🤸‍♀️', 'Stretching session!');
+                    triggerStretchAnimation(avatar);
+                    break;
+                    
+                case 'inspire':
+                    updateStatusIndicator('✨', 'Sending positive energy!');
+                    triggerInspirationAnimation(avatar);
+                    break;
+                    
+                case 'laugh':
+                    updateStatusIndicator('😄', 'Sharing laughs with you!');
+                    triggerLaughAnimation(avatar);
+                    break;
+                    
+                case 'dance':
+                    buddyState.isDancing = true;
+                    updateBuddyMood('excited');
+                    updateStatusIndicator('💃', 'Dancing with you!');
+                    
+                    // Dance animation
+                    if (avatar) {
+                        let danceCount = 0;
+                        const danceInterval = setInterval(() => {
+                            avatar.style.transform = `rotate(${Math.sin(danceCount) * 20}deg) scale(${1 + Math.sin(danceCount * 2) * 0.1})`;
+                            danceCount += 0.3;
+                        }, 100);
+                        
+                        setTimeout(() => {
+                            clearInterval(danceInterval);
+                            avatar.style.transform = 'scale(1) rotate(0deg)';
+                            buddyState.isDancing = false;
+                            hideStatusIndicator();
+                        }, 3000);
+                    }
+                    
+                    // Show sparkles
+                    if (sparkles) {
+                        sparkles.style.opacity = '1';
+                        setTimeout(() => {
+                            sparkles.style.opacity = '0';
+                        }, 3000);
+                    }
+                    break;
+                
+                case 'sing':
+                    buddyState.isSinging = true;
+                    updateBuddyMood('happy');
+                    updateStatusIndicator('🎵', 'Singing beautifully just for you!');
+                    
+                    // Enhanced singing animation
+                    addSingingAnimation();
+                    
+                    setTimeout(() => {
+                        buddyState.isSinging = false;
+                        removeSingingAnimation();
+                        hideStatusIndicator();
+                    }, 10000); // Longer duration for songs
+                    break;
+                
+                case 'encourage':
+                    updateBuddyMood('caring');
+                    updateStatusIndicator('💪', 'Sending you strength!');
+                    
+                    // Gentle glow effect
+                    if (avatar) {
+                        avatar.style.boxShadow = '0 0 20px rgba(252, 211, 77, 0.6)';
+                        setTimeout(() => {
+                            avatar.style.boxShadow = 'none';
+                            hideStatusIndicator();
+                        }, 2000);
+                    }
+                    break;
+                
+                case 'joke':
+                    updateBuddyMood('playful');
+                    updateStatusIndicator('😄', 'Hope that made you smile!');
+                    setTimeout(() => {
+                        hideStatusIndicator();
+                    }, 2000);
+                    break;
+                
+                case 'calm':
+                    updateBuddyMood('calm');
+                    updateStatusIndicator('🧘‍♀️', 'Take a deep breath with me...');
+                    setTimeout(() => {
+                        hideStatusIndicator();
+                    }, 3000);
+                    break;
+            }
+        }
+
+        function updateBuddyMood(mood) {
+            buddyState.mood = mood;
+            const avatar = document.getElementById('buddyAvatar');
+            const emoji = document.getElementById('buddyEmoji');
+            const badge = document.getElementById('moodBadge');
+            
+            const moods = {
+                'happy': { emoji: '😊', color: 'bg-yellow-400', badge: '😊 Happy & Ready to Help', badgeColor: 'bg-yellow-200 text-yellow-800' },
+                'excited': { emoji: '🤩', color: 'bg-orange-400', badge: '🤩 Super Excited!', badgeColor: 'bg-orange-200 text-orange-800' },
+                'calm': { emoji: '😌', color: 'bg-blue-400', badge: '😌 Calm & Peaceful', badgeColor: 'bg-blue-200 text-blue-800' },
+                'caring': { emoji: '🤗', color: 'bg-pink-400', badge: '🤗 Caring & Supportive', badgeColor: 'bg-pink-200 text-pink-800' },
+                'playful': { emoji: '😄', color: 'bg-purple-400', badge: '🌈 Playful & Fun!', badgeColor: 'bg-purple-200 text-purple-800' }
+            };
+            
+            const moodData = moods[mood] || moods['happy'];
+            
+            if (avatar) {
+                avatar.className = `w-16 h-16 mx-auto mb-2 rounded-full flex items-center justify-center text-2xl transition-all duration-300 ${moodData.color} transform`;
+            }
+            
+            if (emoji) {
+                emoji.textContent = moodData.emoji;
+            }
+            
+            if (badge) {
+                badge.textContent = moodData.badge;
+                badge.className = `px-3 py-1 rounded-full text-xs font-medium ${moodData.badgeColor}`;
+            }
+        }
+
+        async function speakText(text) {
+            if (!buddyState.voiceEnabled) return;
+
+            try {
+                buddyState.isSpeaking = true;
+                const speakingIndicator = document.getElementById('speakingIndicator');
+                if (speakingIndicator) {
+                    speakingIndicator.classList.remove('hidden');
+                }
+                
+                // Add visual expressions and animations while speaking
+                startSpeakingAnimation(text);
+                
+                // Enhance text with natural pauses - use musical pauses for singing
+                const isSinging = voiceService.detectSinging(text);
+                const expressiveText = isSinging ? 
+                    voiceService.addMusicalPauses(text) : 
+                    voiceService.addSpeechPauses(text);
+                
+                await voiceService.speak(expressiveText, {
+                    rate: 0.85,
+                    pitch: 1.2,
+                    volume: 0.9
+                });
+                
+            } catch (error) {
+                console.error('Speech synthesis error:', error);
+                showNotification('Voice playback unavailable 🔇', 'warning');
+            } finally {
+                buddyState.isSpeaking = false;
+                stopSpeakingAnimation();
+                const speakingIndicator = document.getElementById('speakingIndicator');
+                if (speakingIndicator) {
+                    speakingIndicator.classList.add('hidden');
+                }
+            }
+        }
+
+        // Visual Animations for Beautiful Expression
+        function startSpeakingAnimation(text) {
+            const avatar = document.getElementById('buddyAvatar');
+            if (!avatar) return;
+            
+            // Remove existing animations
+            avatar.classList.remove('animate-bounce', 'animate-pulse', 'animate-spin');
+            
+            // Add speaking animation based on content
+            if (/\b(dance|party|music|sing|fun|exciting|celebrate)\b/i.test(text)) {
+                startDancingAnimation();
+            } else if (/\b(happy|joy|wonderful|amazing|fantastic|yay|wow)\b/i.test(text)) {
+                avatar.classList.add('animate-bounce');
+                addSparkleEffect();
+            } else if (/\b(calm|relax|breathe|peaceful|gentle)\b/i.test(text)) {
+                avatar.classList.add('animate-pulse');
+                addBreathingEffect();
+            } else {
+                // Default gentle speaking animation
+                avatar.style.animation = 'speaking 0.8s ease-in-out infinite';
+            }
+            
+            // Add lip-sync effect
+            addLipSyncEffect();
+        }
+        
+        function stopSpeakingAnimation() {
+            const avatar = document.getElementById('buddyAvatar');
+            if (!avatar) return;
+            
+            // Remove all animations
+            avatar.classList.remove('animate-bounce', 'animate-pulse', 'animate-spin');
+            avatar.style.animation = '';
+            
+            // Clean up effects
+            removeSparkleEffect();
+            removeBreathingEffect();
+            removeLipSyncEffect();
+        }
+        
+        function startDancingAnimation() {
+            const avatar = document.getElementById('buddyAvatar');
+            const modal = document.getElementById('buddyModal');
+            if (!avatar || !modal) return;
+            
+            buddyState.isDancing = true;
+            
+            // Add dancing class for special dance animation
+            avatar.classList.add('dancing-avatar');
+            
+            // Create dance moves sequence
+            const danceSequence = [
+                'transform: rotate(-10deg) scale(1.1)',
+                'transform: rotate(10deg) scale(0.9)',
+                'transform: rotate(-5deg) scale(1.05)',
+                'transform: rotate(5deg) scale(0.95)',
+                'transform: rotate(0deg) scale(1)'
+            ];
+            
+            let currentMove = 0;
+            const danceInterval = setInterval(() => {
+                if (!buddyState.isDancing || !buddyState.isSpeaking) {
+                    clearInterval(danceInterval);
+                    avatar.style.transform = '';
+                    avatar.classList.remove('dancing-avatar');
+                    return;
+                }
+                
+                avatar.style.cssText = danceSequence[currentMove] + '; transition: transform 0.3s ease;';
+                currentMove = (currentMove + 1) % danceSequence.length;
+            }, 300);
+            
+            // Add background color animation
+            modal.style.background = 'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57)';
+            modal.style.backgroundSize = '400% 400%';
+            modal.style.animation = 'gradientDance 3s ease infinite';
+        }
+        
+        function addSparkleEffect() {
+            const modal = document.getElementById('buddyModal');
+            if (!modal) return;
+            
+            // Create sparkles
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle-effect';
+                    sparkle.innerHTML = '✨';
+                    sparkle.style.cssText = `
+                        position: absolute;
+                        left: ${Math.random() * 80 + 10}%;
+                        top: ${Math.random() * 80 + 10}%;
+                        font-size: ${Math.random() * 20 + 10}px;
+                        animation: sparkleFloat 2s ease-out forwards;
+                        pointer-events: none;
+                        z-index: 1000;
+                    `;
+                    modal.appendChild(sparkle);
+                    
+                    setTimeout(() => sparkle.remove(), 2000);
+                }, i * 200);
+            }
+        }
+        
+        function removeSparkleEffect() {
+            const sparkles = document.querySelectorAll('.sparkle-effect');
+            sparkles.forEach(sparkle => sparkle.remove());
+        }
+        
+        function addBreathingEffect() {
+            const avatar = document.getElementById('buddyAvatar');
+            if (!avatar) return;
+            
+            avatar.style.animation = 'breathing 3s ease-in-out infinite';
+        }
+        
+        function removeBreathingEffect() {
+            // Handled in stopSpeakingAnimation
+        }
+        
+        function addLipSyncEffect() {
+            const avatar = document.getElementById('buddyAvatar');
+            if (!avatar) return;
+            
+            // Simple lip-sync simulation
+            const lipSync = setInterval(() => {
+                if (!buddyState.isSpeaking) {
+                    clearInterval(lipSync);
+                    return;
+                }
+                
+                // Subtle mouth movement effect
+                avatar.style.filter = `brightness(${0.9 + Math.random() * 0.2})`;
+            }, 100);
+        }
+        
+        function removeLipSyncEffect() {
+            const avatar = document.getElementById('buddyAvatar');
+            if (avatar) {
+                avatar.style.filter = '';
+            }
+        }
+
+        // Visual Animations for Beautiful Expression
+        function startSpeakingAnimation(text) {
+            const avatar = document.getElementById('buddyAvatar');
+            if (!avatar) return;
+            
+            // Remove existing animations
+            avatar.classList.remove('animate-bounce', 'animate-pulse', 'animate-spin');
+            
+            // Add speaking animation based on content
+            if (/\b(dance|party|music|sing|fun|exciting|celebrate)\b/i.test(text)) {
+                startDancingAnimation();
+            } else if (/\b(happy|joy|wonderful|amazing|fantastic|yay|wow)\b/i.test(text)) {
+                avatar.classList.add('animate-bounce');
+                addSparkleEffect();
+            } else if (/\b(calm|relax|breathe|peaceful|gentle)\b/i.test(text)) {
+                avatar.classList.add('animate-pulse');
+                addBreathingEffect();
+            } else {
+                // Default gentle speaking animation
+                avatar.style.animation = 'speaking 0.8s ease-in-out infinite';
+            }
+            
+            // Add lip-sync effect
+            addLipSyncEffect();
+        }
+        
+        function stopSpeakingAnimation() {
+            const avatar = document.getElementById('buddyAvatar');
+            if (!avatar) return;
+            
+            // Remove all animations
+            avatar.classList.remove('animate-bounce', 'animate-pulse', 'animate-spin');
+            avatar.style.animation = '';
+            
+            // Clean up effects
+            removeSparkleEffect();
+            removeBreathingEffect();
+            removeLipSyncEffect();
+            
+            // Reset dancing state
+            buddyState.isDancing = false;
+        }
+        
+        function startDancingAnimation() {
+            const avatar = document.getElementById('buddyAvatar');
+            const modal = document.getElementById('buddyModal');
+            if (!avatar || !modal) return;
+            
+            buddyState.isDancing = true;
+            
+            // Add dancing class for special dance animation
+            avatar.classList.add('dancing-avatar');
+            
+            // Create dance moves sequence
+            const danceSequence = [
+                'transform: rotate(-10deg) scale(1.1)',
+                'transform: rotate(10deg) scale(0.9)',
+                'transform: rotate(-5deg) scale(1.05)',
+                'transform: rotate(5deg) scale(0.95)',
+                'transform: rotate(0deg) scale(1)'
+            ];
+            
+            let currentMove = 0;
+            const danceInterval = setInterval(() => {
+                if (!buddyState.isDancing || !buddyState.isSpeaking) {
+                    clearInterval(danceInterval);
+                    avatar.style.transform = '';
+                    avatar.classList.remove('dancing-avatar');
+                    modal.style.background = '';
+                    modal.style.animation = '';
+                    return;
+                }
+                
+                avatar.style.cssText = danceSequence[currentMove] + '; transition: transform 0.3s ease;';
+                currentMove = (currentMove + 1) % danceSequence.length;
+            }, 300);
+            
+            // Add background color animation
+            modal.style.background = 'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57)';
+            modal.style.backgroundSize = '400% 400%';
+            modal.style.animation = 'gradientDance 3s ease infinite';
+        }
+        
+        function addSparkleEffect() {
+            const modal = document.getElementById('buddyModal');
+            if (!modal) return;
+            
+            // Create sparkles
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle-effect';
+                    sparkle.innerHTML = '✨';
+                    sparkle.style.cssText = `
+                        position: absolute;
+                        left: ${Math.random() * 80 + 10}%;
+                        top: ${Math.random() * 80 + 10}%;
+                        font-size: ${Math.random() * 20 + 10}px;
+                        animation: sparkleFloat 2s ease-out forwards;
+                        pointer-events: none;
+                        z-index: 1000;
+                    `;
+                    modal.appendChild(sparkle);
+                    
+                    setTimeout(() => sparkle.remove(), 2000);
+                }, i * 200);
+            }
+        }
+        
+        function removeSparkleEffect() {
+            const sparkles = document.querySelectorAll('.sparkle-effect');
+            sparkles.forEach(sparkle => sparkle.remove());
+        }
+        
+        function addBreathingEffect() {
+            const avatar = document.getElementById('buddyAvatar');
+            if (!avatar) return;
+            
+            avatar.style.animation = 'breathing 3s ease-in-out infinite';
+        }
+        
+        function removeBreathingEffect() {
+            // Handled in stopSpeakingAnimation
+        }
+        
+        function addLipSyncEffect() {
+            const avatar = document.getElementById('buddyAvatar');
+            if (!avatar) return;
+            
+            // Simple lip-sync simulation
+            const lipSync = setInterval(() => {
+                if (!buddyState.isSpeaking) {
+                    clearInterval(lipSync);
+                    return;
+                }
+                
+                // Subtle mouth movement effect
+                avatar.style.filter = `brightness(${0.9 + Math.random() * 0.2})`;
+            }, 100);
+        }
+        
+        function removeLipSyncEffect() {
+            const avatar = document.getElementById('buddyAvatar');
+            if (avatar) {
+                avatar.style.filter = '';
+            }
+        }
+
+        // Singing Animation Functions
+        function addSingingAnimation() {
+            const avatar = document.getElementById('buddyAvatar');
+            const modal = document.getElementById('buddyModal');
+            if (!avatar || !modal) return;
+            
+            // Add singing class for special singing animation
+            avatar.classList.add('singing-avatar');
+            
+            // Create musical notes floating effect
+            createFloatingNotes();
+            
+            // Add gentle swaying motion for singing
+            let swayCount = 0;
+            const swayInterval = setInterval(() => {
+                if (!buddyState.isSinging) {
+                    clearInterval(swayInterval);
+                    return;
+                }
+                
+                const sway = Math.sin(swayCount) * 5; // Gentle 5-degree sway
+                const scale = 1 + Math.sin(swayCount * 2) * 0.05; // Subtle breathing
+                avatar.style.transform = `rotate(${sway}deg) scale(${scale})`;
+                swayCount += 0.1;
+            }, 100);
+            
+            // Add soft musical background glow
+            modal.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            modal.style.boxShadow = '0 0 50px rgba(102, 126, 234, 0.3)';
+        }
+        
+        function removeSingingAnimation() {
+            const avatar = document.getElementById('buddyAvatar');
+            const modal = document.getElementById('buddyModal');
+            if (!avatar || !modal) return;
+            
+            // Remove singing animation
+            avatar.classList.remove('singing-avatar');
+            avatar.style.transform = '';
+            
+            // Remove background effects
+            modal.style.background = '';
+            modal.style.boxShadow = '';
+            
+            // Clean up floating notes
+            const notes = document.querySelectorAll('.floating-note');
+            notes.forEach(note => note.remove());
+        }
+        
+        function createFloatingNotes() {
+            const modal = document.getElementById('buddyModal');
+            if (!modal) return;
+            
+            const notes = ['🎵', '🎶', '♪', '♫', '🎼'];
+            
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const note = document.createElement('div');
+                    note.className = 'floating-note';
+                    note.innerHTML = notes[Math.floor(Math.random() * notes.length)];
+                    note.style.cssText = `
+                        position: absolute;
+                        left: ${Math.random() * 80 + 10}%;
+                        top: ${Math.random() * 80 + 10}%;
+                        font-size: ${Math.random() * 15 + 20}px;
+                        animation: noteFloat 3s ease-out forwards;
+                        pointer-events: none;
+                        z-index: 1000;
+                        color: rgba(255, 255, 255, 0.8);
+                    `;
+                    modal.appendChild(note);
+                    
+                    setTimeout(() => note.remove(), 3000);
+                }, i * 300);
+            }
+        }
+
+        // Games
+        function playGame(gameType) {
+            const modal = document.getElementById('gameModal');
+            const content = document.getElementById('gameContent');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            switch(gameType) {
+                case 'breathing':
+                    showBreathingGame(content);
+                    break;
+                case 'meditation':
+                    showMeditationGame(content);
+                    break;
+                case 'puzzle':
+                    showPuzzleGame(content);
+                    break;
+                case 'nature':
+                    showNatureSounds(content);
+                    break;
+                case 'maze':
+                    showCareerMazeGame(content);
+                    break;
+                case 'career-maze':
+                    showEmbeddedCareerMaze(content);
+                    break;
+                case 'champion':
+                    showCareerMazeChampion(content);
+                    break;
+            }
+        }
+
+
+
+        function closeGame() {
+            // Clean up maze game if it was running
+            if (mazeGame.gameTimer) {
+                clearInterval(mazeGame.gameTimer);
+                mazeGame.gameTimer = null;
+            }
+            document.removeEventListener('keydown', handleMazeMovement);
+            
+            document.getElementById('gameModal').classList.add('hidden');
+            document.getElementById('gameModal').classList.remove('flex');
+        }
+
+        function showBreathingGame(content) {
+            content.innerHTML = `
+                <div class="text-center">
+                    <button onclick="closeGame()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <div class="mb-6">
+                        <div class="w-32 h-32 mx-auto bg-gradient-to-r from-blue-400 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg mb-4" id="breathingCircle">
+                            <span id="breathingText">Ready?</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Breathing Exercise</h3>
+                        <p class="text-gray-600 mb-6">Follow the circle to regulate your breathing and reduce stress</p>
+                    </div>
+                    
+                    <button onclick="startBreathing()" id="breathingBtn" class="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all font-medium">
+                        Start Breathing
+                    </button>
+                    
+                    <div class="mt-4 text-sm text-gray-600">
+                        <p>Complete 5 cycles for best results</p>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        let breathingActive = false;
+
+        function startBreathing() {
+            if (breathingActive) return;
+            
+            breathingActive = true;
+            const circle = document.getElementById('breathingCircle');
+            const text = document.getElementById('breathingText');
+            const btn = document.getElementById('breathingBtn');
+            
+            btn.textContent = 'In Progress...';
+            btn.disabled = true;
+            
+            let cycle = 0;
+            
+            function breatheCycle() {
+                if (cycle >= 5) {
+                    text.textContent = 'Complete! 🎉';
+                    btn.textContent = 'Start Again';
+                    btn.disabled = false;
+                    breathingActive = false;
+                    circle.style.transform = 'scale(1)';
+                    showNotification('Great job! You completed the breathing exercise. 🌟', 'success');
+                    return;
+                }
+                
+                // Breathe in
+                text.textContent = 'Breathe In';
+                circle.style.transform = 'scale(1.2)';
+                circle.style.transition = 'transform 4s ease-in-out';
+                
+                setTimeout(() => {
+                    // Hold
+                    text.textContent = 'Hold';
+                    
+                    setTimeout(() => {
+                        // Breathe out
+                        text.textContent = 'Breathe Out';
+                        circle.style.transform = 'scale(1)';
+                        
+                        setTimeout(() => {
+                            cycle++;
+                            if (breathingActive) {
+                                breatheCycle();
+                            }
+                        }, 4000);
+                    }, 2000);
+                }, 4000);
+            }
+            
+            breatheCycle();
+        }
+
+        function showMeditationGame(content) {
+            content.innerHTML = `
+                <div class="text-center">
+                    <button onclick="closeGame()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <div class="mb-6">
+                        <div class="text-6xl mb-4 animate-pulse">🧘‍♂️</div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Mindfulness Meditation</h3>
+                        <p class="text-gray-600 mb-6">Take a few minutes to center yourself and find inner peace</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <button onclick="startMeditation('quick')" class="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-lg hover:from-purple-600 hover:to-pink-700 transition-all font-medium">
+                            Quick Session (2 min)
+                        </button>
+                        <button onclick="startMeditation('medium')" class="w-full px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all font-medium">
+                            Medium Session (5 min)
+                        </button>
+                        <button onclick="startMeditation('long')" class="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all font-medium">
+                            Long Session (10 min)
+                        </button>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function startMeditation(duration) {
+            const durations = { quick: 2, medium: 5, long: 10 };
+            const minutes = durations[duration];
+            
+            showNotification(`Starting ${minutes}-minute meditation session...`, 'info');
+            setTimeout(() => {
+                showNotification('Meditation complete! How do you feel? 🧘‍♂️', 'success');
+                closeGame();
+            }, minutes * 1000); // Simulate meditation time (shortened for demo)
+        }
+
+        function showPuzzleGame(content) {
+            content.innerHTML = `
+                <div class="text-center">
+                    <button onclick="closeGame()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <div class="mb-6">
+                        <div class="text-6xl mb-4">🧩</div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Zen Puzzle</h3>
+                        <p class="text-gray-600 mb-6">Solve puzzles to calm your mind and improve focus</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-2 mb-6 max-w-xs mx-auto" id="puzzleGrid">
+                        <!-- Puzzle pieces will be generated -->
+                    </div>
+                    
+                    <button onclick="generatePuzzle()" class="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all font-medium">
+                        New Puzzle
+                    </button>
+                </div>
+            `;
+            
+            generatePuzzle();
+            lucide.createIcons();
+        }
+
+        function generatePuzzle() {
+            const grid = document.getElementById('puzzleGrid');
+            const numbers = [1, 2, 3, 4, 5, 6, 7, 8, ''];
+            const shuffled = numbers.sort(() => Math.random() - 0.5);
+            
+            grid.innerHTML = shuffled.map((num, index) => `
+                <div class="w-16 h-16 border border-gray-300 rounded-lg flex items-center justify-center text-lg font-semibold cursor-pointer hover:bg-gray-100 transition-colors ${num === '' ? 'bg-gray-100' : 'bg-white'}" onclick="movePiece(${index})">
+                    ${num}
+                </div>
+            `).join('');
+        }
+
+        function movePiece(index) {
+            // Simple puzzle logic - just show completion message for demo
+            setTimeout(() => {
+                showNotification('Great job! Puzzle solved! 🎉', 'success');
+            }, 1000);
+        }
+
+        function showNatureSounds(content) {
+            content.innerHTML = `
+                <div class="text-center">
+                    <button onclick="closeGame()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <div class="mb-6">
+                        <div class="text-6xl mb-4 animate-pulse">🌿</div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Nature Sounds</h3>
+                        <p class="text-gray-600 mb-6">Listen to calming nature sounds to reduce stress and anxiety</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="playSound('rain')" class="p-4 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl hover:from-blue-200 hover:to-blue-300 transition-all">
+                            <div class="text-2xl mb-2">🌧️</div>
+                            <div class="text-sm font-medium">Rain</div>
+                        </button>
+                        <button onclick="playSound('ocean')" class="p-4 bg-gradient-to-br from-teal-100 to-teal-200 rounded-xl hover:from-teal-200 hover:to-teal-300 transition-all">
+                            <div class="text-2xl mb-2">🌊</div>
+                            <div class="text-sm font-medium">Ocean</div>
+                        </button>
+                        <button onclick="playSound('forest')" class="p-4 bg-gradient-to-br from-green-100 to-green-200 rounded-xl hover:from-green-200 hover:to-green-300 transition-all">
+                            <div class="text-2xl mb-2">🌲</div>
+                            <div class="text-sm font-medium">Forest</div>
+                        </button>
+                        <button onclick="playSound('birds')" class="p-4 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl hover:from-yellow-200 hover:to-yellow-300 transition-all">
+                            <div class="text-2xl mb-2">🐦</div>
+                            <div class="text-sm font-medium">Birds</div>
+                        </button>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <button onclick="stopSounds()" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all font-medium">
+                            Stop All Sounds
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function playSound(type) {
+            showNotification(`Playing ${type} sounds... 🎵`, 'info');
+            // In a real app, you would play actual audio files here
+        }
+
+        function stopSounds() {
+            showNotification('All sounds stopped.', 'info');
+            // In a real app, you would stop all playing audio here
+        }
+
+        function showCareerMazeGame(content) {
+            content.innerHTML = `
+                <div class="w-full max-w-5xl">
+                    <button onclick="closeGame()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <div class="text-center mb-4">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">🎯 Career Path Maze</h3>
+                        <p class="text-gray-600 mb-3">Navigate through professional challenges to reach your career goals!</p>
+                        <div class="flex items-center justify-center gap-4 text-xs">
+                            <div class="flex items-center gap-1">
+                                <span class="text-blue-600">●</span>
+                                <span>You</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="text-green-600">●</span>
+                                <span>Goal</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="text-yellow-600">★</span>
+                                <span>Skills</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="text-red-600">✖</span>
+                                <span>Challenges</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-4 border-2 border-blue-200">
+                        <!-- Game Stats -->
+                        <div class="flex items-center justify-between mb-3 text-sm">
+                            <div class="flex gap-4">
+                                <span id="mazeTime" class="font-semibold">Time: 00:00</span>
+                                <span id="mazeMoves" class="font-semibold">Moves: 0</span>
+                                <span id="mazeSkills" class="font-semibold">Skills: 0/4</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="resetMaze()" class="px-3 py-1 bg-gray-500 text-white rounded text-sm hover:bg-gray-600">
+                                    Reset
+                                </button>
+                                <button onclick="nextMazeLevel()" id="nextLevelBtn" class="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600 hidden">
+                                    Next Level
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Game Canvas -->
+                        <div class="relative bg-white rounded-lg border-2 border-gray-300 shadow-inner">
+                            <canvas id="mazeCanvas" width="800" height="500" class="block mx-auto rounded-lg"></canvas>
+                        </div>
+                        
+                        <!-- Game Instructions -->
+                        <div class="mt-3 text-center">
+                            <p class="text-sm text-gray-600">Use <kbd class="px-1 py-0.5 bg-gray-200 rounded text-xs">Arrow Keys</kbd> or <kbd class="px-1 py-0.5 bg-gray-200 rounded text-xs">WASD</kbd> to move. Collect all skills to unlock the goal!</p>
+                            <div id="gameMessage" class="mt-2 text-sm font-semibold"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Initialize the maze game after content is loaded
+            setTimeout(() => {
+                initializeMazeGame();
+                lucide.createIcons();
+            }, 200);
+        }
+
+        // Career Maze Game Logic - Completely Functional Version
+        let mazeGame = {
+            canvas: null,
+            ctx: null,
+            player: { x: 1, y: 1 },
+            goal: { x: 18, y: 11 },
+            level: 1,
+            moves: 0,
+            startTime: null,
+            gameTimer: null,
+            cellSize: 25,
+            skills: [],
+            challenges: [],
+            maze: [],
+            gameCompleted: false,
+            goalUnlocked: false,
+            keyListener: null,
+            width: 32,
+            height: 20
+        };
+
+        function initializeMazeGame() {
+            const canvas = document.getElementById('mazeCanvas');
+            if (!canvas) {
+                console.error('Canvas not found');
+                return;
+            }
+            
+            mazeGame.canvas = canvas;
+            mazeGame.ctx = canvas.getContext('2d');
+            mazeGame.startTime = Date.now();
+            mazeGame.moves = 0;
+            mazeGame.gameCompleted = false;
+            mazeGame.goalUnlocked = false;
+            
+            // Remove any existing listeners
+            if (mazeGame.keyListener) {
+                document.removeEventListener('keydown', mazeGame.keyListener);
+            }
+            
+            // Create new listener function
+            mazeGame.keyListener = function(event) {
+                handleMazeMovement(event);
+            };
+            
+            generateRealMaze();
+            drawCompleteMaze();
+            startMazeTimer();
+            updateGameMessage("Collect all 4 skills to unlock your career goal!");
+            
+            // Add keyboard listeners
+            document.addEventListener('keydown', mazeGame.keyListener);
+            
+            console.log('Maze game initialized successfully');
+        }
+
+        function generateRealMaze() {
+            const { width, height } = mazeGame;
+            
+            // Initialize maze with all walls (1)
+            mazeGame.maze = Array(height).fill().map(() => Array(width).fill(1));
+            
+            // Create a solvable maze with clear paths
+            const paths = [
+                // Starting area and main path
+                [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1], [7, 1], [8, 1], [9, 1],
+                [9, 2], [9, 3], [9, 4], [10, 4], [11, 4], [12, 4], [13, 4], [14, 4], [15, 4],
+                [15, 5], [15, 6], [15, 7], [15, 8], [14, 8], [13, 8], [12, 8], [11, 8], [10, 8], [9, 8],
+                [9, 9], [9, 10], [9, 11], [10, 11], [11, 11], [12, 11], [13, 11], [14, 11], [15, 11], [16, 11], [17, 11], [18, 11],
+                
+                // Skill collection branches
+                [3, 2], [3, 3], [3, 4], [3, 5], [4, 5], [5, 5], // Skill 1 area
+                [6, 4], [7, 4], [7, 3], [7, 2], // Skill 2 area
+                [16, 4], [17, 4], [18, 4], [19, 4], [20, 4], [20, 5], [20, 6], // Skill 3 area
+                [5, 11], [5, 12], [5, 13], [6, 13], [7, 13], // Skill 4 area
+                
+                // Additional connecting paths
+                [11, 5], [11, 6], [11, 7], // Vertical connector
+                [13, 9], [13, 10], // Vertical connector
+                [6, 8], [7, 8], [8, 8], // Horizontal connector
+                [20, 7], [20, 8], [20, 9], [20, 10], [19, 10], [18, 10], // Right side path
+                
+                // Challenge areas (still accessible paths)
+                [4, 8], [4, 9], [4, 10], // Challenge 1
+                [12, 5], [12, 6], [12, 7], // Challenge 2
+                [17, 7], [18, 7], [19, 7], // Challenge 3
+                [8, 13], [9, 13], [10, 13] // Challenge 4
+            ];
+            
+            // Create paths
+            paths.forEach(([x, y]) => {
+                if (x >= 0 && x < width && y >= 0 && y < height) {
+                    mazeGame.maze[y][x] = 0; // 0 = path, 1 = wall
+                }
+            });
+            
+            // Reset player position
+            mazeGame.player = { x: 1, y: 1 };
+            
+            // Place skills in accessible locations
+            mazeGame.skills = [
+                { x: 5, y: 5, collected: false, name: "Leadership Training", id: 1 },
+                { x: 7, y: 2, collected: false, name: "Technical Skills", id: 2 },
+                { x: 20, y: 6, collected: false, name: "Project Management", id: 3 },
+                { x: 7, y: 13, collected: false, name: "Innovation Mindset", id: 4 }
+            ];
+            
+            // Place challenges in path areas
+            mazeGame.challenges = [
+                { x: 4, y: 9, overcome: false, name: "Team Conflict", id: 1 },
+                { x: 12, y: 6, overcome: false, name: "Tight Deadline", id: 2 },
+                { x: 18, y: 7, overcome: false, name: "Complex Problem", id: 3 },
+                { x: 9, y: 13, overcome: false, name: "Performance Review", id: 4 }
+            ];
+            
+            console.log('Maze generated with paths:', paths.length);
+        }
+
+        function drawCompleteMaze() {
+            const { canvas, ctx, cellSize, maze, player, goal, skills, challenges, goalUnlocked } = mazeGame;
+            
+            if (!ctx || !canvas) {
+                console.error('Canvas or context not available');
+                return;
+            }
+            
+            // Clear entire canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw maze background
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw maze grid
+            for (let y = 0; y < maze.length; y++) {
+                for (let x = 0; x < maze[y].length; x++) {
+                    const drawX = x * cellSize;
+                    const drawY = y * cellSize;
+                    
+                    if (maze[y][x] === 1) {
+                        // Wall - dark blue/gray
+                        ctx.fillStyle = '#334155';
+                        ctx.fillRect(drawX, drawY, cellSize, cellSize);
+                        
+                        // Wall border for 3D effect
+                        ctx.strokeStyle = '#1e293b';
+                        ctx.lineWidth = 1;
+                        ctx.strokeRect(drawX, drawY, cellSize, cellSize);
+                    } else {
+                        // Path - light background
+                        ctx.fillStyle = '#f1f5f9';
+                        ctx.fillRect(drawX, drawY, cellSize, cellSize);
+                        
+                        // Subtle grid lines
+                        ctx.strokeStyle = '#e2e8f0';
+                        ctx.lineWidth = 0.5;
+                        ctx.strokeRect(drawX, drawY, cellSize, cellSize);
+                    }
+                }
+            }
+            
+            // Draw skills (stars)
+            skills.forEach(skill => {
+                if (!skill.collected) {
+                    const centerX = skill.x * cellSize + cellSize / 2;
+                    const centerY = skill.y * cellSize + cellSize / 2;
+                    
+                    // Yellow star background
+                    ctx.fillStyle = '#fbbf24';
+                    drawStar(ctx, centerX, centerY, 8, 5, 4);
+                    
+                    // Star outline
+                    ctx.strokeStyle = '#d97706';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+            });
+            
+            // Draw challenges (red X)
+            challenges.forEach(challenge => {
+                if (!challenge.overcome) {
+                    const centerX = challenge.x * cellSize + cellSize / 2;
+                    const centerY = challenge.y * cellSize + cellSize / 2;
+                    
+                    // Red X
+                    ctx.strokeStyle = '#dc2626';
+                    ctx.lineWidth = 3;
+                    ctx.lineCap = 'round';
+                    
+                    const size = 6;
+                    ctx.beginPath();
+                    ctx.moveTo(centerX - size, centerY - size);
+                    ctx.lineTo(centerX + size, centerY + size);
+                    ctx.moveTo(centerX + size, centerY - size);
+                    ctx.lineTo(centerX - size, centerY + size);
+                    ctx.stroke();
+                }
+            });
+            
+            // Draw goal (only if unlocked)
+            if (goalUnlocked) {
+                const centerX = goal.x * cellSize + cellSize / 2;
+                const centerY = goal.y * cellSize + cellSize / 2;
+                
+                // Pulsing green circle
+                ctx.fillStyle = '#10b981';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 10, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Goal outline
+                ctx.strokeStyle = '#059669';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Goal symbol (trophy)
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('🏆', centerX, centerY + 4);
+            } else {
+                // Locked goal (gray)
+                const centerX = goal.x * cellSize + cellSize / 2;
+                const centerY = goal.y * cellSize + cellSize / 2;
+                
+                ctx.fillStyle = '#9ca3af';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 8, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('🔒', centerX, centerY + 3);
+            }
+            
+            // Draw player (blue circle)
+            const playerCenterX = player.x * cellSize + cellSize / 2;
+            const playerCenterY = player.y * cellSize + cellSize / 2;
+            
+            ctx.fillStyle = '#3b82f6';
+            ctx.beginPath();
+            ctx.arc(playerCenterX, playerCenterY, 8, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Player outline
+            ctx.strokeStyle = '#1d4ed8';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Player symbol
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '10px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('👤', playerCenterX, playerCenterY + 3);
+            
+            // Update UI
+            updateMazeStats();
+        }
+
+        function drawStar(ctx, cx, cy, outerRadius, innerRadius, points) {
+            let angle = Math.PI / 2 * 3;
+            let x = cx;
+            let y = cy;
+            const step = Math.PI / points;
+
+            ctx.beginPath();
+            ctx.moveTo(cx, cy - outerRadius);
+            
+            for (let i = 0; i < points; i++) {
+                x = cx + Math.cos(angle) * outerRadius;
+                y = cy + Math.sin(angle) * outerRadius;
+                ctx.lineTo(x, y);
+                angle += step;
+
+                x = cx + Math.cos(angle) * innerRadius;
+                y = cy + Math.sin(angle) * innerRadius;
+                ctx.lineTo(x, y);
+                angle += step;
+            }
+            
+            ctx.lineTo(cx, cy - outerRadius);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function handleMazeMovement(event) {
+            if (mazeGame.gameCompleted) {
+                return;
+            }
+            
+            let newX = mazeGame.player.x;
+            let newY = mazeGame.player.y;
+            let moved = false;
+            
+            // Prevent default browser behavior for arrow keys
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'KeyW', 'KeyA', 'KeyS', 'KeyD'].includes(event.code)) {
+                event.preventDefault();
+            }
+            
+            switch(event.code) {
+                case 'ArrowUp':
+                case 'KeyW':
+                    newY--;
+                    moved = true;
+                    break;
+                case 'ArrowDown':
+                case 'KeyS':
+                    newY++;
+                    moved = true;
+                    break;
+                case 'ArrowLeft':
+                case 'KeyA':
+                    newX--;
+                    moved = true;
+                    break;
+                case 'ArrowRight':
+                case 'KeyD':
+                    newX++;
+                    moved = true;
+                    break;
+                default:
+                    return;
+            }
+            
+            if (!moved) return;
+            
+            // Check bounds
+            if (newX < 0 || newX >= mazeGame.width || newY < 0 || newY >= mazeGame.height) {
+                console.log('Out of bounds:', newX, newY);
+                return;
+            }
+            
+            // Check for walls
+            if (mazeGame.maze[newY][newX] === 1) {
+                console.log('Hit wall at:', newX, newY);
+                return;
+            }
+            
+            // Valid move
+            mazeGame.player.x = newX;
+            mazeGame.player.y = newY;
+            mazeGame.moves++;
+            
+            console.log('Player moved to:', newX, newY, 'Moves:', mazeGame.moves);
+            
+            // Check for interactions
+            checkGameInteractions();
+            
+            // Redraw the maze
+            drawCompleteMaze();
+            
+            // Check win condition
+            if (mazeGame.goalUnlocked && newX === mazeGame.goal.x && newY === mazeGame.goal.y) {
+                completeMazeLevel();
+            }
+        }
+
+        function checkGameInteractions() {
+            const { player, skills, challenges } = mazeGame;
+            let skillCollected = false;
+            let challengeOvercome = false;
+            
+            // Check skill collection
+            skills.forEach(skill => {
+                if (!skill.collected && skill.x === player.x && skill.y === player.y) {
+                    skill.collected = true;
+                    skillCollected = true;
+                    showNotification(`⭐ Skill Acquired: ${skill.name}!`, 'success');
+                    console.log('Skill collected:', skill.name);
+                }
+            });
+            
+            // Check challenge encounters
+            challenges.forEach(challenge => {
+                if (!challenge.overcome && challenge.x === player.x && challenge.y === player.y) {
+                    challenge.overcome = true;
+                    challengeOvercome = true;
+                    showNotification(`⚡ Challenge Overcome: ${challenge.name}!`, 'info');
+                    console.log('Challenge overcome:', challenge.name);
+                }
+            });
+            
+            // Check if all skills collected to unlock goal
+            const totalSkills = skills.length;
+            const collectedSkills = skills.filter(s => s.collected).length;
+            
+            if (collectedSkills === totalSkills && !mazeGame.goalUnlocked) {
+                mazeGame.goalUnlocked = true;
+                showNotification('🎉 All skills collected! Career goal is now unlocked!', 'success');
+                updateGameMessage('Excellent! Now navigate to your career goal 🏆 to complete the level!');
+                console.log('Goal unlocked!');
+            } else if (skillCollected) {
+                updateGameMessage(`Great! ${collectedSkills}/${totalSkills} skills collected. Keep exploring!`);
+            }
+        }
+
+        function updateMazeStats() {
+            const timeElement = document.getElementById('mazeTime');
+            const movesElement = document.getElementById('mazeMoves');
+            const skillsElement = document.getElementById('mazeSkills');
+            
+            if (timeElement && mazeGame.startTime) {
+                const elapsed = Math.floor((Date.now() - mazeGame.startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                timeElement.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            if (movesElement) {
+                movesElement.textContent = `Moves: ${mazeGame.moves}`;
+            }
+            
+            if (skillsElement) {
+                const collectedSkills = mazeGame.skills.filter(s => s.collected).length;
+                const totalSkills = mazeGame.skills.length;
+                skillsElement.textContent = `Skills: ${collectedSkills}/${totalSkills}`;
+            }
+        }
+
+        function updateGameMessage(message) {
+            const messageElement = document.getElementById('gameMessage');
+            if (messageElement) {
+                messageElement.textContent = message;
+                messageElement.className = 'mt-2 text-sm font-semibold text-blue-600';
+            }
+        }
+
+        function startMazeTimer() {
+            mazeGame.gameTimer = setInterval(() => {
+                updateMazeStats();
+            }, 1000);
+        }
+
+        function completeMazeLevel() {
+            mazeGame.gameCompleted = true;
+            if (mazeGame.gameTimer) {
+                clearInterval(mazeGame.gameTimer);
+            }
+            
+            const skillsCollected = mazeGame.skills.filter(s => s.collected).length;
+            const challengesOvercome = mazeGame.challenges.filter(c => c.overcome).length;
+            const timeElapsed = Math.floor((Date.now() - mazeGame.startTime) / 1000);
+            
+            let performance = "Good";
+            if (mazeGame.moves < 100 && timeElapsed < 120) performance = "Excellent";
+            else if (mazeGame.moves < 150 && timeElapsed < 180) performance = "Great";
+            
+            showNotification(`🎉 Career Goal Achieved! Performance: ${performance}`, 'success');
+            updateGameMessage(`🏆 Level Complete! Skills: ${skillsCollected}/4, Challenges: ${challengesOvercome}/4, Time: ${Math.floor(timeElapsed/60)}:${(timeElapsed%60).toString().padStart(2, '0')}`);
+            
+            document.getElementById('nextLevelBtn').classList.remove('hidden');
+            
+            // Remove keyboard listener
+            if (mazeGame.keyListener) {
+                document.removeEventListener('keydown', mazeGame.keyListener);
+            }
+            
+            console.log('Level completed successfully');
+        }
+
+        function resetMaze() {
+            console.log('Resetting maze...');
+            
+            if (mazeGame.gameTimer) {
+                clearInterval(mazeGame.gameTimer);
+            }
+            
+            if (mazeGame.keyListener) {
+                document.removeEventListener('keydown', mazeGame.keyListener);
+            }
+            
+            // Reset game state
+            mazeGame.player = { x: 1, y: 1 };
+            mazeGame.moves = 0;
+            mazeGame.startTime = Date.now();
+            mazeGame.gameCompleted = false;
+            mazeGame.goalUnlocked = false;
+            
+            // Regenerate maze
+            generateRealMaze();
+            drawCompleteMaze();
+            startMazeTimer();
+            updateGameMessage("Collect all 4 skills to unlock your career goal!");
+            
+            // Re-add keyboard listener
+            mazeGame.keyListener = function(event) {
+                handleMazeMovement(event);
+            };
+            document.addEventListener('keydown', mazeGame.keyListener);
+            
+            document.getElementById('nextLevelBtn').classList.add('hidden');
+            
+            console.log('Maze reset complete');
+        }
+
+        function nextMazeLevel() {
+            mazeGame.level++;
+            console.log('Advancing to level', mazeGame.level);
+            
+            // Adjust goal position for variety
+            const goalPositions = [
+                { x: 18, y: 11 },
+                { x: 20, y: 8 },
+                { x: 15, y: 13 },
+                { x: 22, y: 10 }
+            ];
+            
+            mazeGame.goal = goalPositions[(mazeGame.level - 1) % goalPositions.length];
+            
+            resetMaze();
+            showNotification(`🚀 Level ${mazeGame.level} - New Career Challenge!`, 'info');
+            updateGameMessage(`Level ${mazeGame.level}: Collect all skills to unlock your advanced career goal!`);
+        }
+
+        function updateGameMessage(message) {
+            const messageElement = document.getElementById('gameMessage');
+            if (messageElement) {
+                messageElement.textContent = message;
+            }
+        }
+
+        function startMazeTimer() {
+            mazeGame.gameTimer = setInterval(() => {
+                if (!mazeGame.gameCompleted) {
+                    const elapsed = Math.floor((Date.now() - mazeGame.startTime) / 1000);
+                    updateMazeStats();
+                }
+            }, 1000);
+        }
+
+        function closeMazeGame() {
+            console.log('Closing maze game...');
+            
+            // Clear timer
+            if (mazeGame.gameTimer) {
+                clearInterval(mazeGame.gameTimer);
+                mazeGame.gameTimer = null;
+            }
+            
+            // Remove event listener
+            if (mazeGame.keyListener) {
+                document.removeEventListener('keydown', mazeGame.keyListener);
+                mazeGame.keyListener = null;
+            }
+            
+            // Hide game modal
+            const gameModal = document.getElementById('careerMazeModal');
+            if (gameModal) {
+                gameModal.classList.add('hidden');
+            }
+            
+            console.log('Maze game closed successfully');
+        }
+
+        function scheduleCounseling() {
+            showNotification('Redirecting to counseling appointment system...', 'info');
+            // In a real app, this would open the appointment booking system
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg text-white max-w-sm transform transition-all duration-300 translate-x-full opacity-0`;
+            
+            switch (type) {
+                case 'success':
+                    notification.classList.add('bg-green-500');
+                    break;
+                case 'error':
+                    notification.classList.add('bg-red-500');
+                    break;
+                case 'warning':
+                    notification.classList.add('bg-yellow-500');
+                    break;
+                default:
+                    notification.classList.add('bg-blue-500');
+            }
+            
+            notification.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="text-sm">${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-auto">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            lucide.createIcons();
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full', 'opacity-0');
+            }, 100);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 5000);
+        }
+
+        // Close modals when clicking outside
+        function setupModalListeners() {
+            const buddyModal = document.getElementById('buddyModal');
+            const gameModal = document.getElementById('gameModal');
+            
+            if (buddyModal) {
+                buddyModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        hideBuddy();
+                    }
+                });
+            }
+            
+            if (gameModal) {
+                gameModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeGame();
+                    }
+                });
+            }
+        }
+
+
+
+        // Embedded Career Maze Game - Fixed Version
+        function showEmbeddedCareerMaze(content) {
+            content.innerHTML = `
+                <div class="w-full max-w-4xl">
+                    <button onclick="closeGame()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <div class="text-center mb-6">
+                        <div class="flex items-center justify-center gap-3 mb-4">
+                            <div class="text-4xl">🎯</div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900">Career Maze</h3>
+                                <p class="text-gray-600">Navigate your professional journey</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Game Area -->
+                    <div class="bg-white rounded-2xl shadow-lg border-2 border-gray-200 p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex items-center space-x-3">
+                                <h4 class="text-lg font-bold text-gray-900">🎮 Game Arena</h4>
+                                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Level <span id="embeddedLevel">1</span></div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button onclick="pauseEmbeddedGame()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg text-sm">⏸️ Pause</button>
+                                <button onclick="resetEmbeddedGame()" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm">🔄 Reset</button>
+                            </div>
+                        </div>
+                        
+                        <div class="relative">
+                            <canvas id="embeddedMazeCanvas" width="700" height="400" class="border-4 border-blue-300 rounded-xl bg-gradient-to-br from-blue-50 to-purple-50 w-full"></canvas>
+                            <div id="embeddedGameMessage" class="text-center mt-3 font-medium text-gray-700">Use WASD or Arrow Keys • Collect all skills to unlock career goal</div>
+                        </div>
+                        
+                        <!-- Game Stats -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                            <div class="bg-gradient-to-r from-blue-100 to-blue-200 rounded-lg p-3 text-center">
+                                <div class="text-blue-600 font-bold text-lg" id="embeddedTime">00:00</div>
+                                <div class="text-blue-800 text-sm font-medium">Time</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-green-100 to-green-200 rounded-lg p-3 text-center">
+                                <div class="text-green-600 font-bold text-lg" id="embeddedMoves">0</div>
+                                <div class="text-green-800 text-sm font-medium">Moves</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-yellow-100 to-yellow-200 rounded-lg p-3 text-center">
+                                <div class="text-yellow-600 font-bold text-lg" id="embeddedSkills">0/4</div>
+                                <div class="text-yellow-800 text-sm font-medium">Skills</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-purple-100 to-purple-200 rounded-lg p-3 text-center">
+                                <div class="text-purple-600 font-bold text-lg" id="embeddedScore">0</div>
+                                <div class="text-purple-800 text-sm font-medium">Score</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Skills Collection Display -->
+                        <div class="mt-6 pt-4 border-t border-gray-200">
+                            <h5 class="text-sm font-medium text-gray-700 mb-3 text-center">Career Skills Collection</h5>
+                            <div class="flex justify-center space-x-4">
+                                <div id="skill1Icon" class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center text-lg opacity-50">🎯</div>
+                                <div id="skill2Icon" class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center text-lg opacity-50">💡</div>
+                                <div id="skill3Icon" class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center text-lg opacity-50">🤝</div>
+                                <div id="skill4Icon" class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center text-lg opacity-50">🚀</div>
+                            </div>
+                            <div class="flex justify-center space-x-4 mt-2 text-xs text-gray-600">
+                                <span>Leadership</span>
+                                <span>Innovation</span>
+                                <span>Teamwork</span>
+                                <span>Strategy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Initialize the embedded maze game
+            setTimeout(() => {
+                initializeEmbeddedMazeGame();
+                lucide.createIcons();
+            }, 200);
+        }
+
+        // Career Maze Champion Integration
+        function showCareerMazeChampion(content) {
+            content.innerHTML = `
+                <div class="w-full max-w-6xl">
+                    <button onclick="closeGame()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <div class="text-center mb-6">
+                        <div class="flex items-center justify-center gap-4 mb-4">
+                            <div class="text-4xl animate-pulse">🎮</div>
+                            <div>
+                                <h3 class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Career Maze Champion</h3>
+                                <p class="text-gray-600 font-medium">Professional Gaming Experience</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Game Mode Selection -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl p-6 text-white cursor-pointer hover:scale-105 transition-transform duration-200 shadow-xl" onclick="startEmbeddedGame('classic')">
+                                <div class="text-3xl mb-3 text-center">🎯</div>
+                                <h4 class="text-lg font-bold mb-2 text-center">Classic Mode</h4>
+                                <p class="text-sm opacity-90 text-center mb-3">Strategic career navigation</p>
+                                <div class="text-center">
+                                    <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-xs">FREE</span>
+                                </div>
+                            </div>
+                            <div class="bg-gradient-to-br from-red-500 to-pink-600 rounded-xl p-6 text-white cursor-pointer hover:scale-105 transition-transform duration-200 shadow-xl" onclick="showPremiumUpgrade()">
+                                <div class="text-3xl mb-3 text-center">⚡</div>
+                                <h4 class="text-lg font-bold mb-2 text-center">Speed Run</h4>
+                                <p class="text-sm opacity-90 text-center mb-3">Time-based challenges</p>
+                                <div class="text-center">
+                                    <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-xs">PREMIUM</span>
+                                </div>
+                            </div>
+                            <div class="bg-gradient-to-br from-green-500 to-teal-600 rounded-xl p-6 text-white cursor-pointer hover:scale-105 transition-transform duration-200 shadow-xl" onclick="showPremiumUpgrade()">
+                                <div class="text-3xl mb-3 text-center">👑</div>
+                                <h4 class="text-lg font-bold mb-2 text-center">Survival Mode</h4>
+                                <p class="text-sm opacity-90 text-center mb-3">Endless progression</p>
+                                <div class="text-center">
+                                    <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-xs">VIP</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Game Canvas Area -->
+                    <div id="embeddedGameArea" class="hidden">
+                        <div class="bg-gradient-to-br from-gray-900 to-black rounded-2xl p-6 shadow-2xl border border-gray-700">
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <h4 class="text-xl font-bold text-white">🎮 Game Arena</h4>
+                                    <div class="bg-blue-500 px-3 py-1 rounded-full text-white text-sm font-medium">Classic Mode</div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button onclick="pauseEmbeddedGame()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg text-sm">⏸️ Pause</button>
+                                    <button onclick="resetEmbeddedGame()" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm">🔄 Reset</button>
+                                </div>
+                            </div>
+                            
+                            <div class="relative">
+                                <canvas id="embeddedMazeCanvas" width="900" height="500" class="border-4 border-blue-400 rounded-xl bg-white w-full"></canvas>
+                                <div id="embeddedGameMessage" class="text-white text-center mt-4 font-medium">Use WASD or Arrow Keys to navigate • Collect all skills to unlock career goal</div>
+                            </div>
+                            
+                            <div class="grid grid-cols-4 gap-4 mt-6 text-white text-sm">
+                                <div class="bg-gray-800 rounded-lg p-3 text-center">
+                                    <div class="text-blue-400 font-bold text-lg" id="embeddedLevel">1</div>
+                                    <div>Level</div>
+                                </div>
+                                <div class="bg-gray-800 rounded-lg p-3 text-center">
+                                    <div class="text-green-400 font-bold text-lg" id="embeddedTime">00:00</div>
+                                    <div>Time</div>
+                                </div>
+                                <div class="bg-gray-800 rounded-lg p-3 text-center">
+                                    <div class="text-yellow-400 font-bold text-lg" id="embeddedSkills">0/4</div>
+                                    <div>Skills</div>
+                                </div>
+                                <div class="bg-gray-800 rounded-lg p-3 text-center">
+                                    <div class="text-purple-400 font-bold text-lg" id="embeddedScore">0</div>
+                                    <div>Score</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Premium Upgrade Prompt -->
+                    <div id="premiumPrompt" class="hidden bg-gradient-to-r from-yellow-600 to-orange-600 rounded-2xl p-6 text-white text-center">
+                        <h4 class="text-2xl font-bold mb-3">🔒 Premium Feature</h4>
+                        <p class="text-lg mb-4">Unlock Speed Run and Survival modes for the ultimate gaming experience!</p>
+                        <button onclick="openCareerMazeChampion()" class="bg-white text-gray-900 px-6 py-3 rounded-xl font-bold hover:bg-gray-100 transition-all">
+                            🚀 Launch Full Game
+                        </button>
+                        <p class="text-sm mt-3 opacity-90">Access all premium features in the dedicated gaming window</p>
+                    </div>
+                </div>
+            `;
+            
+            // Initialize icons
+            setTimeout(() => {
+                lucide.createIcons();
+            }, 100);
+        }
+
+        function startEmbeddedGame(mode) {
+            document.getElementById('embeddedGameArea').classList.remove('hidden');
+            showNotification('🎮 Starting Career Maze Challenge...', 'info');
+            
+            // Initialize embedded maze game
+            initializeEmbeddedMaze();
+        }
+
+        function showPremiumUpgrade() {
+            document.getElementById('premiumPrompt').classList.remove('hidden');
+            showNotification('🔒 Premium features available in full game mode', 'warning');
+        }
+
+        function initializeEmbeddedMazeGame() {
+            const canvas = document.getElementById('embeddedMazeCanvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            
+            // Optimized maze for smaller display
+            const game = {
+                width: 28,
+                height: 16,
+                cellSize: 25,
+                player: { x: 1, y: 1 },
+                goal: { x: 26, y: 14 },
+                skills: [
+                    { x: 6, y: 3, collected: false, name: 'Leadership', icon: '🎯', color: '#3B82F6' },
+                    { x: 14, y: 6, collected: false, name: 'Innovation', icon: '💡', color: '#8B5CF6' },
+                    { x: 20, y: 10, collected: false, name: 'Teamwork', icon: '🤝', color: '#10B981' },
+                    { x: 10, y: 12, collected: false, name: 'Strategy', icon: '🚀', color: '#F59E0B' }
+                ],
+                grid: [],
+                moves: 0,
+                startTime: Date.now(),
+                score: 0,
+                level: 1,
+                gameActive: true
+            };
+            
+            // Generate perfect maze
+            function generateMaze() {
+                // Initialize with walls
+                for (let y = 0; y < game.height; y++) {
+                    game.grid[y] = [];
+                    for (let x = 0; x < game.width; x++) {
+                        game.grid[y][x] = 1;
+                    }
+                }
+                
+                // Create paths using recursive backtracking
+                const stack = [];
+                const start = { x: 1, y: 1 };
+                game.grid[start.y][start.x] = 0;
+                stack.push(start);
+                
+                const directions = [
+                    { x: 0, y: -2 }, { x: 2, y: 0 }, { x: 0, y: 2 }, { x: -2, y: 0 }
+                ];
+                
+                while (stack.length > 0) {
+                    const current = stack[stack.length - 1];
+                    const neighbors = [];
+                    
+                    for (const dir of directions) {
+                        const nx = current.x + dir.x;
+                        const ny = current.y + dir.y;
+                        
+                        if (nx > 0 && nx < game.width - 1 && 
+                            ny > 0 && ny < game.height - 1 && 
+                            game.grid[ny][nx] === 1) {
+                            neighbors.push({ x: nx, y: ny });
+                        }
+                    }
+                    
+                    if (neighbors.length > 0) {
+                        const next = neighbors[Math.floor(Math.random() * neighbors.length)];
+                        const wallX = current.x + (next.x - current.x) / 2;
+                        const wallY = current.y + (next.y - current.y) / 2;
+                        
+                        game.grid[next.y][next.x] = 0;
+                        game.grid[wallY][wallX] = 0;
+                        stack.push(next);
+                    } else {
+                        stack.pop();
+                    }
+                }
+                
+                // Ensure goal is accessible
+                game.grid[game.goal.y][game.goal.x] = 0;
+                
+                // Ensure skill positions are accessible
+                game.skills.forEach(skill => {
+                    game.grid[skill.y][skill.x] = 0;
+                });
+            }
+            
+            
+            // Render function
+            function render() {
+                // Clear canvas
+                ctx.fillStyle = '#F8FAFC';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw maze
+                for (let y = 0; y < game.height; y++) {
+                    for (let x = 0; x < game.width; x++) {
+                        if (game.grid[y][x] === 1) {
+                            // Walls
+                            ctx.fillStyle = '#374151';
+                            ctx.fillRect(x * game.cellSize, y * game.cellSize, game.cellSize, game.cellSize);
+                            ctx.strokeStyle = '#4B5563';
+                            ctx.lineWidth = 1;
+                            ctx.strokeRect(x * game.cellSize, y * game.cellSize, game.cellSize, game.cellSize);
+                        } else {
+                            // Paths
+                            ctx.fillStyle = '#FFFFFF';
+                            ctx.fillRect(x * game.cellSize, y * game.cellSize, game.cellSize, game.cellSize);
+                        }
+                    }
+                }
+                
+                // Draw skills with animations
+                const time = Date.now() * 0.003;
+                game.skills.forEach((skill, index) => {
+                    if (!skill.collected) {
+                        const x = skill.x * game.cellSize + game.cellSize / 2;
+                        const y = skill.y * game.cellSize + game.cellSize / 2;
+                        const bounce = Math.sin(time + index) * 3;
+                        
+                        // Skill glow
+                        ctx.fillStyle = skill.color + '40';
+                        ctx.beginPath();
+                        ctx.arc(x, y + bounce, 12, 0, Math.PI * 2);
+                        ctx.fill();
+                        
+                        // Skill icon
+                        ctx.font = 'bold 14px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(skill.icon, x, y + bounce + 4);
+                    }
+                });
+                
+                // Draw goal
+                const allSkillsCollected = game.skills.every(s => s.collected);
+                const goalX = game.goal.x * game.cellSize + game.cellSize / 2;
+                const goalY = game.goal.y * game.cellSize + game.cellSize / 2;
+                
+                if (allSkillsCollected) {
+                    ctx.fillStyle = '#10B981';
+                    ctx.font = 'bold 20px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('🏆', goalX, goalY + 6);
+                } else {
+                    ctx.fillStyle = '#9CA3AF';
+                    ctx.font = 'bold 18px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('🔒', goalX, goalY + 6);
+                }
+                
+                // Draw player
+                const playerX = game.player.x * game.cellSize + game.cellSize / 2;
+                const playerY = game.player.y * game.cellSize + game.cellSize / 2;
+                
+                // Player shadow
+                ctx.fillStyle = 'rgba(59, 130, 246, 0.3)';
+                ctx.beginPath();
+                ctx.arc(playerX + 1, playerY + 1, 8, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Player body
+                ctx.fillStyle = '#3B82F6';
+                ctx.beginPath();
+                ctx.arc(playerX, playerY, 8, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Player emoji
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillStyle = 'white';
+                ctx.fillText('😊', playerX, playerY + 3);
+            }
+            
+            // Update UI
+            function updateUI() {
+                const elapsed = Math.floor((Date.now() - game.startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                
+                document.getElementById('embeddedTime').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                document.getElementById('embeddedMoves').textContent = game.moves.toString();
+                document.getElementById('embeddedScore').textContent = game.score.toLocaleString();
+                
+                const collectedSkills = game.skills.filter(s => s.collected).length;
+                document.getElementById('embeddedSkills').textContent = `${collectedSkills}/4`;
+            }
+            
+            // Handle input
+            function handleKeyPress(e) {
+                if (!game.gameActive || !canvas.offsetParent) return;
+                
+                let newX = game.player.x;
+                let newY = game.player.y;
+                let moved = false;
+                
+                switch(e.key.toLowerCase()) {
+                    case 'arrowup':
+                    case 'w':
+                        newY--; moved = true;
+                        break;
+                    case 'arrowdown':
+                    case 's':
+                        newY++; moved = true;
+                        break;
+                    case 'arrowleft':
+                    case 'a':
+                        newX--; moved = true;
+                        break;
+                    case 'arrowright':
+                    case 'd':
+                        newX++; moved = true;
+                        break;
+                }
+                
+                if (moved) {
+                    // Check bounds and walls
+                    if (newX >= 0 && newX < game.width && newY >= 0 && newY < game.height && 
+                        game.grid[newY][newX] === 0) {
+                        game.player.x = newX;
+                        game.player.y = newY;
+                        game.moves++;
+                        
+                        // Check skill collection
+                        game.skills.forEach((skill, index) => {
+                            if (!skill.collected && skill.x === newX && skill.y === newY) {
+                                skill.collected = true;
+                                game.score += 100;
+                                showNotification(`⭐ ${skill.name} skill acquired!`, 'success');
+                                
+                                // Update skill icon
+                                const skillIcon = document.getElementById(`skill${index + 1}Icon`);
+                                skillIcon.style.background = skill.color;
+                                skillIcon.style.opacity = '1';
+                                skillIcon.style.transform = 'scale(1.2)';
+                                setTimeout(() => {
+                                    skillIcon.style.transform = 'scale(1)';
+                                }, 200);
+                            }
+                        });
+                        
+                        // Check goal
+                        if (newX === game.goal.x && newY === game.goal.y && 
+                            game.skills.every(s => s.collected)) {
+                            game.score += 500;
+                            showNotification('🎉 Career Goal Achieved! Excellent work!', 'success');
+                            document.getElementById('embeddedGameMessage').textContent = 
+                                'Congratulations! You\'ve completed your career journey!';
+                            game.gameActive = false;
+                        }
+                        
+                        updateUI();
+                        render();
+                    }
+                    
+                    e.preventDefault();
+                }
+            }
+            
+            // Generate maze and start game
+            try {
+                generateMaze();
+                render();
+                updateUI();
+                
+                // Add event listener
+                document.addEventListener('keydown', handleKeyPress);
+                
+                // Start timer
+                const gameTimer = setInterval(() => {
+                    if (document.getElementById('embeddedMazeCanvas')) {
+                        updateUI();
+                    } else {
+                        clearInterval(gameTimer);
+                    }
+                }, 1000);
+                
+                console.log('Career Maze game initialized successfully');
+            } catch (error) {
+                console.error('Error initializing Career Maze game:', error);
+                showNotification('❌ Game initialization failed', 'error');
+            }
+        }
+
+        function pauseEmbeddedGame() {
+            showNotification('⏸️ Game paused - great time for a mental break!', 'info');
+        }
+
+        function pauseEmbeddedGame() {
+            showNotification('⏸️ Game paused - take a moment to relax!', 'info');
+        }
+
+        function resetEmbeddedGame() {
+            showNotification('🔄 Resetting game...', 'info');
+            initializeEmbeddedMazeGame();
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Enhanced Buddy Chatbot initializing...');
+            
+            // Initialize Lucide icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+                console.log('Lucide icons initialized');
+                
+                // Re-initialize icons after any dynamic content updates
+                setTimeout(() => {
+                    lucide.createIcons();
+                }, 1000);
+            } else {
+                console.error('Lucide library not loaded');
+            }
+            
+            // Setup modal listeners
+            setupModalListeners();
+            
+            // Initialize speech synthesis voices (some browsers need this)
+            if (speechSynthesis) {
+                speechSynthesis.getVoices();
+            }
+            
+            // Test if Buddy components are available
+            setTimeout(() => {
+                const modal = document.getElementById('buddyModal');
+                const input = document.getElementById('chatInput');
+                const avatar = document.getElementById('buddyAvatar');
+                
+                if (modal && input && avatar) {
+                    console.log('Enhanced Buddy chat ready! 🤖💜');
+                    
+                    // Initialize default buddy state
+                    updateBuddyMood('happy');
+                    
+                    // Test notification
+                    showNotification('Enhanced Buddy Chatbot is ready! 🤖✨', 'success');
+                } else {
+                    console.error('Some Buddy chat components not found');
+                }
+            }, 500);
+            
+            // Check if user has already logged mood today
+            const lastMood = localStorage.getItem('dailyMood');
+            const lastTimestamp = localStorage.getItem('moodTimestamp');
+            
+            if (lastMood && lastTimestamp) {
+                const lastDate = new Date(lastTimestamp).toDateString();
+                const today = new Date().toDateString();
+                
+                if (lastDate === today) {
+                    // Pre-select today's mood
+                    const moodBtn = document.querySelector(`[data-mood="${lastMood}"]`);
+                    if (moodBtn) {
+                        moodBtn.classList.add('bg-pink-100', 'ring-2', 'ring-pink-300', 'scale-110');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Maze - The Best Employee Wellness Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .floating { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .glow { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+        .pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b-2 border-blue-200">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl">🎮</div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Career Maze</h1>
+                        <p class="text-gray-600">The Best Employee Wellness Game</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-6">
+                    <div class="text-center">
+                        <div class="text-green-600 font-bold text-lg">100% FREE</div>
+                        <div class="text-gray-500 text-sm">Always Free</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-blue-600 font-bold text-lg" id="playerScore">0</div>
+                        <div class="text-gray-500 text-sm">Your Score</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Game Interface -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="text-center mb-12">
+            <div class="floating mb-8">
+                <div class="text-8xl mb-4">🎯</div>
+            </div>
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">Welcome to Career Maze</h2>
+            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                Navigate through professional challenges, collect valuable skills, and reach your career goals. 
+                The perfect stress-relief game designed specifically for employees.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-4xl mx-auto">
+                <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-blue-200">
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Navigate Smartly</h3>
+                    <p class="text-gray-600">Use strategic thinking to find the best path through professional challenges</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-purple-200">
+                    <div class="text-4xl mb-4">⭐</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Collect Skills</h3>
+                    <p class="text-gray-600">Gather leadership, innovation, teamwork, and strategy skills along your journey</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-green-200">
+                    <div class="text-4xl mb-4">🏆</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Achieve Goals</h3>
+                    <p class="text-gray-600">Reach your career objectives and unlock new challenges</p>
+                </div>
+            </div>
+            
+            <button onclick="startGame()" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-12 py-4 rounded-xl text-xl font-bold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg glow">
+                🚀 Start Your Career Journey
+            </button>
+        </div>
+
+        <!-- Game Area -->
+        <div id="gameArea" class="hidden">
+            <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
+                
+                <!-- Main Game Canvas -->
+                <div class="xl:col-span-3">
+                    <div class="bg-white rounded-2xl shadow-xl border-2 border-gray-200 p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="flex items-center space-x-4">
+                                <h3 class="text-2xl font-bold text-gray-900">🎮 Career Maze Arena</h3>
+                                <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-medium">Level <span id="currentLevel">1</span></div>
+                            </div>
+                            <div class="flex space-x-3">
+                                <button onclick="pauseGame()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-medium transition-all">
+                                    ⏸️ Pause
+                                </button>
+                                <button onclick="resetLevel()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition-all">
+                                    🔄 Reset
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Game Canvas -->
+                        <div class="relative">
+                            <canvas id="gameCanvas" width="1100" height="700" class="border-4 border-gray-300 rounded-xl bg-gradient-to-br from-blue-50 to-purple-50 w-full"></canvas>
+                            
+                            <!-- Game Overlay -->
+                            <div id="gameOverlay" class="absolute inset-0 bg-black bg-opacity-75 rounded-xl flex items-center justify-center hidden">
+                                <div class="text-center text-white">
+                                    <div id="overlayIcon" class="text-8xl mb-4">⏸️</div>
+                                    <h3 id="overlayTitle" class="text-4xl font-bold mb-4">Game Paused</h3>
+                                    <p id="overlayMessage" class="text-xl mb-6">Take a moment to relax and strategize</p>
+                                    <button onclick="resumeGame()" class="bg-green-500 hover:bg-green-600 px-8 py-4 rounded-xl font-bold text-xl">
+                                        ▶️ Resume Game
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Instructions -->
+                        <div class="mt-6 text-center">
+                            <p class="text-lg text-gray-700 mb-2">
+                                Use <kbd class="bg-gray-200 px-2 py-1 rounded">WASD</kbd> or <kbd class="bg-gray-200 px-2 py-1 rounded">Arrow Keys</kbd> to navigate
+                            </p>
+                            <p id="gameInstructions" class="text-gray-600 font-medium">Collect all career skills to unlock your goal!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Stats Sidebar -->
+                <div class="space-y-6">
+                    
+                    <!-- Player Progress -->
+                    <div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-6 text-white">
+                        <div class="text-center mb-4">
+                            <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full mx-auto flex items-center justify-center text-3xl mb-3">😊</div>
+                            <h4 class="text-xl font-bold">Madhumitha M</h4>
+                            <p class="text-blue-100">Career Navigator</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3 text-sm">
+                            <div class="bg-white bg-opacity-10 rounded-lg p-3 text-center">
+                                <div class="text-yellow-300 font-bold text-xl" id="totalScore">0</div>
+                                <div>Total Score</div>
+                            </div>
+                            <div class="bg-white bg-opacity-10 rounded-lg p-3 text-center">
+                                <div class="text-green-300 font-bold text-xl" id="levelsCompleted">0</div>
+                                <div>Levels Done</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Game Stats -->
+                    <div class="bg-white rounded-2xl shadow-lg border-2 border-gray-200 p-6">
+                        <h4 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                            📊 Current Game
+                        </h4>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Time:</span>
+                                <span id="gameTime" class="text-xl font-bold text-green-600">00:00</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Moves:</span>
+                                <span id="moveCount" class="text-xl font-bold text-blue-600">0</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Score:</span>
+                                <span id="currentScore" class="text-xl font-bold text-purple-600">0</span>
+                            </div>
+                            
+                            <!-- Skills Progress -->
+                            <div class="border-t pt-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-600">Career Skills:</span>
+                                    <span id="skillProgress" class="text-lg font-bold text-yellow-600">0/4</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div id="skill1Status" class="bg-gray-100 rounded-lg p-3 text-center text-sm opacity-50">
+                                        <div class="text-xl mb-1">🎯</div>
+                                        <div class="font-medium">Leadership</div>
+                                    </div>
+                                    <div id="skill2Status" class="bg-gray-100 rounded-lg p-3 text-center text-sm opacity-50">
+                                        <div class="text-xl mb-1">💡</div>
+                                        <div class="font-medium">Innovation</div>
+                                    </div>
+                                    <div id="skill3Status" class="bg-gray-100 rounded-lg p-3 text-center text-sm opacity-50">
+                                        <div class="text-xl mb-1">🤝</div>
+                                        <div class="font-medium">Teamwork</div>
+                                    </div>
+                                    <div id="skill4Status" class="bg-gray-100 rounded-lg p-3 text-center text-sm opacity-50">
+                                        <div class="text-xl mb-1">🚀</div>
+                                        <div class="font-medium">Strategy</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Achievements -->
+                    <div class="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl p-6 text-white">
+                        <h4 class="text-xl font-bold mb-4">🏆 Achievements</h4>
+                        <div class="space-y-3">
+                            <div id="achievement1" class="flex items-center space-x-3 bg-white bg-opacity-10 rounded-lg p-3 opacity-50">
+                                <span class="text-2xl">⚡</span>
+                                <div>
+                                    <div class="font-medium">Speed Runner</div>
+                                    <div class="text-sm opacity-75">Complete a level in under 60 seconds</div>
+                                </div>
+                            </div>
+                            <div id="achievement2" class="flex items-center space-x-3 bg-white bg-opacity-10 rounded-lg p-3 opacity-50">
+                                <span class="text-2xl">🎯</span>
+                                <div>
+                                    <div class="font-medium">Perfect Navigator</div>
+                                    <div class="text-sm opacity-75">Complete without hitting walls</div>
+                                </div>
+                            </div>
+                            <div id="achievement3" class="flex items-center space-x-3 bg-white bg-opacity-10 rounded-lg p-3 opacity-50">
+                                <span class="text-2xl">🌟</span>
+                                <div>
+                                    <div class="font-medium">Skill Master</div>
+                                    <div class="text-sm opacity-75">Collect all skills in 5 levels</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="bg-white rounded-2xl shadow-lg border-2 border-gray-200 p-6">
+                        <h4 class="text-lg font-bold text-gray-900 mb-4">Quick Actions</h4>
+                        <div class="space-y-3">
+                            <button onclick="nextLevel()" id="nextLevelBtn" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-medium hidden">
+                                ➡️ Next Level
+                            </button>
+                            <button onclick="showHint()" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-medium">
+                                💡 Get Hint
+                            </button>
+                            <button onclick="showStats()" class="w-full bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-lg font-medium">
+                                📈 View Stats
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification System -->
+    <div id="notification" class="fixed top-20 right-6 bg-white border-l-4 border-blue-500 rounded-lg shadow-lg p-4 transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center">
+            <div id="notificationIcon" class="text-2xl mr-3">🎮</div>
+            <div>
+                <div id="notificationTitle" class="font-bold text-gray-900">Game Update</div>
+                <div id="notificationMessage" class="text-gray-600">Welcome to Career Maze!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced Game Engine -->
+    <script>
+        class CareerMazeGame {
+            constructor() {
+                this.canvas = null;
+                this.ctx = null;
+                this.gameState = 'welcome'; // welcome, playing, paused, completed
+                this.level = 1;
+                this.score = 0;
+                this.totalScore = 0;
+                this.moves = 0;
+                this.startTime = null;
+                this.gameTimer = null;
+                this.animationId = null;
+                
+                // Game objects
+                this.player = { x: 1, y: 1, size: 18 };
+                this.goal = { x: 30, y: 20, unlocked: false };
+                this.maze = [];
+                this.skills = [];
+                this.particles = [];
+                
+                // Game settings
+                this.cellSize = 30;
+                this.mazeWidth = 37;
+                this.mazeHeight = 23;
+                
+                // Input handling
+                this.keys = {};
+                this.lastMoveTime = 0;
+                this.moveDelay = 120;
+                
+                // Stats
+                this.levelsCompleted = 0;
+                this.perfectRuns = 0;
+                this.wallHits = 0;
+                
+                this.setupEventListeners();
+                this.showNotification('🎮 Welcome to Career Maze!', 'Ready to start your journey?');
+            }
+            
+            setupEventListeners() {
+                document.addEventListener('keydown', (e) => {
+                    this.keys[e.code] = true;
+                    if (this.gameState === 'playing') {
+                        e.preventDefault();
+                    }
+                });
+                
+                document.addEventListener('keyup', (e) => {
+                    this.keys[e.code] = false;
+                });
+            }
+            
+            startGame() {
+                this.gameState = 'playing';
+                this.canvas = document.getElementById('gameCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                
+                document.getElementById('welcomeScreen').classList.add('hidden');
+                document.getElementById('gameArea').classList.remove('hidden');
+                
+                this.generateLevel();
+                this.startGameLoop();
+                this.startTimer();
+                
+                this.showNotification('🚀 Game Started!', 'Collect all skills to unlock your career goal');
+            }
+            
+            generateLevel() {
+                this.wallHits = 0;
+                this.moves = 0;
+                this.startTime = Date.now();
+                
+                // Adjust difficulty based on level
+                const complexity = Math.min(0.3 + (this.level * 0.05), 0.6);
+                
+                // Initialize maze
+                this.maze = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(1));
+                
+                // Generate perfect maze
+                this.generatePerfectMaze();
+                
+                // Reset player
+                this.player.x = 1;
+                this.player.y = 1;
+                
+                // Position goal
+                this.goal.x = this.mazeWidth - 2;
+                this.goal.y = this.mazeHeight - 2;
+                this.goal.unlocked = false;
+                
+                // Generate skills
+                this.generateSkills();
+                
+                // Clear particles
+                this.particles = [];
+                
+                this.updateUI();
+            }
+            
+            generatePerfectMaze() {
+                // Recursive backtracking for perfect maze
+                const stack = [];
+                const visited = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(false));
+                
+                const start = { x: 1, y: 1 };
+                visited[start.y][start.x] = true;
+                this.maze[start.y][start.x] = 0;
+                stack.push(start);
+                
+                const directions = [
+                    { x: 0, y: -2, wallX: 0, wallY: -1 },
+                    { x: 2, y: 0, wallX: 1, wallY: 0 },
+                    { x: 0, y: 2, wallX: 0, wallY: 1 },
+                    { x: -2, y: 0, wallX: -1, wallY: 0 }
+                ];
+                
+                while (stack.length > 0) {
+                    const current = stack[stack.length - 1];
+                    const neighbors = [];
+                    
+                    for (const dir of directions) {
+                        const nx = current.x + dir.x;
+                        const ny = current.y + dir.y;
+                        
+                        if (nx > 0 && nx < this.mazeWidth - 1 && 
+                            ny > 0 && ny < this.mazeHeight - 1 && 
+                            !visited[ny][nx]) {
+                            neighbors.push({ x: nx, y: ny, dir });
+                        }
+                    }
+                    
+                    if (neighbors.length > 0) {
+                        const next = neighbors[Math.floor(Math.random() * neighbors.length)];
+                        const wallX = current.x + next.dir.wallX;
+                        const wallY = current.y + next.dir.wallY;
+                        
+                        visited[next.y][next.x] = true;
+                        this.maze[next.y][next.x] = 0;
+                        this.maze[wallY][wallX] = 0;
+                        
+                        stack.push(next);
+                    } else {
+                        stack.pop();
+                    }
+                }
+                
+                // Ensure goal is reachable
+                this.maze[this.goal.y][this.goal.x] = 0;
+                
+                // Add some strategic openings for better gameplay
+                for (let i = 0; i < this.level; i++) {
+                    const x = Math.floor(Math.random() * (this.mazeWidth - 2)) + 1;
+                    const y = Math.floor(Math.random() * (this.mazeHeight - 2)) + 1;
+                    if (Math.random() > 0.7) {
+                        this.maze[y][x] = 0;
+                    }
+                }
+            }
+            
+            generateSkills() {
+                const skillTypes = [
+                    { name: 'Leadership', icon: '🎯', color: '#F59E0B' },
+                    { name: 'Innovation', icon: '💡', color: '#8B5CF6' },
+                    { name: 'Teamwork', icon: '🤝', color: '#10B981' },
+                    { name: 'Strategy', icon: '🚀', color: '#EF4444' }
+                ];
+                
+                this.skills = [];
+                
+                skillTypes.forEach((skillType, index) => {
+                    let placed = false;
+                    let attempts = 0;
+                    
+                    while (!placed && attempts < 100) {
+                        const x = Math.floor(Math.random() * (this.mazeWidth - 4)) + 2;
+                        const y = Math.floor(Math.random() * (this.mazeHeight - 4)) + 2;
+                        
+                        if (this.maze[y][x] === 0 && 
+                            (x !== this.player.x || y !== this.player.y) &&
+                            (x !== this.goal.x || y !== this.goal.y)) {
+                            
+                            this.skills.push({
+                                x, y,
+                                type: skillType.name,
+                                icon: skillType.icon,
+                                color: skillType.color,
+                                collected: false,
+                                index: index
+                            });
+                            placed = true;
+                        }
+                        attempts++;
+                    }
+                });
+            }
+            
+            startGameLoop() {
+                const gameLoop = (timestamp) => {
+                    if (this.gameState === 'playing') {
+                        this.update();
+                        this.render();
+                    }
+                    this.animationId = requestAnimationFrame(gameLoop);
+                };
+                this.animationId = requestAnimationFrame(gameLoop);
+            }
+            
+            update() {
+                this.handleInput();
+                this.updateParticles();
+                this.checkCollisions();
+            }
+            
+            handleInput() {
+                const now = Date.now();
+                if (now - this.lastMoveTime < this.moveDelay) return;
+                
+                let newX = this.player.x;
+                let newY = this.player.y;
+                let moved = false;
+                
+                if (this.keys['KeyW'] || this.keys['ArrowUp']) { newY--; moved = true; }
+                if (this.keys['KeyS'] || this.keys['ArrowDown']) { newY++; moved = true; }
+                if (this.keys['KeyA'] || this.keys['ArrowLeft']) { newX--; moved = true; }
+                if (this.keys['KeyD'] || this.keys['ArrowRight']) { newX++; moved = true; }
+                
+                if (moved) {
+                    if (this.isValidMove(newX, newY)) {
+                        this.player.x = newX;
+                        this.player.y = newY;
+                        this.moves++;
+                        this.lastMoveTime = now;
+                        this.addParticle(this.player.x * this.cellSize + this.cellSize/2, 
+                                       this.player.y * this.cellSize + this.cellSize/2, '#3B82F6');
+                    } else {
+                        this.wallHits++;
+                        this.addParticle(newX * this.cellSize + this.cellSize/2, 
+                                       newY * this.cellSize + this.cellSize/2, '#EF4444');
+                        this.lastMoveTime = now;
+                    }
+                    this.updateUI();
+                }
+            }
+            
+            isValidMove(x, y) {
+                return x >= 0 && x < this.mazeWidth && 
+                       y >= 0 && y < this.mazeHeight && 
+                       this.maze[y][x] === 0;
+            }
+            
+            checkCollisions() {
+                // Check skill collection
+                this.skills.forEach(skill => {
+                    if (!skill.collected && 
+                        this.player.x === skill.x && 
+                        this.player.y === skill.y) {
+                        skill.collected = true;
+                        this.score += 100;
+                        this.addSkillParticles(skill.x * this.cellSize + this.cellSize/2, 
+                                             skill.y * this.cellSize + this.cellSize/2);
+                        this.showNotification(`⭐ ${skill.type} Skill Acquired!`, 'Great job developing your career!');
+                        this.updateSkillStatus(skill.index + 1);
+                        
+                        // Check if all skills collected
+                        if (this.skills.every(s => s.collected)) {
+                            this.goal.unlocked = true;
+                            this.showNotification('🏆 Career Goal Unlocked!', 'Navigate to the trophy to complete this level!');
+                            this.addGoalParticles();
+                        }
+                    }
+                });
+                
+                // Check goal achievement
+                if (this.goal.unlocked && 
+                    this.player.x === this.goal.x && 
+                    this.player.y === this.goal.y) {
+                    this.completeLevel();
+                }
+            }
+            
+            completeLevel() {
+                const timeTaken = Math.floor((Date.now() - this.startTime) / 1000);
+                const timeBonus = Math.max(300 - timeTaken, 50);
+                const moveBonus = Math.max(200 - this.moves, 50);
+                const perfectBonus = this.wallHits === 0 ? 500 : 0;
+                
+                this.score += timeBonus + moveBonus + perfectBonus;
+                this.totalScore += this.score;
+                this.levelsCompleted++;
+                
+                // Check achievements
+                this.checkAchievements(timeTaken);
+                
+                this.gameState = 'completed';
+                
+                document.getElementById('overlayIcon').textContent = '🎉';
+                document.getElementById('overlayTitle').textContent = `Level ${this.level} Complete!`;
+                document.getElementById('overlayMessage').innerHTML = `
+                    <div class="space-y-2">
+                        <div>Score: ${this.score.toLocaleString()}</div>
+                        <div>Time: ${timeTaken}s • Moves: ${this.moves} • Perfect: ${this.wallHits === 0 ? 'Yes' : 'No'}</div>
+                    </div>
+                `;
+                document.getElementById('gameOverlay').classList.remove('hidden');
+                document.getElementById('nextLevelBtn').classList.remove('hidden');
+                
+                this.showNotification('🎉 Level Complete!', `Amazing work! Score: ${this.score.toLocaleString()}`);
+            }
+            
+            checkAchievements(timeTaken) {
+                if (timeTaken < 60 && !document.getElementById('achievement1').classList.contains('achieved')) {
+                    document.getElementById('achievement1').classList.add('achieved');
+                    document.getElementById('achievement1').style.opacity = '1';
+                    document.getElementById('achievement1').style.background = 'linear-gradient(45deg, #FCD34D, #F59E0B)';
+                    this.showNotification('⚡ Achievement Unlocked!', 'Speed Runner - Completed in under 60 seconds!');
+                }
+                
+                if (this.wallHits === 0 && !document.getElementById('achievement2').classList.contains('achieved')) {
+                    document.getElementById('achievement2').classList.add('achieved');
+                    document.getElementById('achievement2').style.opacity = '1';
+                    document.getElementById('achievement2').style.background = 'linear-gradient(45deg, #34D399, #10B981)';
+                    this.showNotification('🎯 Achievement Unlocked!', 'Perfect Navigator - No wall collisions!');
+                }
+                
+                if (this.levelsCompleted >= 5 && !document.getElementById('achievement3').classList.contains('achieved')) {
+                    document.getElementById('achievement3').classList.add('achieved');
+                    document.getElementById('achievement3').style.opacity = '1';
+                    document.getElementById('achievement3').style.background = 'linear-gradient(45deg, #A78BFA, #8B5CF6)';
+                    this.showNotification('🌟 Achievement Unlocked!', 'Skill Master - 5 levels completed!');
+                }
+            }
+            
+            addParticle(x, y, color) {
+                for (let i = 0; i < 5; i++) {
+                    this.particles.push({
+                        x: x,
+                        y: y,
+                        vx: (Math.random() - 0.5) * 6,
+                        vy: (Math.random() - 0.5) * 6,
+                        life: 1,
+                        decay: 0.03,
+                        color: color,
+                        size: Math.random() * 3 + 2
+                    });
+                }
+            }
+            
+            addSkillParticles(x, y) {
+                for (let i = 0; i < 20; i++) {
+                    this.particles.push({
+                        x: x,
+                        y: y,
+                        vx: (Math.random() - 0.5) * 8,
+                        vy: (Math.random() - 0.5) * 8,
+                        life: 1,
+                        decay: 0.02,
+                        color: '#FCD34D',
+                        size: Math.random() * 4 + 3
+                    });
+                }
+            }
+            
+            addGoalParticles() {
+                for (let i = 0; i < 50; i++) {
+                    this.particles.push({
+                        x: this.goal.x * this.cellSize + this.cellSize/2,
+                        y: this.goal.y * this.cellSize + this.cellSize/2,
+                        vx: (Math.random() - 0.5) * 10,
+                        vy: (Math.random() - 0.5) * 10,
+                        life: 1,
+                        decay: 0.015,
+                        color: '#10B981',
+                        size: Math.random() * 5 + 3
+                    });
+                }
+            }
+            
+            updateParticles() {
+                this.particles = this.particles.filter(particle => {
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    particle.life -= particle.decay;
+                    particle.vx *= 0.98;
+                    particle.vy *= 0.98;
+                    return particle.life > 0;
+                });
+            }
+            
+            render() {
+                // Clear canvas
+                this.ctx.fillStyle = '#F8FAFC';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Render maze
+                this.renderMaze();
+                
+                // Render game objects
+                this.renderSkills();
+                this.renderGoal();
+                this.renderPlayer();
+                
+                // Render particles
+                this.renderParticles();
+            }
+            
+            renderMaze() {
+                for (let y = 0; y < this.mazeHeight; y++) {
+                    for (let x = 0; x < this.mazeWidth; x++) {
+                        if (this.maze[y][x] === 1) {
+                            // Walls
+                            this.ctx.fillStyle = '#374151';
+                            this.ctx.fillRect(x * this.cellSize, y * this.cellSize, this.cellSize, this.cellSize);
+                            
+                            // Wall highlights
+                            this.ctx.strokeStyle = '#4B5563';
+                            this.ctx.lineWidth = 1;
+                            this.ctx.strokeRect(x * this.cellSize, y * this.cellSize, this.cellSize, this.cellSize);
+                        } else {
+                            // Paths
+                            this.ctx.fillStyle = '#FFFFFF';
+                            this.ctx.fillRect(x * this.cellSize, y * this.cellSize, this.cellSize, this.cellSize);
+                            
+                            // Subtle grid
+                            this.ctx.strokeStyle = '#F1F5F9';
+                            this.ctx.lineWidth = 0.5;
+                            this.ctx.strokeRect(x * this.cellSize, y * this.cellSize, this.cellSize, this.cellSize);
+                        }
+                    }
+                }
+            }
+            
+            renderPlayer() {
+                const x = this.player.x * this.cellSize + this.cellSize / 2;
+                const y = this.player.y * this.cellSize + this.cellSize / 2;
+                const time = Date.now() * 0.005;
+                
+                // Player shadow
+                this.ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
+                this.ctx.beginPath();
+                this.ctx.arc(x + 2, y + 2, this.player.size / 2 + 2, 0, Math.PI * 2);
+                this.ctx.fill();
+                
+                // Player body with pulse
+                const pulse = Math.sin(time * 2) * 2 + this.player.size / 2;
+                this.ctx.fillStyle = '#3B82F6';
+                this.ctx.beginPath();
+                this.ctx.arc(x, y, pulse, 0, Math.PI * 2);
+                this.ctx.fill();
+                
+                // Player face
+                this.ctx.font = 'bold 16px Arial';
+                this.ctx.textAlign = 'center';
+                this.ctx.fillStyle = 'white';
+                this.ctx.fillText('😊', x, y + 4);
+            }
+            
+            renderSkills() {
+                const time = Date.now() * 0.003;
+                
+                this.skills.forEach((skill, index) => {
+                    if (!skill.collected) {
+                        const x = skill.x * this.cellSize + this.cellSize / 2;
+                        const y = skill.y * this.cellSize + this.cellSize / 2;
+                        const bounce = Math.sin(time * 2 + index) * 4;
+                        
+                        // Skill glow
+                        this.ctx.fillStyle = skill.color + '40';
+                        this.ctx.beginPath();
+                        this.ctx.arc(x, y + bounce, 18, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        
+                        // Skill background
+                        this.ctx.fillStyle = skill.color;
+                        this.ctx.beginPath();
+                        this.ctx.arc(x, y + bounce, 12, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        
+                        // Skill icon
+                        this.ctx.font = 'bold 16px Arial';
+                        this.ctx.textAlign = 'center';
+                        this.ctx.fillStyle = 'white';
+                        this.ctx.fillText(skill.icon, x, y + bounce + 4);
+                        
+                        // Skill name
+                        this.ctx.font = '10px Arial';
+                        this.ctx.fillStyle = '#374151';
+                        this.ctx.fillText(skill.type, x, y + bounce + 25);
+                    }
+                });
+            }
+            
+            renderGoal() {
+                const x = this.goal.x * this.cellSize + this.cellSize / 2;
+                const y = this.goal.y * this.cellSize + this.cellSize / 2;
+                const time = Date.now() * 0.005;
+                
+                if (this.goal.unlocked) {
+                    // Unlocked goal with animation
+                    const glow = Math.sin(time * 3) * 0.3 + 0.7;
+                    
+                    this.ctx.fillStyle = `rgba(16, 185, 129, ${glow})`;
+                    this.ctx.beginPath();
+                    this.ctx.arc(x, y, 25, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    this.ctx.font = 'bold 28px Arial';
+                    this.ctx.textAlign = 'center';
+                    this.ctx.fillStyle = '#10B981';
+                    this.ctx.fillText('🏆', x, y + 8);
+                    
+                    this.ctx.font = 'bold 10px Arial';
+                    this.ctx.fillStyle = '#065F46';
+                    this.ctx.fillText('CAREER GOAL', x, y + 30);
+                } else {
+                    // Locked goal
+                    this.ctx.fillStyle = '#9CA3AF';
+                    this.ctx.beginPath();
+                    this.ctx.arc(x, y, 20, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    this.ctx.font = 'bold 24px Arial';
+                    this.ctx.textAlign = 'center';
+                    this.ctx.fillStyle = '#6B7280';
+                    this.ctx.fillText('🔒', x, y + 6);
+                    
+                    this.ctx.font = '8px Arial';
+                    this.ctx.fillStyle = '#4B5563';
+                    this.ctx.fillText('COLLECT ALL SKILLS', x, y + 25);
+                }
+            }
+            
+            renderParticles() {
+                this.particles.forEach(particle => {
+                    this.ctx.globalAlpha = particle.life;
+                    this.ctx.fillStyle = particle.color;
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.size * particle.life, 0, Math.PI * 2);
+                    this.ctx.fill();
+                });
+                this.ctx.globalAlpha = 1;
+            }
+            
+            updateUI() {
+                const elapsed = this.startTime ? Math.floor((Date.now() - this.startTime) / 1000) : 0;
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                
+                document.getElementById('gameTime').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                document.getElementById('moveCount').textContent = this.moves.toString();
+                document.getElementById('currentScore').textContent = this.score.toLocaleString();
+                document.getElementById('playerScore').textContent = this.totalScore.toLocaleString();
+                document.getElementById('totalScore').textContent = this.totalScore.toLocaleString();
+                document.getElementById('levelsCompleted').textContent = this.levelsCompleted.toString();
+                document.getElementById('currentLevel').textContent = this.level.toString();
+                
+                // Update skills progress
+                const collectedSkills = this.skills.filter(s => s.collected).length;
+                document.getElementById('skillProgress').textContent = `${collectedSkills}/4`;
+            }
+            
+            updateSkillStatus(skillIndex) {
+                const skillElement = document.getElementById(`skill${skillIndex}Status`);
+                skillElement.style.opacity = '1';
+                skillElement.style.background = 'linear-gradient(45deg, #FCD34D, #F59E0B)';
+                skillElement.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    skillElement.style.transform = 'scale(1)';
+                }, 200);
+            }
+            
+            startTimer() {
+                this.gameTimer = setInterval(() => {
+                    if (this.gameState === 'playing') {
+                        this.updateUI();
+                    }
+                }, 1000);
+            }
+            
+            pauseGame() {
+                if (this.gameState === 'playing') {
+                    this.gameState = 'paused';
+                    document.getElementById('overlayIcon').textContent = '⏸️';
+                    document.getElementById('overlayTitle').textContent = 'Game Paused';
+                    document.getElementById('overlayMessage').textContent = 'Take a moment to relax and strategize';
+                    document.getElementById('gameOverlay').classList.remove('hidden');
+                }
+            }
+            
+            resumeGame() {
+                if (this.gameState === 'paused') {
+                    this.gameState = 'playing';
+                    document.getElementById('gameOverlay').classList.add('hidden');
+                }
+            }
+            
+            resetLevel() {
+                this.score = Math.max(this.score - 50, 0); // Small penalty for reset
+                this.generateLevel();
+                document.getElementById('gameOverlay').classList.add('hidden');
+                document.getElementById('nextLevelBtn').classList.add('hidden');
+                this.gameState = 'playing';
+                this.showNotification('🔄 Level Reset', 'Try again! You can do it!');
+            }
+            
+            nextLevel() {
+                this.level++;
+                this.score = 0;
+                this.generateLevel();
+                this.gameState = 'playing';
+                document.getElementById('gameOverlay').classList.add('hidden');
+                document.getElementById('nextLevelBtn').classList.add('hidden');
+                this.showNotification(`🚀 Level ${this.level} Started!`, 'New challenges await!');
+            }
+            
+            showNotification(title, message) {
+                document.getElementById('notificationTitle').textContent = title;
+                document.getElementById('notificationMessage').textContent = message;
+                
+                const notification = document.getElementById('notification');
+                notification.style.transform = 'translateX(0)';
+                
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(100%)';
+                }, 3000);
+            }
+        }
+        
+        // Global game instance
+        let game = null;
+        
+        // UI Functions
+        function startGame() {
+            if (!game) {
+                game = new CareerMazeGame();
+            }
+            game.startGame();
+        }
+        
+        function pauseGame() {
+            if (game) game.pauseGame();
+        }
+        
+        function resumeGame() {
+            if (game) game.resumeGame();
+        }
+        
+        function resetLevel() {
+            if (game) game.resetLevel();
+        }
+        
+        function nextLevel() {
+            if (game) game.nextLevel();
+        }
+        
+        function showHint() {
+            if (game) {
+                game.showNotification('💡 Hint', 'Try to collect skills in order: Leadership → Innovation → Teamwork → Strategy');
+            }
+        }
+        
+        function showStats() {
+            if (game) {
+                const stats = `Level: ${game.level} | Score: ${game.totalScore.toLocaleString()} | Completed: ${game.levelsCompleted}`;
+                game.showNotification('📈 Your Stats', stats);
+            }
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            
+            // Initialize empty game for notifications
+            if (!game) {
+                game = new CareerMazeGame();
+            }
+        });
+    </script>
+</body>
+</html>

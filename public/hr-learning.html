@@ -1,0 +1,2678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning & Content - POWERGRID IDP Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        powergrid: {
+                            primary: "#232A7A",
+                            secondary: "#DA251D", 
+                            light: "#F8F9FA",
+                            dark: "#495057",
+                            accent: "#4A90E2"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-card-animation {
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .image-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .course-grid-enter {
+            animation: fadeInScale 0.4s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stats-card {
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .pulse-animation {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .animate-slideIn {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo and Title -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg flex items-center justify-center">
+                            <i data-lucide="book-open" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold text-gray-900">Learning & Content Management</h1>
+                            <p class="text-sm text-gray-600">Create, Manage & Distribute Learning Content</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="hr-dashboard.html" class="text-gray-600 hover:text-purple-600 transition-colors">Organization</a>
+                    <a href="hr-employees.html" class="text-gray-600 hover:text-purple-600 transition-colors">Employee Management</a>
+                    <a href="hr-learning.html" class="text-purple-600 font-medium border-b-2 border-purple-600 pb-1">Learning & Content</a>
+                    <a href="hr-compliance.html" class="text-gray-600 hover:text-purple-600 transition-colors">Policy & Compliance</a>
+                    <a href="hr-idp-generator.html" class="text-gray-600 hover:text-purple-600 transition-colors">AI IDP Generator</a>
+                </nav>
+
+                <!-- User Section -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold">PS</span>
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="text-sm font-medium text-gray-900">Priya Sharma</div>
+                            <div class="text-xs text-gray-600">HR Director • Human Resources</div>
+                        </div>
+                    </div>
+                    <button onclick="logout()" class="text-gray-500 hover:text-red-600 transition-colors">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-6 py-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Course Statistics -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="book" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">89</h3>
+                            <p class="text-gray-600">Total Courses</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="play-circle" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">67</h3>
+                            <p class="text-gray-600">Active Courses</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="clock" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">12</h3>
+                            <p class="text-gray-600">Draft Courses</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-gray-100 hover-lift">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">2,847</h3>
+                            <p class="text-gray-600">Total Enrollments</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Tabs -->
+            <div class="bg-white rounded-2xl border border-gray-100 mb-8">
+                <div class="border-b border-gray-200">
+                    <nav class="flex">
+                        <button onclick="showTab('courses')" id="coursesTab" 
+                                class="px-6 py-4 text-sm font-medium text-purple-600 border-b-2 border-purple-600">
+                            Course Library
+                        </button>
+                        <button onclick="showTab('create')" id="createTab" 
+                                class="px-6 py-4 text-sm font-medium text-gray-600 hover:text-purple-600 border-b-2 border-transparent">
+                            Create Content
+                        </button>
+                        <button onclick="showTab('analytics')" id="analyticsTab" 
+                                class="px-6 py-4 text-sm font-medium text-gray-600 hover:text-purple-600 border-b-2 border-transparent">
+                            Content Analytics
+                        </button>
+                        <button onclick="showTab('assignments')" id="assignmentsTab" 
+                                class="px-6 py-4 text-sm font-medium text-gray-600 hover:text-purple-600 border-b-2 border-transparent">
+                            Assignments
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Course Library Tab -->
+                <div id="coursesContent" class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900">Course Library</h3>
+                        <div class="flex gap-3">
+                            <button onclick="importCourses()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                <i data-lucide="upload" class="w-4 h-4 inline mr-2"></i>Import
+                            </button>
+                            <button onclick="regenerateAllCourseImages()" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors" title="Regenerate all course images">
+                                <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-2"></i>Refresh Images
+                            </button>
+                            <button onclick="createNewCourse()" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                                <i data-lucide="plus" class="w-4 h-4 inline mr-2"></i>New Course
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Course Filters -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div>
+                            <input type="text" id="courseSearch" placeholder="Search courses..." 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                   onkeyup="filterCourses()">
+                        </div>
+                        <div>
+                            <select id="categoryFilter" onchange="filterCourses()" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                <option value="">All Categories</option>
+                                <option value="Technical">Technical Skills</option>
+                                <option value="Soft Skills">Soft Skills</option>
+                                <option value="Leadership">Leadership</option>
+                                <option value="Compliance">Compliance</option>
+                                <option value="Safety">Safety</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select id="statusFilter" onchange="filterCourses()" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                <option value="">All Status</option>
+                                <option value="Active">Active</option>
+                                <option value="Draft">Draft</option>
+                                <option value="Archived">Archived</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button onclick="clearCourseFilters()" class="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                                Clear Filters
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Image Gallery Modal (Hidden by default) -->
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex gap-2">
+                            <button onclick="showImageGallery()" class="px-3 py-1 text-sm bg-purple-100 text-purple-800 rounded-md hover:bg-purple-200 transition-colors">
+                                🎨 Image Styles
+                            </button>
+                            <button onclick="showImageStats()" class="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200 transition-colors">
+                                📊 Image Stats
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Image Actions -->
+                    <div id="quickActions" class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-4 mb-6 hidden">
+                        <h4 class="font-semibold text-gray-900 mb-3">🚀 Quick Image Actions</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <button onclick="bulkUpdateImages('gradient')" class="p-3 bg-white rounded-lg border hover:shadow-md transition-all text-sm">
+                                <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded mx-auto mb-1"></div>
+                                Gradient Style
+                            </button>
+                            <button onclick="bulkUpdateImages('enhanced')" class="p-3 bg-white rounded-lg border hover:shadow-md transition-all text-sm">
+                                <div class="w-8 h-8 bg-gray-600 rounded mx-auto mb-1 flex items-center justify-center text-white text-xs">📖</div>
+                                Enhanced Style
+                            </button>
+                            <button onclick="bulkUpdateImages('unsplash')" class="p-3 bg-white rounded-lg border hover:shadow-md transition-all text-sm">
+                                <div class="w-8 h-8 bg-green-500 rounded mx-auto mb-1 flex items-center justify-center text-white text-xs">📷</div>
+                                Photo Style
+                            </button>
+                            <button onclick="randomizeImages()" class="p-3 bg-white rounded-lg border hover:shadow-md transition-all text-sm">
+                                <div class="w-8 h-8 bg-orange-500 rounded mx-auto mb-1 flex items-center justify-center text-white text-xs">🎲</div>
+                                Random Mix
+                            </button>
+                        </div>
+                        <button onclick="toggleQuickActions()" class="mt-3 text-xs text-gray-500 hover:text-gray-700">
+                            Hide Quick Actions
+                        </button>
+                    </div>
+
+                    <div class="flex justify-end mb-4">
+                        <button onclick="toggleQuickActions()" class="text-sm text-purple-600 hover:text-purple-800 font-medium">
+                            Show Quick Actions ▼
+                        </button>
+                    </div>
+
+                    <!-- Course Statistics with Images -->
+                    <div id="courseStatistics" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <!-- Statistics will be populated by JavaScript -->
+                    </div>
+
+                    <!-- Course Grid -->
+                    <div id="courseGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Courses will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Create Content Tab -->
+                <div id="createContent" class="p-6 hidden">
+                    <div class="max-w-4xl">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Create New Course</h3>
+                        
+                        <form id="createCourseForm" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Course Title *</label>
+                                    <input type="text" id="courseTitle" required 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                                    <select id="courseCategory" required 
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                        <option value="">Select Category</option>
+                                        <option value="Technical">Technical Skills</option>
+                                        <option value="Soft Skills">Soft Skills</option>
+                                        <option value="Leadership">Leadership</option>
+                                        <option value="Compliance">Compliance</option>
+                                        <option value="Safety">Safety</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Course Description *</label>
+                                <textarea id="courseDescription" rows="4" required 
+                                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                          placeholder="Describe the course objectives and content..."></textarea>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Duration (hours) *</label>
+                                    <input type="number" id="courseDuration" required 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Difficulty Level *</label>
+                                    <select id="courseDifficulty" required 
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                        <option value="">Select Level</option>
+                                        <option value="Beginner">Beginner</option>
+                                        <option value="Intermediate">Intermediate</option>
+                                        <option value="Advanced">Advanced</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Prerequisites</label>
+                                    <input type="text" id="coursePrerequisites" 
+                                           placeholder="None"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                </div>
+                            </div>
+
+                            <!-- Course Image Selection -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Course Image Style</label>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="space-y-3">
+                                        <h4 class="font-medium text-gray-900">Image Style</h4>
+                                        <div class="space-y-2">
+                                            <label class="flex items-center">
+                                                <input type="radio" name="imageStyle" value="gradient" checked class="mr-2">
+                                                <span class="text-sm">Gradient Design</span>
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="radio" name="imageStyle" value="enhanced" class="mr-2">
+                                                <span class="text-sm">Icon & Text</span>
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="radio" name="imageStyle" value="unsplash" class="mr-2">
+                                                <span class="text-sm">Stock Photo</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="md:col-span-2">
+                                        <div id="imagePreview" class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                                            <i data-lucide="image" class="w-12 h-12 text-gray-400 mx-auto mb-2"></i>
+                                            <p class="text-sm text-gray-500">Course image preview will appear here</p>
+                                            <button type="button" onclick="previewCourseImage()" 
+                                                    class="mt-2 px-4 py-2 bg-purple-100 text-purple-800 rounded-lg hover:bg-purple-200 transition-colors">
+                                                Generate Preview
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Content Upload Section -->
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8">
+                                <div class="text-center">
+                                    <i data-lucide="upload-cloud" class="w-12 h-12 text-gray-400 mx-auto mb-4"></i>
+                                    <h4 class="text-lg font-medium text-gray-900 mb-2">Upload Course Content</h4>
+                                    <p class="text-gray-600 mb-4">Drag and drop your files or click to browse</p>
+                                    <button type="button" onclick="uploadContent()" 
+                                            class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                                        Choose Files
+                                    </button>
+                                    <p class="text-xs text-gray-500 mt-2">Supports: PDF, PPTX, MP4, SCORM packages</p>
+                                </div>
+                                <div id="uploadedFiles" class="mt-4 hidden">
+                                    <h5 class="font-medium text-gray-900 mb-2">Uploaded Files:</h5>
+                                    <div id="fileList" class="space-y-2"></div>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end gap-4">
+                                <button type="button" onclick="saveDraft()" 
+                                        class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                    Save as Draft
+                                </button>
+                                <button type="submit" 
+                                        class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                                    Publish Course
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="analyticsContent" class="p-6 hidden">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">Content Performance Analytics</h3>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Top Performing Courses -->
+                        <div class="bg-gray-50 rounded-xl p-6">
+                            <h4 class="text-lg font-bold text-gray-900 mb-4">Top Performing Courses</h4>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-4 bg-white rounded-lg">
+                                    <div>
+                                        <h5 class="font-medium text-gray-900">Leadership Fundamentals</h5>
+                                        <p class="text-sm text-gray-600">456 completions • 4.8★</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-lg font-bold text-green-600">96%</div>
+                                        <div class="text-xs text-gray-500">Completion Rate</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-4 bg-white rounded-lg">
+                                    <div>
+                                        <h5 class="font-medium text-gray-900">Data Analytics Basics</h5>
+                                        <p class="text-sm text-gray-600">389 completions • 4.6★</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-lg font-bold text-green-600">92%</div>
+                                        <div class="text-xs text-gray-500">Completion Rate</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-4 bg-white rounded-lg">
+                                    <div>
+                                        <h5 class="font-medium text-gray-900">Safety Protocols</h5>
+                                        <p class="text-sm text-gray-600">523 completions • 4.4★</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-lg font-bold text-yellow-600">89%</div>
+                                        <div class="text-xs text-gray-500">Completion Rate</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course Categories Performance -->
+                        <div class="bg-gray-50 rounded-xl p-6">
+                            <h4 class="text-lg font-bold text-gray-900 mb-4">Category Performance</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span class="text-gray-600">Technical Skills</span>
+                                        <span class="text-gray-900 font-medium">87% avg completion</span>
+                                    </div>
+                                    <div class="w-full h-3 bg-gray-200 rounded-full">
+                                        <div class="w-[87%] h-3 bg-blue-500 rounded-full"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span class="text-gray-600">Leadership</span>
+                                        <span class="text-gray-900 font-medium">94% avg completion</span>
+                                    </div>
+                                    <div class="w-full h-3 bg-gray-200 rounded-full">
+                                        <div class="w-[94%] h-3 bg-green-500 rounded-full"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span class="text-gray-600">Compliance</span>
+                                        <span class="text-gray-900 font-medium">98% avg completion</span>
+                                    </div>
+                                    <div class="w-full h-3 bg-gray-200 rounded-full">
+                                        <div class="w-[98%] h-3 bg-purple-500 rounded-full"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span class="text-gray-600">Soft Skills</span>
+                                        <span class="text-gray-900 font-medium">76% avg completion</span>
+                                    </div>
+                                    <div class="w-full h-3 bg-gray-200 rounded-full">
+                                        <div class="w-[76%] h-3 bg-yellow-500 rounded-full"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assignments Tab -->
+                <div id="assignmentsContent" class="p-6 hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900">Course Assignments</h3>
+                        <button onclick="createAssignment()" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                            <i data-lucide="plus" class="w-4 h-4 inline mr-2"></i>New Assignment
+                        </button>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h4 class="text-lg font-bold text-gray-900 mb-4">Bulk Assignment Tools</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <button onclick="assignByDepartment()" 
+                                    class="p-4 bg-white rounded-lg hover:bg-gray-50 transition-colors border border-gray-200">
+                                <i data-lucide="building" class="w-8 h-8 text-blue-600 mx-auto mb-2"></i>
+                                <h5 class="font-medium text-gray-900">By Department</h5>
+                                <p class="text-sm text-gray-600 mt-1">Assign courses to entire departments</p>
+                            </button>
+                            
+                            <button onclick="assignByRole()" 
+                                    class="p-4 bg-white rounded-lg hover:bg-gray-50 transition-colors border border-gray-200">
+                                <i data-lucide="user-check" class="w-8 h-8 text-green-600 mx-auto mb-2"></i>
+                                <h5 class="font-medium text-gray-900">By Job Role</h5>
+                                <p class="text-sm text-gray-600 mt-1">Assign based on job roles and levels</p>
+                            </button>
+                            
+                            <button onclick="assignCustom()" 
+                                    class="p-4 bg-white rounded-lg hover:bg-gray-50 transition-colors border border-gray-200">
+                                <i data-lucide="target" class="w-8 h-8 text-purple-600 mx-auto mb-2"></i>
+                                <h5 class="font-medium text-gray-900">Custom Selection</h5>
+                                <p class="text-sm text-gray-600 mt-1">Select specific employees manually</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Image generation utilities
+        const imageGenerators = {
+            unsplash: (query, width = 400, height = 300) => 
+                `https://source.unsplash.com/${width}x${height}/?${encodeURIComponent(query)}`,
+            
+            picsum: (id, width = 400, height = 300) => 
+                `https://picsum.photos/id/${id}/${width}/${height}`,
+            
+            placeholder: (text, bgColor, textColor = 'FFFFFF', width = 400, height = 300) => 
+                `https://via.placeholder.com/${width}x${height}/${bgColor}/${textColor}?text=${encodeURIComponent(text)}`,
+            
+            dummyimage: (width, height, bgColor, textColor, text) => 
+                `https://dummyimage.com/${width}x${height}/${bgColor}/${textColor}&text=${encodeURIComponent(text)}`,
+                
+            loremflickr: (width, height, category) => 
+                `https://loremflickr.com/${width}/${height}/${encodeURIComponent(category)}`,
+                
+            robohash: (text, width = 400, height = 300) => 
+                `https://robohash.org/${encodeURIComponent(text)}?size=${width}x${height}`
+        };
+
+        // Category-specific image themes
+        const categoryThemes = {
+            'Technical': {
+                unsplash: ['technology', 'coding', 'computer', 'programming', 'software', 'digital'],
+                colors: ['4F46E5', '3B82F6', '06B6D4', '10B981'],
+                icons: ['💻', '🔧', '⚙️', '🖥️']
+            },
+            'Leadership': {
+                unsplash: ['leadership', 'team', 'business', 'meeting', 'professional', 'office'],
+                colors: ['8B5CF6', '7C3AED', 'A855F7', '9333EA'],
+                icons: ['👔', '📊', '🎯', '🏆']
+            },
+            'Soft Skills': {
+                unsplash: ['communication', 'teamwork', 'collaboration', 'people', 'skills', 'training'],
+                colors: ['EF4444', 'F97316', 'F59E0B', 'EAB308'],
+                icons: ['🤝', '💬', '🎭', '📢']
+            },
+            'Compliance': {
+                unsplash: ['security', 'legal', 'documents', 'compliance', 'audit', 'regulations'],
+                colors: ['059669', '16A34A', '22C55E', '15803D'],
+                icons: ['📋', '✅', '🛡️', '📜']
+            },
+            'Safety': {
+                unsplash: ['safety', 'protection', 'helmet', 'construction', 'warning', 'security'],
+                colors: ['DC2626', 'EA580C', 'D97706', 'CA8A04'],
+                icons: ['⚠️', '🦺', '⛑️', '🚧']
+            }
+        };
+
+        // Generate dynamic course image
+        function generateCourseImage(course, imageType = 'enhanced') {
+            const theme = categoryThemes[course.category] || categoryThemes['Technical'];
+            const width = 400;
+            const height = 260;
+            
+            switch (imageType) {
+                case 'unsplash':
+                    const queries = theme.unsplash;
+                    const query = queries[Math.floor(Math.random() * queries.length)];
+                    return imageGenerators.unsplash(query, width, height);
+                    
+                case 'enhanced':
+                    const color = theme.colors[Math.floor(Math.random() * theme.colors.length)];
+                    const icon = theme.icons[Math.floor(Math.random() * theme.icons.length)];
+                    const shortTitle = course.title.split(' ').slice(0, 3).join(' ');
+                    return imageGenerators.dummyimage(width, height, color, 'FFFFFF', `${icon} ${shortTitle}`);
+                    
+                case 'gradient':
+                    return createGradientImage(course, width, height);
+                    
+                default:
+                    return imageGenerators.placeholder(course.title, theme.colors[0], 'FFFFFF', width, height);
+            }
+        }
+
+        // Create SVG gradient images
+        function createGradientImage(course, width = 400, height = 260) {
+            const theme = categoryThemes[course.category] || categoryThemes['Technical'];
+            const colors = theme.colors;
+            const icon = theme.icons[0];
+            
+            const svg = `
+                <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#${colors[0]};stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#${colors[1] || colors[0]};stop-opacity:0.8" />
+                        </linearGradient>
+                        <pattern id="dots" patternUnits="userSpaceOnUse" width="20" height="20">
+                            <circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grad)"/>
+                    <rect width="100%" height="100%" fill="url(#dots)"/>
+                    <text x="50%" y="40%" font-family="Arial, sans-serif" font-size="48" text-anchor="middle" fill="white" opacity="0.9">${icon}</text>
+                    <text x="50%" y="65%" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="white" opacity="0.95">${course.title.split(' ').slice(0, 3).join(' ')}</text>
+                    <text x="50%" y="80%" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="white" opacity="0.8">${course.category} • ${course.duration}h</text>
+                </svg>
+            `;
+            
+            return 'data:image/svg+xml;base64,' + btoa(svg);
+        }
+
+        // Sample course data with dynamic images
+        let courses = [
+            {
+                id: 'CRS001',
+                title: 'Leadership Fundamentals',
+                category: 'Leadership',
+                duration: 8,
+                enrollments: 456,
+                completions: 438,
+                rating: 4.8,
+                status: 'Active',
+                description: 'Develop essential leadership skills including team management, decision-making, and strategic thinking.',
+                objectives: ['Master leadership communication', 'Build high-performing teams', 'Make strategic decisions'],
+                prerequisites: ['Management Experience (2+ years)', 'Team Leadership Role']
+            },
+            {
+                id: 'CRS002',
+                title: 'Data Analytics Basics',
+                category: 'Technical',
+                duration: 12,
+                enrollments: 389,
+                completions: 358,
+                rating: 4.6,
+                status: 'Active',
+                description: 'Learn fundamental data analysis techniques using modern tools and statistical methods.',
+                objectives: ['Master Excel and SQL', 'Create data visualizations', 'Perform statistical analysis'],
+                prerequisites: ['Basic Mathematics', 'Computer Literacy']
+            },
+            {
+                id: 'CRS003',
+                title: 'Safety Protocols 2024',
+                category: 'Safety',
+                duration: 4,
+                enrollments: 523,
+                completions: 512,
+                rating: 4.4,
+                status: 'Active',
+                description: 'Comprehensive safety training covering POWERGRID safety standards and emergency procedures.',
+                objectives: ['Understand safety regulations', 'Implement safety procedures', 'Handle emergencies'],
+                prerequisites: ['Safety Orientation', 'Basic First Aid']
+            },
+            {
+                id: 'CRS004',
+                title: 'Cloud Computing Essentials',
+                category: 'Technical',
+                duration: 16,
+                enrollments: 234,
+                completions: 198,
+                rating: 4.7,
+                status: 'Active',
+                description: 'Master cloud computing concepts, platforms, and deployment strategies for modern infrastructure.',
+                objectives: ['Understand cloud architecture', 'Deploy cloud solutions', 'Manage cloud security'],
+                prerequisites: ['Network Fundamentals', 'System Administration']
+            },
+            {
+                id: 'CRS005',
+                title: 'Communication Skills',
+                category: 'Soft Skills',
+                duration: 6,
+                enrollments: 678,
+                completions: 567,
+                rating: 4.5,
+                status: 'Active',
+                description: 'Enhance professional communication skills including presentation, negotiation, and interpersonal skills.',
+                objectives: ['Master presentation skills', 'Improve written communication', 'Develop active listening'],
+                prerequisites: ['None']
+            },
+            {
+                id: 'CRS006',
+                title: 'Project Management Advanced',
+                category: 'Leadership',
+                duration: 20,
+                enrollments: 145,
+                completions: 89,
+                rating: 4.9,
+                status: 'Draft',
+                description: 'Advanced project management methodologies including Agile, Scrum, and enterprise project management.',
+                objectives: ['Master Agile methodologies', 'Lead complex projects', 'Manage stakeholders'],
+                prerequisites: ['PMP Certification', 'Project Management Experience']
+            },
+            {
+                id: 'CRS007',
+                title: 'Digital Transformation Strategy',
+                category: 'Technical',
+                duration: 14,
+                enrollments: 189,
+                completions: 156,
+                rating: 4.7,
+                status: 'Active',
+                description: 'Strategic approaches to digital transformation in power sector organizations.',
+                objectives: ['Develop digital strategy', 'Implement transformation', 'Measure digital ROI'],
+                prerequisites: ['Business Analysis', 'Technology Management']
+            },
+            {
+                id: 'CRS008',
+                title: 'Renewable Energy Systems',
+                category: 'Technical',
+                duration: 18,
+                enrollments: 267,
+                completions: 234,
+                rating: 4.8,
+                status: 'Active',
+                description: 'Comprehensive training on renewable energy technologies and integration with power grids.',
+                objectives: ['Understand renewable technologies', 'Design integration systems', 'Optimize performance'],
+                prerequisites: ['Electrical Engineering', 'Power Systems']
+            },
+            {
+                id: 'CRS009',
+                title: 'Cybersecurity Fundamentals',
+                category: 'Compliance',
+                duration: 10,
+                enrollments: 445,
+                completions: 398,
+                rating: 4.6,
+                status: 'Active',
+                description: 'Essential cybersecurity principles for protecting critical infrastructure and data.',
+                objectives: ['Identify security threats', 'Implement security measures', 'Respond to incidents'],
+                prerequisites: ['IT Fundamentals', 'Network Security Basics']
+            },
+            {
+                id: 'CRS010',
+                title: 'Emotional Intelligence',
+                category: 'Soft Skills',
+                duration: 8,
+                enrollments: 356,
+                completions: 289,
+                rating: 4.5,
+                status: 'Active',
+                description: 'Develop emotional intelligence skills for better workplace relationships and leadership.',
+                objectives: ['Understand emotions', 'Manage relationships', 'Lead with empathy'],
+                prerequisites: ['None']
+            }
+        ];
+        
+        // Add dynamic thumbnails to courses
+        courses.forEach((course, index) => {
+            // Use different image generation methods for variety
+            const methods = ['gradient', 'enhanced', 'unsplash'];
+            const method = methods[index % methods.length];
+            course.thumbnail = generateCourseImage(course, method);
+            course.imageMethod = method;
+            
+            // Add fallback images and image metadata
+            course.fallbackThumbnail = generateCourseImage(course, 'enhanced');
+            course.imageGenerated = new Date().toISOString();
+            course.imageId = `img_${course.id}_${Date.now()}`;
+        });
+
+        let filteredCourses = [...courses];
+
+        // Check if user has HR role
+        document.addEventListener('DOMContentLoaded', function() {
+            const userRole = localStorage.getItem('userRole');
+            if (userRole !== 'hr') {
+                window.location.href = 'login.html';
+            }
+            
+            // Check for URL fragment to show specific tab
+            const hash = window.location.hash.substring(1);
+            if (hash === 'create') {
+                showTab('create');
+            } else if (hash === 'analytics') {
+                showTab('analytics');
+            } else if (hash === 'assignments') {
+                showTab('assignments');
+            }
+            
+            renderCourseStatistics();
+            renderCourseGrid();
+        });
+
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = ['coursesContent', 'createContent', 'analyticsContent', 'assignmentsContent'];
+            contents.forEach(content => {
+                document.getElementById(content).classList.add('hidden');
+            });
+
+            // Remove active styles from all tabs
+            const tabs = ['coursesTab', 'createTab', 'analyticsTab', 'assignmentsTab'];
+            tabs.forEach(tab => {
+                const element = document.getElementById(tab);
+                element.classList.remove('text-purple-600', 'border-purple-600');
+                element.classList.add('text-gray-600', 'border-transparent');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName + 'Content').classList.remove('hidden');
+
+            // Add active styles to selected tab
+            const activeTab = document.getElementById(tabName + 'Tab');
+            activeTab.classList.remove('text-gray-600', 'border-transparent');
+            activeTab.classList.add('text-purple-600', 'border-purple-600');
+        }
+
+        // Animated counter function
+        function animateCounter(element, start, end, duration = 1000) {
+            const startTime = performance.now();
+            const range = end - start;
+            
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                const current = Math.floor(start + range * easeOutQuart);
+                
+                element.textContent = current;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = end; // Ensure exact final value
+                }
+            }
+            
+            requestAnimationFrame(updateCounter);
+        }
+
+        // Render course statistics
+        function renderCourseStatistics() {
+            const statisticsContainer = document.getElementById('courseStatistics');
+            if (!statisticsContainer) return;
+            
+            const totalCourses = courses.length;
+            const coursesWithImages = courses.filter(c => c.thumbnail).length;
+            const uniqueCategories = new Set(courses.map(c => c.category)).size;
+            const avgRating = totalCourses > 0 ? (courses.reduce((acc, c) => acc + c.rating, 0) / totalCourses).toFixed(1) : '0.0';
+            const imageCompletionRate = totalCourses > 0 ? Math.round((coursesWithImages / totalCourses) * 100) : 0;
+            
+            statisticsContainer.innerHTML = `
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-blue-600 font-medium">Total Courses</p>
+                            <p class="text-lg font-bold text-blue-900">${totalCourses}</p>
+                            <p class="text-xs text-blue-500 mt-1">📚 Learning Resources</p>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="book-open" class="w-5 h-5 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-green-600 font-medium">With Images</p>
+                            <p class="text-lg font-bold text-green-900">${coursesWithImages}</p>
+                            <p class="text-xs text-green-500 mt-1">🎨 Visual Content</p>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="image" class="w-5 h-5 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-purple-600 font-medium">Categories</p>
+                            <p class="text-lg font-bold text-purple-900">${uniqueCategories}</p>
+                            <p class="text-xs text-purple-500 mt-1">🏷️ Course Types</p>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="layers" class="w-5 h-5 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-orange-600 font-medium">Avg Rating</p>
+                            <p class="text-lg font-bold text-orange-900">★ ${avgRating}</p>
+                            <p class="text-xs text-orange-500 mt-1">⭐ Course Quality</p>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="star" class="w-5 h-5 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Re-initialize icons
+            lucide.createIcons();
+        }
+
+        function renderCourseGrid() {
+            const grid = document.getElementById('courseGrid');
+            grid.innerHTML = '';
+            
+            // Show empty state if no courses
+            if (filteredCourses.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i data-lucide="search" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">No courses found</h3>
+                        <p class="text-gray-600">Try adjusting your search or filter criteria</p>
+                        <button onclick="clearCourseFilters()" class="mt-4 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                            Clear Filters
+                        </button>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+            
+            filteredCourses.forEach((course, index) => {
+                const completionRate = Math.round((course.completions / course.enrollments) * 100);
+                const statusColor = course.status === 'Active' ? 'bg-green-100 text-green-800' : 
+                                   course.status === 'Draft' ? 'bg-yellow-100 text-yellow-800' : 
+                                   'bg-red-100 text-red-800';
+
+                const courseCard = document.createElement('div');
+                courseCard.className = 'bg-white rounded-xl border border-gray-200 overflow-hidden hover-lift course-card-animation';
+                courseCard.innerHTML = `
+                    <div class="relative overflow-hidden">
+                        <img src="${course.thumbnail}" 
+                             alt="${course.title}" 
+                             class="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+                             onerror="this.src='${course.fallbackThumbnail || generateCourseImage(course, 'enhanced')}'; this.onerror=null;"
+                             loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 text-white">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i data-lucide="clock" class="w-4 h-4"></i>
+                                    <span>${course.duration} hours</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-3">
+                            <h4 class="text-lg font-bold text-gray-900 line-clamp-2">${course.title}</h4>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor} ml-2">
+                                ${course.status}
+                            </span>
+                        </div>
+                        
+                        <p class="text-sm text-gray-600 mb-3 line-clamp-2">${course.description || course.category + ' course designed to enhance your skills and knowledge.'}</p>
+                        
+                        <div class="flex items-center gap-1 text-xs text-gray-500 mb-4">
+                            <span class="inline-flex items-center px-2 py-1 rounded-md bg-gray-100">
+                                <i data-lucide="tag" class="w-3 h-3 mr-1"></i>
+                                ${course.category}
+                            </span>
+                            <span class="inline-flex items-center px-2 py-1 rounded-md bg-blue-100 text-blue-800">
+                                <i data-lucide="clock" class="w-3 h-3 mr-1"></i>
+                                ${course.duration}h
+                            </span>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 text-sm text-gray-600 mb-4">
+                            <div class="flex items-center gap-1" title="Total Enrollments">
+                                <i data-lucide="users" class="w-4 h-4"></i>
+                                <span>${course.enrollments}</span>
+                            </div>
+                            <div class="flex items-center gap-1" title="Average Rating">
+                                <i data-lucide="star" class="w-4 h-4 text-yellow-500"></i>
+                                <span>${course.rating}</span>
+                            </div>
+                            <div class="flex items-center gap-1" title="Completion Rate">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                                <span>${completionRate}%</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                <span>Completion Rate</span>
+                                <span>${completionRate}%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-purple-500 to-blue-500 h-2 rounded-full transition-all duration-500" style="width: ${completionRate}%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-2">
+                            <button onclick="editCourse('${course.id}')" 
+                                    class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 hover:shadow-md transform hover:-translate-y-0.5">
+                                <i data-lucide="edit" class="w-4 h-4 inline mr-1"></i>Edit
+                            </button>
+                            <button onclick="assignCourse('${course.id}')" 
+                                    class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200 hover:shadow-md transform hover:-translate-y-0.5">
+                                <i data-lucide="user-plus" class="w-4 h-4 inline mr-1"></i>Assign
+                            </button>
+                            <button onclick="previewCourse('${course.id}')" 
+                                    class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all duration-200" title="Preview Course">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(courseCard);
+            });
+            
+            // Re-initialize Lucide icons
+            lucide.createIcons();
+        }
+
+        function filterCourses() {
+            const searchTerm = document.getElementById('courseSearch').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            
+            filteredCourses = courses.filter(course => {
+                const matchesSearch = course.title.toLowerCase().includes(searchTerm);
+                const matchesCategory = !categoryFilter || course.category === categoryFilter;
+                const matchesStatus = !statusFilter || course.status === statusFilter;
+                
+                return matchesSearch && matchesCategory && matchesStatus;
+            });
+            
+            renderCourseGrid();
+        }
+
+        function clearCourseFilters() {
+            document.getElementById('courseSearch').value = '';
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('statusFilter').value = '';
+            filteredCourses = [...courses];
+            renderCourseStatistics();
+            renderCourseGrid();
+        }
+
+        // Course Management Functions
+        function createNewCourse() {
+            showTab('create');
+        }
+
+        function editCourse(id) {
+            const course = courses.find(c => c.id === id);
+            if (!course) {
+                showNotification('Course not found', 'error');
+                return;
+            }
+            showCourseEditModal(course);
+        }
+
+        function assignCourse(id) {
+            const course = courses.find(c => c.id === id);
+            if (!course) {
+                showNotification('Course not found', 'error');
+                return;
+            }
+            showCourseAssignmentModal(course);
+        }
+
+        function uploadContent() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.multiple = true;
+            input.accept = '.pdf,.pptx,.mp4,.zip';
+            input.onchange = function(e) {
+                const files = Array.from(e.target.files);
+                if (files.length > 0) {
+                    displayUploadedFiles(files);
+                    showNotification(`${files.length} files uploaded successfully!`, 'success');
+                }
+            };
+            input.click();
+        }
+
+        function displayUploadedFiles(files) {
+            const container = document.getElementById('uploadedFiles');
+            const fileList = document.getElementById('fileList');
+            
+            container.classList.remove('hidden');
+            fileList.innerHTML = '';
+            
+            files.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'flex items-center justify-between p-2 bg-gray-50 rounded';
+                fileItem.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="file" class="w-4 h-4 text-gray-600"></i>
+                        <span class="text-sm text-gray-900">${file.name}</span>
+                    </div>
+                    <span class="text-xs text-gray-500">${(file.size / 1024 / 1024).toFixed(1)} MB</span>
+                `;
+                fileList.appendChild(fileItem);
+            });
+            
+            lucide.createIcons();
+        }
+
+        function saveDraft() {
+            showNotification('Course saved as draft', 'success');
+        }
+
+        function importCourses() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.zip,.scorm';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    showNotification('Course package imported successfully!', 'success');
+                }
+            };
+            input.click();
+        }
+
+        // Enhanced Assignment Functions
+        function createAssignment() {
+            showBulkAssignmentModal();
+        }
+
+        function assignByDepartment() {
+            showDepartmentAssignmentModal();
+        }
+
+        function assignByRole() {
+            showRoleAssignmentModal();
+        }
+
+        function assignCustom() {
+            showCustomAssignmentModal();
+        }
+
+        // Handle create course form submission
+        document.getElementById('createCourseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newCourse = {
+                id: `CRS${String(courses.length + 1).padStart(3, '0')}`,
+                title: document.getElementById('courseTitle').value,
+                category: document.getElementById('courseCategory').value,
+                duration: parseInt(document.getElementById('courseDuration').value),
+                enrollments: 0,
+                completions: 0,
+                rating: 0,
+                status: 'Active',
+                thumbnail: `https://via.placeholder.com/300x200/8B5CF6/FFFFFF?text=${encodeURIComponent(document.getElementById('courseTitle').value.substring(0, 10))}`
+            };
+            
+            courses.unshift(newCourse);
+            filteredCourses = [...courses];
+            renderCourseGrid();
+            showTab('courses');
+            document.getElementById('createCourseForm').reset();
+            showNotification('Course published successfully!', 'success');
+        });
+
+        function showCourseEditModal(course) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-bold text-gray-900">📝 Edit Course: ${course.title}</h2>
+                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <form id="editCourseForm" class="space-y-6">
+                            <!-- Basic Course Information -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Course Title *</label>
+                                    <input type="text" id="editCourseTitle" value="${course.title}" required
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Course Code</label>
+                                    <input type="text" id="editCourseCode" value="${course.id}" disabled
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-600">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                                    <select id="editCourseCategory" required
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                        <option value="Technical" ${course.category === 'Technical' ? 'selected' : ''}>Technical Skills</option>
+                                        <option value="Soft Skills" ${course.category === 'Soft Skills' ? 'selected' : ''}>Soft Skills</option>
+                                        <option value="Leadership" ${course.category === 'Leadership' ? 'selected' : ''}>Leadership</option>
+                                        <option value="Compliance" ${course.category === 'Compliance' ? 'selected' : ''}>Compliance</option>
+                                        <option value="Safety" ${course.category === 'Safety' ? 'selected' : ''}>Safety</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Duration (hours) *</label>
+                                    <input type="number" id="editCourseDuration" value="${course.duration}" min="0.5" step="0.5" required
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                                    <select id="editCourseStatus"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                        <option value="Active" ${course.status === 'Active' ? 'selected' : ''}>Active</option>
+                                        <option value="Draft" ${course.status === 'Draft' ? 'selected' : ''}>Draft</option>
+                                        <option value="Archived" ${course.status === 'Archived' ? 'selected' : ''}>Archived</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Course Description</label>
+                                <textarea id="editCourseDescription" rows="4" placeholder="Describe the course objectives, learning outcomes, and target audience..."
+                                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">${course.description || ''}</textarea>
+                            </div>
+
+                            <!-- Learning Objectives -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Learning Objectives</label>
+                                <div id="editObjectivesList" class="space-y-2 mb-3">
+                                    <!-- Objectives will be populated dynamically -->
+                                </div>
+                                <button type="button" onclick="addLearningObjective('edit')" 
+                                        class="px-4 py-2 bg-purple-100 text-purple-800 rounded-lg hover:bg-purple-200 transition-colors">
+                                    <i data-lucide="plus" class="w-4 h-4 inline mr-1"></i>Add Objective
+                                </button>
+                            </div>
+
+                            <!-- Prerequisites -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Prerequisites</label>
+                                <div id="editPrerequisitesList" class="space-y-2 mb-3">
+                                    <!-- Prerequisites will be populated dynamically -->
+                                </div>
+                                <button type="button" onclick="addPrerequisite('edit')" 
+                                        class="px-4 py-2 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition-colors">
+                                    <i data-lucide="plus" class="w-4 h-4 inline mr-1"></i>Add Prerequisite
+                                </button>
+                            </div>
+
+                            <!-- Course Materials -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Course Materials</label>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <h4 class="font-medium text-gray-900 mb-3">Current Materials</h4>
+                                        <div id="currentMaterials" class="space-y-2 max-h-40 overflow-y-auto">
+                                            <!-- Current materials list -->
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-900 mb-3">Add New Materials</h4>
+                                        <button type="button" onclick="uploadNewMaterials('${course.id}')" 
+                                                class="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-500 transition-colors">
+                                            <i data-lucide="upload" class="w-6 h-6 mx-auto mb-2 text-gray-400"></i>
+                                            <p class="text-sm text-gray-600">Click to upload materials</p>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="flex gap-3 justify-end pt-4 border-t border-gray-200">
+                                <button type="button" onclick="closeModal()" 
+                                        class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                    Cancel
+                                </button>
+                                <button type="button" onclick="saveAsDraft('${course.id}')" 
+                                        class="px-6 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                                    <i data-lucide="save" class="w-4 h-4 inline mr-2"></i>Save as Draft
+                                </button>
+                                <button type="submit" 
+                                        class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                                    <i data-lucide="check" class="w-4 h-4 inline mr-2"></i>Update Course
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            lucide.createIcons();
+            
+            // Initialize course data in form
+            initializeEditForm(course);
+            
+            // Handle form submission
+            document.getElementById('editCourseForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                updateCourseData(course.id);
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-500 text-white' :
+                type === 'error' ? 'bg-red-500 text-white' :
+                'bg-blue-500 text-white'
+            }`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function showCourseAssignmentModal(course) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-5xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-bold text-gray-900">🎯 Assign Course: ${course.title}</h2>
+                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <!-- Assignment Tabs -->
+                        <div class="border-b border-gray-200 mb-6">
+                            <nav class="flex space-x-8">
+                                <button onclick="showAssignmentTab('individual')" id="individualTab" 
+                                        class="py-2 px-1 border-b-2 border-purple-600 font-medium text-sm text-purple-600">
+                                    Individual Assignment
+                                </button>
+                                <button onclick="showAssignmentTab('department')" id="departmentTab" 
+                                        class="py-2 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700">
+                                    Department Based
+                                </button>
+                                <button onclick="showAssignmentTab('role')" id="roleTab" 
+                                        class="py-2 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700">
+                                    Role Based
+                                </button>
+                                <button onclick="showAssignmentTab('bulk')" id="bulkTab" 
+                                        class="py-2 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700">
+                                    Bulk Assignment
+                                </button>
+                            </nav>
+                        </div>
+
+                        <!-- Individual Assignment Tab -->
+                        <div id="individualContent" class="space-y-6">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <!-- Employee Selection -->
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 mb-4">👥 Select Employees</h3>
+                                    <div class="border border-gray-200 rounded-lg">
+                                        <div class="p-4 border-b border-gray-200">
+                                            <input type="text" id="employeeSearch" placeholder="Search employees..." 
+                                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                                   onkeyup="filterEmployees()">
+                                        </div>
+                                        <div id="employeeList" class="max-h-60 overflow-y-auto">
+                                            <!-- Employee list will be populated here -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Assignment Settings -->
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 mb-4">⚙️ Assignment Settings</h3>
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Assignment Type</label>
+                                            <select id="assignmentType" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                                                <option value="mandatory">Mandatory Training</option>
+                                                <option value="recommended">Recommended Training</option>
+                                                <option value="optional">Optional Training</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Due Date</label>
+                                            <input type="date" id="dueDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                                            <select id="priority" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                                                <option value="high">High Priority</option>
+                                                <option value="medium" selected>Medium Priority</option>
+                                                <option value="low">Low Priority</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Send Notification</label>
+                                            <div class="flex items-center gap-4">
+                                                <label class="flex items-center">
+                                                    <input type="checkbox" id="emailNotification" checked class="rounded text-purple-600">
+                                                    <span class="ml-2 text-sm text-gray-700">Email</span>
+                                                </label>
+                                                <label class="flex items-center">
+                                                    <input type="checkbox" id="dashboardNotification" checked class="rounded text-purple-600">
+                                                    <span class="ml-2 text-sm text-gray-700">Dashboard</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Selected Employees Summary -->
+                            <div id="selectedEmployeesSummary" class="hidden">
+                                <h4 class="font-medium text-gray-900 mb-3">📊 Assignment Summary</h4>
+                                <div id="summaryContent" class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                                    <!-- Summary content will be populated here -->
+                                </div>
+                            </div>
+
+                            <!-- Assignment Message -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Assignment Message (Optional)</label>
+                                <textarea id="assignmentMessage" rows="3" placeholder="Add a message for the assigned employees..."
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Department Assignment Tab -->
+                        <div id="departmentContent" class="hidden space-y-6">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 mb-4">🏢 Select Departments</h3>
+                                    <div class="space-y-3" id="departmentList">
+                                        <!-- Department checkboxes will be populated here -->
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 mb-4">📊 Department Overview</h3>
+                                    <div id="departmentStats" class="space-y-3">
+                                        <!-- Department statistics will be shown here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Role Assignment Tab -->
+                        <div id="roleContent" class="hidden space-y-6">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 mb-4">👔 Select Job Roles</h3>
+                                    <div class="space-y-3" id="roleList">
+                                        <!-- Role checkboxes will be populated here -->
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 mb-4">📈 Role Analysis</h3>
+                                    <div id="roleStats" class="space-y-3">
+                                        <!-- Role statistics will be shown here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bulk Assignment Tab -->
+                        <div id="bulkContent" class="hidden space-y-6">
+                            <div class="text-center py-8">
+                                <i data-lucide="upload" class="w-16 h-16 mx-auto mb-4 text-gray-400"></i>
+                                <h3 class="text-lg font-medium text-gray-900 mb-2">Bulk Assignment via CSV</h3>
+                                <p class="text-gray-600 mb-6">Upload a CSV file with employee IDs to assign this course in bulk</p>
+                                <button onclick="uploadBulkAssignmentCSV()" class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                                    <i data-lucide="upload" class="w-4 h-4 inline mr-2"></i>Upload CSV File
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex gap-3 justify-end pt-6 border-t border-gray-200">
+                            <button onclick="closeModal()" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                Cancel
+                            </button>
+                            <button onclick="previewAssignments('${course.id}')" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                <i data-lucide="eye" class="w-4 h-4 inline mr-2"></i>Preview Assignment
+                            </button>
+                            <button onclick="executeAssignments('${course.id}')" class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                                <i data-lucide="send" class="w-4 h-4 inline mr-2"></i>Assign Course
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            lucide.createIcons();
+            
+            // Initialize assignment modal
+            initializeAssignmentModal();
+        }
+
+        function initializeEditForm(course) {
+            // Initialize learning objectives
+            const objectivesList = document.getElementById('editObjectivesList');
+            const objectives = course.objectives || ['Understand core concepts', 'Apply practical skills', 'Complete assessments'];
+            objectives.forEach(obj => {
+                addLearningObjectiveItem('edit', obj);
+            });
+            
+            // Initialize prerequisites
+            const prerequisitesList = document.getElementById('editPrerequisitesList');
+            const prerequisites = course.prerequisites || [];
+            prerequisites.forEach(prereq => {
+                addPrerequisiteItem('edit', prereq);
+            });
+            
+            // Initialize current materials
+            const materialsList = document.getElementById('currentMaterials');
+            const materials = course.materials || [
+                { name: 'Course Introduction.pdf', type: 'PDF', size: '2.5 MB' },
+                { name: 'Module 1 - Presentation.pptx', type: 'PowerPoint', size: '15.2 MB' }
+            ];
+            materials.forEach(material => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between p-2 bg-gray-50 rounded';
+                item.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="file-text" class="w-4 h-4 text-gray-600"></i>
+                        <span class="text-sm text-gray-900">${material.name}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-gray-500">${material.size}</span>
+                        <button onclick="removeMaterial(this)" class="text-red-500 hover:text-red-700">
+                            <i data-lucide="trash-2" class="w-3 h-3"></i>
+                        </button>
+                    </div>
+                `;
+                materialsList.appendChild(item);
+            });
+            lucide.createIcons();
+        }
+
+        function initializeAssignmentModal() {
+            // Populate employee list
+            populateEmployeeList();
+            // Populate department list
+            populateDepartmentList();
+            // Populate role list
+            populateRoleList();
+            // Set default due date (30 days from now)
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 30);
+            document.getElementById('dueDate').value = dueDate.toISOString().split('T')[0];
+        }
+
+        function populateEmployeeList() {
+            const employeeList = document.getElementById('employeeList');
+            const employees = [
+                { id: 'EMP001', name: 'Amit Nayak', department: 'IT', role: 'Senior Developer' },
+                { id: 'EMP002', name: 'Priya Singh', department: 'Operations', role: 'Business Analyst' },
+                { id: 'EMP003', name: 'Rajesh Kumar', department: 'IT', role: 'Tech Lead' },
+                { id: 'EMP004', name: 'Sneha Sharma', department: 'HR', role: 'HR Specialist' },
+                { id: 'EMP005', name: 'Vikram Patel', department: 'Finance', role: 'Financial Analyst' }
+            ];
+            
+            employeeList.innerHTML = '';
+            employees.forEach(emp => {
+                const item = document.createElement('div');
+                item.className = 'p-3 border-b border-gray-200 hover:bg-gray-50';
+                item.innerHTML = `
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" class="employee-checkbox" value="${emp.id}" 
+                               onchange="updateEmployeeSelection()" class="rounded text-purple-600">
+                        <div>
+                            <div class="font-medium text-gray-900">${emp.name}</div>
+                            <div class="text-sm text-gray-600">${emp.role} • ${emp.department}</div>
+                        </div>
+                    </label>
+                `;
+                employeeList.appendChild(item);
+            });
+        }
+
+        function populateDepartmentList() {
+            const departments = [
+                { name: 'Information Technology', employees: 45, completion: 78 },
+                { name: 'Human Resources', employees: 12, completion: 92 },
+                { name: 'Finance', employees: 18, completion: 85 },
+                { name: 'Operations', employees: 32, completion: 71 },
+                { name: 'Marketing', employees: 15, completion: 66 }
+            ];
+            
+            const departmentList = document.getElementById('departmentList');
+            departmentList.innerHTML = '';
+            departments.forEach(dept => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between p-3 border border-gray-200 rounded-lg';
+                item.innerHTML = `
+                    <label class="flex items-center gap-3 cursor-pointer flex-1">
+                        <input type="checkbox" class="department-checkbox" value="${dept.name}" class="rounded text-purple-600">
+                        <div>
+                            <div class="font-medium text-gray-900">${dept.name}</div>
+                            <div class="text-sm text-gray-600">${dept.employees} employees • ${dept.completion}% completion rate</div>
+                        </div>
+                    </label>
+                `;
+                departmentList.appendChild(item);
+            });
+        }
+
+        function populateRoleList() {
+            const roles = [
+                { name: 'Software Developer', employees: 28, level: 'Individual Contributor' },
+                { name: 'Business Analyst', employees: 15, level: 'Individual Contributor' },
+                { name: 'Team Lead', employees: 12, level: 'Management' },
+                { name: 'Project Manager', employees: 8, level: 'Management' },
+                { name: 'HR Specialist', employees: 6, level: 'Specialist' }
+            ];
+            
+            const roleList = document.getElementById('roleList');
+            roleList.innerHTML = '';
+            roles.forEach(role => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between p-3 border border-gray-200 rounded-lg';
+                item.innerHTML = `
+                    <label class="flex items-center gap-3 cursor-pointer flex-1">
+                        <input type="checkbox" class="role-checkbox" value="${role.name}" class="rounded text-purple-600">
+                        <div>
+                            <div class="font-medium text-gray-900">${role.name}</div>
+                            <div class="text-sm text-gray-600">${role.employees} employees • ${role.level}</div>
+                        </div>
+                    </label>
+                `;
+                roleList.appendChild(item);
+            });
+        }
+
+        function updateEmployeeSelection() {
+            const checkboxes = document.querySelectorAll('.employee-checkbox:checked');
+            const summary = document.getElementById('selectedEmployeesSummary');
+            const summaryContent = document.getElementById('summaryContent');
+            
+            if (checkboxes.length > 0) {
+                summary.classList.remove('hidden');
+                summaryContent.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="font-medium text-blue-900">${checkboxes.length} employees selected</span>
+                            <p class="text-sm text-blue-700">Ready for course assignment</p>
+                        </div>
+                        <i data-lucide="users" class="w-6 h-6 text-blue-600"></i>
+                    </div>
+                `;
+                lucide.createIcons();
+            } else {
+                summary.classList.add('hidden');
+            }
+        }
+
+        function showAssignmentTab(tabName) {
+            // Hide all content
+            ['individual', 'department', 'role', 'bulk'].forEach(tab => {
+                document.getElementById(`${tab}Content`).classList.add('hidden');
+                document.getElementById(`${tab}Tab`).classList.remove('border-purple-600', 'text-purple-600');
+                document.getElementById(`${tab}Tab`).classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            // Show selected content
+            document.getElementById(`${tabName}Content`).classList.remove('hidden');
+            document.getElementById(`${tabName}Tab`).classList.add('border-purple-600', 'text-purple-600');
+            document.getElementById(`${tabName}Tab`).classList.remove('border-transparent', 'text-gray-500');
+        }
+
+        function executeAssignments(courseId) {
+            const assignmentData = gatherAssignmentData();
+            if (!assignmentData.hasAssignments) {
+                showNotification('Please select employees, departments, or roles to assign', 'error');
+                return;
+            }
+            
+            // Simulate assignment processing
+            showNotification('Processing course assignments...', 'info');
+            
+            setTimeout(() => {
+                // Save assignment data
+                const assignments = JSON.parse(localStorage.getItem('course_assignments') || '[]');
+                assignments.push({
+                    courseId: courseId,
+                    assignedDate: new Date().toISOString(),
+                    assignmentData: assignmentData,
+                    status: 'Active'
+                });
+                localStorage.setItem('course_assignments', JSON.stringify(assignments));
+                
+                closeModal();
+                showEnhancedNotification(
+                    '🎯 Course Assignment Complete!',
+                    `Successfully assigned course to ${assignmentData.totalEmployees} employees. Notifications have been sent.`,
+                    'success',
+                    6000
+                );
+            }, 2000);
+        }
+
+        function gatherAssignmentData() {
+            // This would gather all assignment data from the form
+            const selectedEmployees = document.querySelectorAll('.employee-checkbox:checked').length;
+            const selectedDepartments = document.querySelectorAll('.department-checkbox:checked').length;
+            const selectedRoles = document.querySelectorAll('.role-checkbox:checked').length;
+            
+            return {
+                hasAssignments: selectedEmployees > 0 || selectedDepartments > 0 || selectedRoles > 0,
+                totalEmployees: selectedEmployees + (selectedDepartments * 15) + (selectedRoles * 10), // Approximate
+                type: document.getElementById('assignmentType').value,
+                dueDate: document.getElementById('dueDate').value,
+                priority: document.getElementById('priority').value,
+                message: document.getElementById('assignmentMessage').value
+            };
+        }
+
+        function addLearningObjective(context) {
+            addLearningObjectiveItem(context, '');
+        }
+
+        function addLearningObjectiveItem(context, value) {
+            const container = document.getElementById(`${context}ObjectivesList`);
+            const item = document.createElement('div');
+            item.className = 'flex items-center gap-2';
+            item.innerHTML = `
+                <input type="text" value="${value}" placeholder="Enter learning objective..." 
+                       class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                <button type="button" onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-700">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            `;
+            container.appendChild(item);
+            lucide.createIcons();
+        }
+
+        function addPrerequisite(context) {
+            addPrerequisiteItem(context, '');
+        }
+
+        function addPrerequisiteItem(context, value) {
+            const container = document.getElementById(`${context}PrerequisitesList`);
+            const item = document.createElement('div');
+            item.className = 'flex items-center gap-2';
+            item.innerHTML = `
+                <input type="text" value="${value}" placeholder="Enter prerequisite..." 
+                       class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                <button type="button" onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-700">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            `;
+            container.appendChild(item);
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            const modals = document.querySelectorAll('.fixed.inset-0');
+            modals.forEach(modal => modal.remove());
+        }
+
+        function updateCourseData(courseId) {
+            const course = courses.find(c => c.id === courseId);
+            if (!course) return;
+            
+            // Update course with form data
+            course.title = document.getElementById('editCourseTitle').value;
+            course.category = document.getElementById('editCourseCategory').value;
+            course.duration = parseInt(document.getElementById('editCourseDuration').value);
+            course.status = document.getElementById('editCourseStatus').value;
+            course.description = document.getElementById('editCourseDescription').value;
+            
+            // Update objectives and prerequisites
+            const objectives = Array.from(document.querySelectorAll('#editObjectivesList input')).map(input => input.value).filter(v => v.trim());
+            const prerequisites = Array.from(document.querySelectorAll('#editPrerequisitesList input')).map(input => input.value).filter(v => v.trim());
+            
+            course.objectives = objectives;
+            course.prerequisites = prerequisites;
+            
+            // Save to localStorage
+            localStorage.setItem('hr_courses', JSON.stringify(courses));
+            
+            // Update UI
+            renderCourseGrid();
+            closeModal();
+            
+            showEnhancedNotification(
+                '✅ Course Updated Successfully!',
+                `${course.title} has been updated and is now available with the latest changes.`,
+                'success',
+                5000
+            );
+        }
+
+        function showEnhancedNotification(title, message, type = 'info', duration = 6000) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-4 rounded-xl shadow-2xl z-50 max-w-md animate-slideIn ${
+                type === 'success' ? 'bg-green-600 text-white border-l-4 border-green-400' :
+                type === 'error' ? 'bg-red-600 text-white border-l-4 border-red-400' :
+                'bg-blue-600 text-white border-l-4 border-blue-400'
+            }`;
+            
+            notification.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <div class="flex-shrink-0 mt-1">
+                        ${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm mb-1">${title}</h4>
+                        <p class="text-xs opacity-90 leading-relaxed">${message}</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-white hover:bg-white hover:bg-opacity-20 rounded p-1 transition-colors">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.animation = 'slideOut 0.3s ease-in';
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 300);
+                }
+            }, duration);
+        }
+
+        // Preview course function
+        function previewCourse(id) {
+            const course = courses.find(c => c.id === id);
+            if (!course) {
+                showNotification('Course not found', 'error');
+                return;
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                    <div class="relative">
+                        <img src="${course.thumbnail}" alt="${course.title}" class="w-full h-64 object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <h2 class="text-3xl font-bold mb-2">${course.title}</h2>
+                            <div class="flex items-center gap-4 text-sm">
+                                <span class="bg-white/20 px-3 py-1 rounded-full">${course.category}</span>
+                                <span class="bg-white/20 px-3 py-1 rounded-full">${course.duration} hours</span>
+                                <span class="bg-white/20 px-3 py-1 rounded-full">★ ${course.rating}</span>
+                            </div>
+                        </div>
+                        <button onclick="closeModal()" class="absolute top-4 right-4 text-white hover:text-gray-300">
+                            <i data-lucide="x" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="p-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div class="lg:col-span-2">
+                                <h3 class="text-xl font-bold text-gray-900 mb-4">Course Overview</h3>
+                                <p class="text-gray-600 mb-6">${course.description}</p>
+                                
+                                <h4 class="font-semibold text-gray-900 mb-3">Learning Objectives</h4>
+                                <ul class="list-disc list-inside space-y-1 text-gray-600 mb-6">
+                                    ${course.objectives ? course.objectives.map(obj => `<li>${obj}</li>`).join('') : '<li>Comprehensive skill development</li>'}
+                                </ul>
+                                
+                                <h4 class="font-semibold text-gray-900 mb-3">Prerequisites</h4>
+                                <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                    ${course.prerequisites ? course.prerequisites.map(prereq => `<li>${prereq}</li>`).join('') : '<li>None required</li>'}
+                                </ul>
+                            </div>
+                            
+                            <div class="lg:col-span-1">
+                                <div class="bg-gray-50 rounded-xl p-6">
+                                    <h4 class="font-semibold text-gray-900 mb-4">Course Statistics</h4>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Enrollments:</span>
+                                            <span class="font-medium">${course.enrollments}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Completions:</span>
+                                            <span class="font-medium">${course.completions}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Success Rate:</span>
+                                            <span class="font-medium text-green-600">${Math.round((course.completions / course.enrollments) * 100)}%</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Rating:</span>
+                                            <span class="font-medium text-yellow-600">★ ${course.rating}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Status:</span>
+                                            <span class="font-medium text-${course.status === 'Active' ? 'green' : 'yellow'}-600">${course.status}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-6 space-y-3">
+                                    <button onclick="editCourse('${course.id}'); closeModal();" 
+                                            class="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                        <i data-lucide="edit" class="w-4 h-4 inline mr-2"></i>Edit Course
+                                    </button>
+                                    <button onclick="assignCourse('${course.id}'); closeModal();" 
+                                            class="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                        <i data-lucide="user-plus" class="w-4 h-4 inline mr-2"></i>Assign Course
+                                    </button>
+                                    <button onclick="regenerateCourseImage('${course.id}'); closeModal();" 
+                                            class="w-full px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                                        <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-2"></i>New Image
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            lucide.createIcons();
+        }
+
+        // Regenerate course image
+        function regenerateCourseImage(courseId) {
+            const course = courses.find(c => c.id === courseId);
+            if (!course) return;
+            
+            // Cycle through different image generation methods
+            const methods = ['gradient', 'enhanced', 'unsplash'];
+            const currentMethod = course.imageMethod || 'enhanced';
+            const currentIndex = methods.indexOf(currentMethod);
+            const nextIndex = (currentIndex + 1) % methods.length;
+            const nextMethod = methods[nextIndex];
+            
+            course.thumbnail = generateCourseImage(course, nextMethod);
+            course.imageMethod = nextMethod;
+            
+            showNotification(`Course image updated with ${nextMethod} style!`, 'success');
+            renderCourseStatistics();
+            renderCourseGrid();
+        }
+
+        // Bulk image regeneration for all courses
+        function regenerateAllCourseImages() {
+            courses.forEach((course, index) => {
+                const methods = ['gradient', 'enhanced', 'unsplash'];
+                const method = methods[Math.floor(Math.random() * methods.length)];
+                course.thumbnail = generateCourseImage(course, method);
+                course.imageMethod = method;
+            });
+            
+            showNotification('All course images have been regenerated!', 'success');
+            renderCourseStatistics();
+            renderCourseGrid();
+        }
+
+        // Preview course image during creation
+        function previewCourseImage() {
+            const title = document.getElementById('courseTitle').value || 'Sample Course';
+            const category = document.getElementById('courseCategory').value || 'Technical';
+            const duration = document.getElementById('courseDuration').value || 8;
+            const imageStyle = document.querySelector('input[name="imageStyle"]:checked').value;
+            
+            const tempCourse = {
+                title: title,
+                category: category,
+                duration: parseInt(duration)
+            };
+            
+            const imageUrl = generateCourseImage(tempCourse, imageStyle);
+            const previewDiv = document.getElementById('imagePreview');
+            
+            previewDiv.innerHTML = `
+                <div class="relative">
+                    <img src="${imageUrl}" alt="${title}" class="w-full h-40 object-cover rounded-lg">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-opacity rounded-lg flex items-center justify-center opacity-0 hover:opacity-100">
+                        <button onclick="regeneratePreviewImage()" class="px-4 py-2 bg-white text-gray-800 rounded-lg hover:bg-gray-100 transition-colors">
+                            <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-1"></i>Regenerate
+                        </button>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">Style: ${imageStyle.charAt(0).toUpperCase() + imageStyle.slice(1)}</p>
+            `;
+            lucide.createIcons();
+        }
+
+        // Regenerate preview image
+        function regeneratePreviewImage() {
+            const selectedStyle = document.querySelector('input[name="imageStyle"]:checked');
+            const styles = ['gradient', 'enhanced', 'unsplash'];
+            const currentIndex = styles.indexOf(selectedStyle.value);
+            const nextIndex = (currentIndex + 1) % styles.length;
+            const nextStyle = styles[nextIndex];
+            
+            // Update selected radio button
+            document.querySelector(`input[name="imageStyle"][value="${nextStyle}"]`).checked = true;
+            
+            // Generate new preview
+            previewCourseImage();
+        }
+
+        // Render course statistics with animation
+        function renderCourseStatistics() {
+            const totalCourses = courses.length;
+            const coursesWithImages = courses.filter(c => c.thumbnail).length;
+            const totalCategories = new Set(courses.map(c => c.category)).size;
+            const averageRating = totalCourses > 0 ? (courses.reduce((acc, c) => acc + c.rating, 0) / totalCourses).toFixed(1) : '0.0';
+            
+            // Animate counters
+            animateCounter('totalCourses', totalCourses);
+            animateCounter('coursesWithImages', coursesWithImages);
+            animateCounter('totalCategories', totalCategories);
+            animateCounter('averageRating', parseFloat(averageRating), true);
+        }
+
+        // Animate counter with easing effect
+        function animateCounter(elementId, targetValue, isDecimal = false) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            const startValue = 0;
+            const duration = 1000; // 1 second
+            const startTime = performance.now();
+            
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function (ease-out-cubic)
+                const easedProgress = 1 - Math.pow(1 - progress, 3);
+                const currentValue = startValue + (targetValue - startValue) * easedProgress;
+                
+                if (isDecimal) {
+                    element.textContent = currentValue.toFixed(1);
+                } else {
+                    element.textContent = Math.floor(currentValue);
+                }
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                }
+            }
+            
+            requestAnimationFrame(updateCounter);
+        }
+
+        // Filter courses by status
+        function filterByStatus(status) {
+            if (status === 'all') {
+                clearCourseFilters();
+            } else {
+                document.getElementById('statusFilter').value = status;
+                filterCourses();
+            }
+        }
+
+        // Show courses with images
+        function showCoursesWithImages() {
+            const coursesWithImages = courses.filter(c => c.thumbnail);
+            filteredCourses = coursesWithImages;
+            renderCourseGrid();
+            showNotification(`Showing ${coursesWithImages.length} courses with images`, 'info');
+        }
+
+        // Show category breakdown
+        function showCategoryBreakdown() {
+            const categoryStats = {};
+            courses.forEach(course => {
+                categoryStats[course.category] = (categoryStats[course.category] || 0) + 1;
+            });
+            
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-bold text-gray-900">📚 Course Categories</h2>
+                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            ${Object.entries(categoryStats).map(([category, count]) => {
+                                const percentage = Math.round((count / courses.length) * 100);
+                                const theme = categoryThemes[category] || categoryThemes['Technical'];
+                                const color = theme.colors[0];
+                                return `
+                                    <div class="cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors" onclick="filterByCategory('${category}'); closeModal();">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="font-medium text-gray-900">${category}</span>
+                                            <span class="text-sm text-gray-600">${count} courses (${percentage}%)</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="h-2 rounded-full transition-all duration-500" style="width: ${percentage}%; background-color: #${color}"></div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            lucide.createIcons();
+        }
+
+        // Filter by category
+        function filterByCategory(category) {
+            document.getElementById('categoryFilter').value = category;
+            filterCourses();
+        }
+
+        // Show rating breakdown
+        function showRatingBreakdown() {
+            const ratingRanges = {
+                'Excellent (4.5+)': courses.filter(c => c.rating >= 4.5).length,
+                'Very Good (4.0-4.4)': courses.filter(c => c.rating >= 4.0 && c.rating < 4.5).length,
+                'Good (3.5-3.9)': courses.filter(c => c.rating >= 3.5 && c.rating < 4.0).length,
+                'Below Average (<3.5)': courses.filter(c => c.rating < 3.5).length
+            };
+            
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-bold text-gray-900">⭐ Course Ratings</h2>
+                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="text-center mb-6">
+                            <div class="text-4xl font-bold text-orange-600">${(courses.reduce((acc, c) => acc + c.rating, 0) / courses.length).toFixed(1)}</div>
+                            <div class="text-gray-600">Average Rating</div>
+                            <div class="flex justify-center mt-2">
+                                ${Array.from({length: 5}, (_, i) => {
+                                    const rating = (courses.reduce((acc, c) => acc + c.rating, 0) / courses.length);
+                                    return `<i data-lucide="star" class="w-5 h-5 ${i < Math.floor(rating) ? 'text-yellow-500 fill-current' : 'text-gray-300'}"></i>`;
+                                }).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            ${Object.entries(ratingRanges).map(([range, count]) => {
+                                const percentage = courses.length > 0 ? Math.round((count / courses.length) * 100) : 0;
+                                const colors = ['green-500', 'blue-500', 'yellow-500', 'red-500'];
+                                const colorIndex = Object.keys(ratingRanges).indexOf(range);
+                                return `
+                                    <div>
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="font-medium text-gray-900">${range}</span>
+                                            <span class="text-sm text-gray-600">${count} courses (${percentage}%)</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-${colors[colorIndex]} h-2 rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            lucide.createIcons();
+        }
+
+        // Toggle quick actions panel
+        function toggleQuickActions() {
+            const panel = document.getElementById('quickActions');
+            const toggleBtn = document.querySelector('[onclick="toggleQuickActions()"]');
+            
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                toggleBtn.textContent = 'Hide Quick Actions ▲';
+            } else {
+                panel.classList.add('hidden');
+                toggleBtn.textContent = 'Show Quick Actions ▼';
+            }
+        }
+
+        // Bulk update images with specific style
+        function bulkUpdateImages(style) {
+            const coursesToUpdate = filteredCourses.length > 0 ? filteredCourses : courses;
+            let updated = 0;
+            
+            coursesToUpdate.forEach(course => {
+                course.thumbnail = generateCourseImage(course, style);
+                course.imageMethod = style;
+                updated++;
+            });
+            
+            showNotification(`Updated ${updated} course images with ${style} style!`, 'success');
+            renderCourseStatistics();
+            renderCourseGrid();
+        }
+
+        // Randomize all course images
+        function randomizeImages() {
+            const methods = ['gradient', 'enhanced', 'unsplash'];
+            let updated = 0;
+            
+            courses.forEach(course => {
+                const randomMethod = methods[Math.floor(Math.random() * methods.length)];
+                course.thumbnail = generateCourseImage(course, randomMethod);
+                course.imageMethod = randomMethod;
+                updated++;
+            });
+            
+            showNotification(`Randomized all ${updated} course images!`, 'success');
+            renderCourseStatistics();
+            renderCourseGrid();
+            renderCourseStatistics();
+            renderCourseGrid();
+        }
+
+        // Show image gallery modal
+        function showImageGallery() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto';
+            
+            // Sample course for demonstration
+            const sampleCourse = courses[0] || { title: 'Sample Course', category: 'Technical', duration: 8 };
+            
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-bold text-gray-900">🎨 Course Image Styles</h2>
+                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                        <p class="text-gray-600 mt-2">Preview different image styles for your courses</p>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <h3 class="font-semibold text-gray-900 mb-3">🌈 Gradient Style</h3>
+                                <div class="relative group cursor-pointer" onclick="bulkUpdateImages('gradient'); closeModal();">
+                                    <img src="${generateCourseImage(sampleCourse, 'gradient')}" 
+                                         alt="Gradient Style" class="w-full h-40 object-cover rounded-lg border-2 border-gray-200 group-hover:border-purple-500 transition-colors">
+                                    <div class="absolute inset-0 bg-purple-500 bg-opacity-0 group-hover:bg-opacity-20 rounded-lg transition-all flex items-center justify-center">
+                                        <span class="text-white font-medium opacity-0 group-hover:opacity-100">Apply to All</span>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-2">Modern gradient backgrounds with icons</p>
+                            </div>
+                            
+                            <div class="text-center">
+                                <h3 class="font-semibold text-gray-900 mb-3">✨ Enhanced Style</h3>
+                                <div class="relative group cursor-pointer" onclick="bulkUpdateImages('enhanced'); closeModal();">
+                                    <img src="${generateCourseImage(sampleCourse, 'enhanced')}" 
+                                         alt="Enhanced Style" class="w-full h-40 object-cover rounded-lg border-2 border-gray-200 group-hover:border-blue-500 transition-colors">
+                                    <div class="absolute inset-0 bg-blue-500 bg-opacity-0 group-hover:bg-opacity-20 rounded-lg transition-all flex items-center justify-center">
+                                        <span class="text-white font-medium opacity-0 group-hover:opacity-100">Apply to All</span>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-2">Colorful designs with icons and text</p>
+                            </div>
+                            
+                            <div class="text-center">
+                                <h3 class="font-semibold text-gray-900 mb-3">📸 Photo Style</h3>
+                                <div class="relative group cursor-pointer" onclick="bulkUpdateImages('unsplash'); closeModal();">
+                                    <img src="${generateCourseImage(sampleCourse, 'unsplash')}" 
+                                         alt="Photo Style" class="w-full h-40 object-cover rounded-lg border-2 border-gray-200 group-hover:border-green-500 transition-colors">
+                                    <div class="absolute inset-0 bg-green-500 bg-opacity-0 group-hover:bg-opacity-20 rounded-lg transition-all flex items-center justify-center">
+                                        <span class="text-white font-medium opacity-0 group-hover:opacity-100">Apply to All</span>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-2">Professional stock photography</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 text-center">
+                            <button onclick="randomizeImages(); closeModal();" 
+                                    class="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all">
+                                <i data-lucide="shuffle" class="w-4 h-4 inline mr-2"></i>Randomize All Images
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            lucide.createIcons();
+        }
+
+        // Render course statistics with animation
+        function renderCourseStatistics() {
+            const totalCourses = courses.length;
+            const coursesWithImages = courses.filter(c => c.thumbnail).length;
+            const totalCategories = new Set(courses.map(c => c.category)).size;
+            const averageRating = totalCourses > 0 ? (courses.reduce((acc, c) => acc + c.rating, 0) / totalCourses).toFixed(1) : '0.0';
+            
+            // Animate counters
+            animateCounter('totalCourses', totalCourses);
+            animateCounter('coursesWithImages', coursesWithImages);
+            animateCounter('totalCategories', totalCategories);
+            animateCounter('averageRating', parseFloat(averageRating), true);
+        }
+
+        // Animate counter with easing effect
+        function animateCounter(elementId, targetValue, isDecimal = false) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            const startValue = 0;
+            const duration = 1000; // 1 second
+            const startTime = performance.now();
+            
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function (ease-out-cubic)
+                const easedProgress = 1 - Math.pow(1 - progress, 3);
+                const currentValue = startValue + (targetValue - startValue) * easedProgress;
+                
+                if (isDecimal) {
+                    element.textContent = currentValue.toFixed(1);
+                } else {
+                    element.textContent = Math.floor(currentValue);
+                }
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                }
+            }
+            
+            requestAnimationFrame(updateCounter);
+        }
+
+        // Filter courses by status
+        function filterByStatus(status) {
+            if (status === 'all') {
+                clearCourseFilters();
+            } else {
+                document.getElementById('statusFilter').value = status;
+                filterCourses();
+            }
+        }
+
+        // Show courses with images
+        function showCoursesWithImages() {
+            const coursesWithImages = courses.filter(c => c.thumbnail);
+            filteredCourses = coursesWithImages;
+            renderCourseGrid();
+            showNotification(`Showing ${coursesWithImages.length} courses with images`, 'info');
+        }
+
+        // Show category breakdown
+        function showCategoryBreakdown() {
+            const categoryStats = {};
+            courses.forEach(course => {
+                categoryStats[course.category] = (categoryStats[course.category] || 0) + 1;
+            });
+            
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-bold text-gray-900">📚 Course Categories</h2>
+                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            ${Object.entries(categoryStats).map(([category, count]) => {
+                                const percentage = Math.round((count / courses.length) * 100);
+                                const theme = categoryThemes[category] || categoryThemes['Technical'];
+                                const color = theme.colors[0];
+                                return `
+                                    <div class="cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors" onclick="filterByCategory('${category}'); closeModal();">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="font-medium text-gray-900">${category}</span>
+                                            <span class="text-sm text-gray-600">${count} courses (${percentage}%)</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="h-2 rounded-full transition-all duration-500" style="width: ${percentage}%; background-color: #${color}"></div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            lucide.createIcons();
+        }
+
+        // Filter by category
+        function filterByCategory(category) {
+            document.getElementById('categoryFilter').value = category;
+            filterCourses();
+        }
+
+        // Show rating breakdown
+        function showRatingBreakdown() {
+            const ratingRanges = {
+                'Excellent (4.5+)': courses.filter(c => c.rating >= 4.5).length,
+                'Very Good (4.0-4.4)': courses.filter(c => c.rating >= 4.0 && c.rating < 4.5).length,
+                'Good (3.5-3.9)': courses.filter(c => c.rating >= 3.5 && c.rating < 4.0).length,
+                'Below Average (<3.5)': courses.filter(c => c.rating < 3.5).length
+            };
+            
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-bold text-gray-900">⭐ Course Ratings</h2>
+                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="text-center mb-6">
+                            <div class="text-4xl font-bold text-orange-600">${(courses.reduce((acc, c) => acc + c.rating, 0) / courses.length).toFixed(1)}</div>
+                            <div class="text-gray-600">Average Rating</div>
+                            <div class="flex justify-center mt-2">
+                                ${Array.from({length: 5}, (_, i) => {
+                                    const rating = (courses.reduce((acc, c) => acc + c.rating, 0) / courses.length);
+                                    return `<i data-lucide="star" class="w-5 h-5 ${i < Math.floor(rating) ? 'text-yellow-500 fill-current' : 'text-gray-300'}"></i>`;
+                                }).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            ${Object.entries(ratingRanges).map(([range, count]) => {
+                                const percentage = courses.length > 0 ? Math.round((count / courses.length) * 100) : 0;
+                                const colors = ['green-500', 'blue-500', 'yellow-500', 'red-500'];
+                                const colorIndex = Object.keys(ratingRanges).indexOf(range);
+                                return `
+                                    <div>
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="font-medium text-gray-900">${range}</span>
+                                            <span class="text-sm text-gray-600">${count} courses (${percentage}%)</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2">
+                                            <div class="bg-${colors[colorIndex]} h-2 rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            lucide.createIcons();
+        }
+
+        // Show image statistics
+        function showImageStats() {
+            const imageStats = {
+                gradient: courses.filter(c => c.imageMethod === 'gradient').length,
+                enhanced: courses.filter(c => c.imageMethod === 'enhanced').length,
+                unsplash: courses.filter(c => c.imageMethod === 'unsplash').length,
+                total: courses.length
+            };
+            
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-bold text-gray-900">📊 Image Statistics</h2>
+                            <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <div class="text-center p-4 bg-purple-50 rounded-lg">
+                                <div class="text-2xl font-bold text-purple-600">${imageStats.gradient}</div>
+                                <div class="text-sm text-gray-600">Gradient</div>
+                            </div>
+                            <div class="text-center p-4 bg-blue-50 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600">${imageStats.enhanced}</div>
+                                <div class="text-sm text-gray-600">Enhanced</div>
+                            </div>
+                            <div class="text-center p-4 bg-green-50 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">${imageStats.unsplash}</div>
+                                <div class="text-sm text-gray-600">Photos</div>
+                            </div>
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <div class="text-2xl font-bold text-gray-600">${imageStats.total}</div>
+                                <div class="text-sm text-gray-600">Total</div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Gradient Images</span>
+                                    <span>${Math.round((imageStats.gradient / imageStats.total) * 100)}%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-purple-500 h-2 rounded-full" style="width: ${(imageStats.gradient / imageStats.total) * 100}%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Enhanced Images</span>
+                                    <span>${Math.round((imageStats.enhanced / imageStats.total) * 100)}%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: ${(imageStats.enhanced / imageStats.total) * 100}%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Photo Images</span>
+                                    <span>${Math.round((imageStats.unsplash / imageStats.total) * 100)}%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: ${(imageStats.unsplash / imageStats.total) * 100}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            lucide.createIcons();
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
