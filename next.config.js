@@ -16,6 +16,12 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true
   },
+  async redirects() {
+    // Send root to login page so users land on login by default
+    return [
+      { source: '/', destination: '/login', permanent: false },
+    ]
+  },
   async rewrites() {
     // Map pretty routes to static HTML in `public/` to avoid 404s
     return [
